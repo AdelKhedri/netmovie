@@ -4,7 +4,7 @@ from django.conf import settings
 
 from django.contrib import admin
 from django.urls import path
-from user.views import LoginView, SignupView, home
+from user.views import LoginView, SignupView, logoutView, home
 
 
 urlpatterns = [
@@ -12,5 +12,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('signup/', SignupView.as_view(), name='signup'),
     path('home', home, name='home'),
+    path('logout', logoutView, name='logout')
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
