@@ -60,7 +60,9 @@ class TestLoginView(TestCase):
 class TestSignupView(TestCase):
 
     def setUp(self):
-        User.objects.create(username = 'user1', password = 'password')
+        user = User.objects.create(username = 'user1')
+        user.set_password('password')
+        user.save()
     
     def test_url(self):
         response = self.client.get(reverse('signup'))
@@ -95,7 +97,19 @@ class TestSignupView(TestCase):
         self.assertContains(response, 'پسورد ها با هم یکی نیستند')
 
     def test_redirect_authenticated_user(self):
-        user = self.client.login(username = 'user1', password = 'password')
+        res = self.client.post(reverse('login'), {'username': 'user1', 'password': 'password'})
         response = self.client.get(reverse('signup'))
-        self.assertTrue(user.username)
         self.assertEqual(response.status_code, 302)
+
+class TestLogoutView(TestCase):
+    def setUp(self):
+        user = User.objects.create(username = 'user1', password = 'password')
+        user.set_password('password')
+        user.save()
+
+    def test_logout(self):
+        self.client.post(reverse('login'), {'username': 'user1', 'password': 'password'})
+        response = self.client.get(reverse('logout'))
+        response2 = self.client.get(reverse('logout'))
+        self.assertTrue(response.wsgi_request.user.is_anonymous)
+        self.assertRedirects(response2, reverse('login'))
