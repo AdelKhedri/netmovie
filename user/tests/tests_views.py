@@ -55,3 +55,47 @@ class TestLoginView(TestCase):
         response_post = self.client.post(reverse('login'),{})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response_post.status_code, 302)
+
+
+class TestSignupView(TestCase):
+
+    def setUp(self):
+        User.objects.create(username = 'user1', password = 'password')
+    
+    def test_url(self):
+        response = self.client.get(reverse('signup'))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_template_used(self):
+        response = self.client.get(reverse('signup'))
+        self.assertTemplateUsed(response, 'main/auth.html')
+
+    def test_signup_successful(self):
+        data = {
+            'username': 'user2',
+            'password1': 'password',
+            'password2': 'password',
+            'accept_rules': True
+        }
+        response = self.client.post(reverse('signup'), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+    def test_signup_failed(self):
+        data = {
+            'username': 'user1',
+            'password1': 'password',
+            'password2': 'password2',
+            'accept_rules': False
+        }
+        response = self.client.post(reverse('signup'), data=data)
+        self.assertContains(response, 'نام کاربری تکراری است')
+        self.assertContains(response, 'باید قوانین را بپذیرید')
+        self.assertContains(response, 'پسورد ها با هم یکی نیستند')
+
+    def test_redirect_authenticated_user(self):
+        user = self.client.login(username = 'user1', password = 'password')
+        response = self.client.get(reverse('signup'))
+        self.assertTrue(user.username)
+        self.assertEqual(response.status_code, 302)

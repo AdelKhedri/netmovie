@@ -10,24 +10,29 @@
     {% endif %}
 
     {% for field in form %}
-    <div class="relative-full-div">
-        <label for="{{ field.id_for_label}}" class="absolute right-2 -top-5 bg-black px-2">{{ field.label }}</label>
-        {{ field }}
-    </div>
+        {% if field.errors %}
+        {% for error in field.errors %}
+            <p class="text-red-600">{{ error }}</p>
+        {% endfor %}
+        {% endif %}
+        {% if field.field.widget.input_type == 'checkbox' %}
+            <label id="{{ field.id_for_label }}" class="p-2 flex items-center">
+                {{ field }}
+                <span>قوانین سایت رو میپذیرم</span>
+            </label>
+        {% else %}
+            <div class="relative-full-div">
+                <label for="{{ field.id_for_label}}" class="absolute right-2 -top-5 bg-black px-2">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endif %}
     {% endfor %}
-
-    <!-- <label class="p-2 flex items-center">
-        <input type="checkbox" name="" class="w-6 h-6 ml-2 appearance-none border-2 border-gray-500 rounded-md checked:bg-amber-400">
-        <span>قوانین سایت رو میپذیرم</span>
-    </label> -->
 
     <button type="submit" class="btn-amber-full">{{ page_name }}</button>
 
     <hr class="border-gray-100/50 border w-full">
     {% if page_name == 'ورود' %}
-    {% comment %}
     <a href="{% url 'signup' %}" class="btn-amber-full">ثبت نام</a>
-    {% endcomment %}
     {% else %}
     <a href="{% url 'login' %}" class="btn-amber-full">ورود</a>
     {% endif %}

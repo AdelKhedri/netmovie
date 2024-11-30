@@ -640,7 +640,7 @@ video {
   background-color: rgb(148 163 184 / 0.4);
   padding: 0.5rem;
   --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity));
   outline-color: #d1d5db;
 }
 
@@ -660,6 +660,24 @@ video {
   background-color: rgb(156 163 175 / 0.2);
   --tw-text-opacity: 1;
   color: rgb(251 191 36 / var(--tw-text-opacity));
+}
+
+.checkbox {
+  margin-left: 0.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.375rem;
+  border-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(107 114 128 / var(--tw-border-opacity));
+}
+
+.checkbox:checked {
+  --tw-bg-opacity: 1;
+  background-color: rgb(251 191 36 / var(--tw-bg-opacity));
 }
 
 .fixed {
@@ -1077,21 +1095,6 @@ video {
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-
-/* @layer base {
-    @font-face {
-        font-family: 'azade';
-        font-display: swap;
-
-        src: url('https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&display=swap');
-    }
-} */
-
-/* @layer components {
-    .input-control-lg {
-        @apply rounded-lg p-2 text-black
-    }
-} */
 
 .checked\:bg-amber-400:checked {
   --tw-bg-opacity: 1;
