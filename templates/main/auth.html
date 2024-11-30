@@ -1,0 +1,35 @@
+{% extends 'main/base_site.html' %}
+{% load static %}
+{% block content %}
+<form action="" method="post" class="flex flex-col lg:w-3/12 md:w-2/5 sm:w-3/5 mx-auto items-center mb-5">
+    {% csrf_token %}
+
+    <img src="{% static 'images/image.png' %}" alt="">
+    {% if msg %}
+        <p class="p-2.5 bg-amber-400 text-red-600">{{ msg }}</p>
+    {% endif %}
+
+    {% for field in form %}
+    <div class="relative-full-div">
+        <label for="{{ field.id_for_label}}" class="absolute right-2 -top-5 bg-black px-2">{{ field.label }}</label>
+        {{ field }}
+    </div>
+    {% endfor %}
+
+    <!-- <label class="p-2 flex items-center">
+        <input type="checkbox" name="" class="w-6 h-6 ml-2 appearance-none border-2 border-gray-500 rounded-md checked:bg-amber-400">
+        <span>قوانین سایت رو میپذیرم</span>
+    </label> -->
+
+    <button type="submit" class="btn-amber-full">{{ page_name }}</button>
+
+    <hr class="border-gray-100/50 border w-full">
+    {% if page_name == 'ورود' %}
+    {% comment %}
+    <a href="{% url 'signup' %}" class="btn-amber-full">ثبت نام</a>
+    {% endcomment %}
+    {% else %}
+    <a href="{% url 'login' %}" class="btn-amber-full">ورود</a>
+    {% endif %}
+</form>
+{% endblock %}
