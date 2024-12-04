@@ -25,14 +25,13 @@ class Manager(UserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('is_superuser', True)
-
         return self.create_user(email, password, **extra_fields)
 
 
 class User(AbstractUser):
     gender_types = (("male", "مرد"), ("female", "زن"))
     gender = models.CharField(choices=gender_types, max_length=6, default="male")
-    number = models.ForeignKey(PhoneNumber, on_delete=models.CASCADE, blank=True, null=True, editable=False, verbose_name="شماره")
+    number = models.ForeignKey(PhoneNumber, on_delete=models.CASCADE, blank=True, null=True, verbose_name="شماره")
     special_time = models.DateTimeField(blank=True, null=True, verbose_name="مدت اشتراک")
     objects = Manager()
 

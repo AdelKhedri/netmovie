@@ -9,6 +9,8 @@ from .validators import validate_phone_number, validate_username
 
 input_attrs = {'class': 'input-bg-slate'}
 checkbox_attrs = {'class': 'checkbox'}
+radio_input = {'class': ''}
+input_dark_attrs = {'class': 'input-dark'}
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -85,3 +87,39 @@ class SignupForm(forms.ModelForm):
         #     user.number = phone
         # else:
         #     raise ValidationError('شماره تلفن باید وارد شود')
+
+
+class PhoneNumberForm(forms.ModelForm):
+    number = forms.CharField(validators=[validate_phone_number], required=False, widget=forms.NumberInput(attrs=input_dark_attrs))
+
+    class Meta:
+        model = PhoneNumber
+        fields = ['number']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user and user.number:
+            self.fields['number'].disabled = True
+            self.fields['number'].initial = user.number.number
+
+
+class UpdateProfileForm(forms.ModelForm):
+    username = forms.CharField(disabled=True, widget=forms.TextInput(attrs=input_dark_attrs))
+    email = forms.CharField(required=False, widget=forms.EmailInput(attrs=input_dark_attrs))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if len(self.instance.email) > 0:
+            self.fields['email'].disabled = True
+            self.fields['email'].initial = self.instance.email
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'gender']
+
+        widgets = {
+            'first_name': forms.TextInput(attrs=input_dark_attrs),
+            'last_name': forms.TextInput(attrs=input_dark_attrs),
+            'gender': forms.RadioSelect(attrs=radio_input)
+        }
