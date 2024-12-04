@@ -1,0 +1,44 @@
+{% if field.field.widget.input_type != 'radio' %}
+    <div class="w-full mx-2 mt-3">
+        <label for="{{ field.id_for_label }}" class="mr-3 ">{{ field.label }}</label><!-- mt-3 -->
+        <div class="bg-zinc-900/80 mt-1 w-full rounded-xl p-5 flex">
+            <i class="fa-light fa-user text-2xl ml-5"></i>
+            {{ field }}
+        </div>
+    </div>
+
+    {% if field.errors %}
+        {% for error in field.errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    {% endif %}
+{% else %}
+    <div class="w-full mx-2 mt-3">
+        <label for="{{ field.id_for_label }}" class="mr-3 ">{{ field.label }}</label><!-- mt-3 -->
+        <div class="bg-zinc-900/80 flex mt-1 w-full rounded-xl p-5 flex">
+            <i class="fa-light fa-user text-2xl ml-5"></i>
+            <label id="gender1" onclick="choice_item('id_gender_1');add_color(this);" for="id_gender_1" class="px-5 py-1 rounded-lg {% if field.value == 'female' %} bg-amber-400{% endif %}">
+                <span style="color: red;">زن</span>
+                <input {% if field.value == 'female' %} checked="true" {% endif %} id="id_gender_1" type="radio" name="gender" value="female" class="appearance-none">
+            </label>
+            <p class="mx-1"></p>
+            <label id="gender0" onclick="choice_item('id_gender_0');add_color(this);" for="id_gender_0" class="px-5 py-1 rounded-lg {% if field.value == 'male' %} bg-amber-400{% endif %}">
+                <span style="color: red;">مرد</span>
+                <input {% if field.value == 'male' %} checked="true" {% endif %} id="id_gender_0" type="radio" name="gender" value="male" class="appearance-none">
+            </label>
+        </div>
+    </div>
+    <p id="test">d</p>
+    <script>
+        function choice_item(el) {
+            document.getElementById('id_gender_1').checked = false;
+            document.getElementById('id_gender_0').checked = false;
+            document.getElementById(el).checked = true;
+        }
+        function add_color(id) {
+            document.getElementById('gender1').classList.remove('bg-amber-400');
+            document.getElementById('gender0').classList.remove('bg-amber-400');
+            id.classList.add('bg-amber-400');
+        }
+    </script>
+{% endif %}

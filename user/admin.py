@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User
+from .models import User, PhoneNumber
 from .forms import UserChangeForm, UserCreationForm
 
+admin.site.register(PhoneNumber)
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
@@ -15,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (
             None,
-            {'fields': ['email', 'username', 'password']}
+            {'fields': [('email', 'username'), 'number', 'password']}
         ),
         (
             'Personal info',

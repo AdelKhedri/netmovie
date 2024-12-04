@@ -1,5 +1,5 @@
 from django.test import TestCase
-from user.forms import LoginForm, SignupForm
+from user.forms import LoginForm, SignupForm, PhoneNumberForm, UpdateProfileForm
 from user.models import User, PhoneNumber
 
 
@@ -53,3 +53,60 @@ class TestSignupForm(TestCase):
         self.assertEqual(form.errors['accept_rules'][0], 'باید قوانین را بپذیرید')
         self.assertIn('password2', form.errors)
         self.assertEqual(form.errors['password2'][0], 'پسورد ها با هم یکی نیستند')
+
+class TestPhoneNumberForm(TestCase):
+
+    def setUp(self):
+        phone = PhoneNumber.objects.create(number = '09123456789')
+        user = User.objects.create(username='user1')
+        user.number = phone
+        user.save()
+
+    def test_first_update(self):
+        data = {
+            'phone': '0912345678'
+        }
+        phone_form = PhoneNumberForm(data = data)
+        self.assertTrue(phone_form.is_valid())
+    
+    def test_second_update_not_allowed(self):
+        user = User.objects.get(id=1)
+        form = PhoneNumberForm(user = user)
+        self.assertTrue(form.fields['number'].disabled)
+
+
+class TestUpdateProfileForm(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create(username = 'user1')
+    
+    def test_first_update_email(self):
+        data = {
+            'username': 'user1',
+            'email': 'user@gmail.com',
+            'gender': 'male'
+        }
+        form = UpdateProfileForm(instance = self.user, data=data)
+        self.assertTrue(form.is_valid())
+        self.assertFalse(form.fields['email'].disabled)
+    
+    def test_second_update_email_not_allowed(self):
+        self.user.email = 'user@gmail.com'
+        self.user.save()
+        
+        data = {
+            'username': 'user1',
+            'email': 'user@gmail.com',
+            'gender': 'male'
+        }
+        form = UpdateProfileForm(instance = self.user, data = data)
+        self.assertTrue(form.fields['email'].disabled)
+    
+    def test_update_username_not_allowed(self):
+        data = {
+            'username': 'user1',
+            'email': 'user@gmail.com',
+            'gender': 'male'
+        }
+        form = UpdateProfileForm(instance = self.user, data = data)
+        self.assertTrue(form.fields['username'].disabled)
