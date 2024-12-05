@@ -6,7 +6,7 @@
 
     <img src="{% static 'images/image.png' %}" alt="">
     {% if msg %}
-        <p class="p-2.5 bg-amber-400 text-red-600">{{ msg }}</p>
+        <p class="p-2.5 bg-amber-400 text-red-600 rounded-lg">{{ msg }}</p>
     {% endif %}
 
     {% for field in form %}

@@ -139,7 +139,11 @@ class TestProfileUpdateView(TestCase):
         }
         response = self.client.get(reverse('dashboard:profile'))
         self.assertEqual(response.status_code, 200)
-    
+
+    def test_template_used(self):
+        response = self.client.get(reverse('dashboard:change-password'))
+        self.assertTemplateUsed(response, 'user/change-password.html')
+
     def test_update_phone_success(self):
         data = {
             'number': '09123456789'
@@ -207,3 +211,74 @@ class TestProfileUpdateView(TestCase):
         }
         response = self.client.post(reverse('dashboard:profile'), data=data)
         self.assertEqual(response.wsgi_request.user.gender, 'female')
+
+
+class TestChangePasswordView(TestCase):
+    def setUp(self):
+        data = {
+            'username': 'user1',
+            'password': 'password'
+        }
+        user = User.objects.create(**data)
+        user.set_password('password')
+        user.save()
+        self.client.post(reverse('login'), data = data)
+
+    def test_url(self):
+        response = self.client.get(reverse('dashboard:change-password'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_used(self):
+        response = self.client.get(reverse('dashboard:change-password'))
+        self.assertTemplateUsed(response, 'user/change-password.html')
+
+    def test_change_password_success(self):
+        data = {
+            'last_password': 'password',
+            'password1': 'new_password',
+            'password2': 'new_password',
+        }
+        data_login = {
+            'username': 'user1',
+            'password': 'new_password'
+        }
+        response1 = self.client.post(reverse('dashboard:change-password'), data = data)
+        response2 = self.client.post(reverse('login'), data = data_login)
+        self.assertEqual(response1.status_code, 302)
+        self.assertEqual(response2.wsgi_request.user.username, 'user1')
+
+    def test_redirect_after_change_password(self):
+        data = {
+            'last_password': 'password',
+            'password1': 'new_password',
+            'password2': 'new_password',
+        }
+        response = self.client.post(reverse('dashboard:change-password'), data = data)
+        self.assertEqual(response.status_code, 302)
+    
+    def test_logout_after_change_password(self):
+        data = {
+            'last_password': 'password',
+            'password1': 'new_password',
+            'password2': 'new_password',
+        }
+        response = self.client.post(reverse('dashboard:change-password',), data = data, follow = True)
+        self.assertFalse(response.wsgi_request.user.is_authenticated)
+
+    def test_change_password_error_last_password(self):
+        data = {
+            'last_password': 'passwordw',
+            'password1': 'new_password',
+            'password2': 'new_password',
+        }
+        response = self.client.post(reverse('dashboard:change-password'), data = data)
+        self.assertContains(response, 'پسورد قبلی اشتباه است')
+    
+    def test_change_password_error_password_not_match(self):
+        data = {
+            'last_password': 'password',
+            'password1': 'new_password',
+            'password2': 'new_pass',
+        }
+        response = self.client.post(reverse('dashboard:change-password'), data = data)
+        self.assertContains(response, 'پسورد ها با هم یکی نیستند')

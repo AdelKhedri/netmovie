@@ -100,6 +100,32 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, self.template_name, self.context)
 
 
+class ChangePasswordView(LoginRequiredMixin, View):
+    template_name = 'user/change-password.html'
+    context = {
+        'page_name': 'change password'
+    }
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.context)
+
+    def post(self, request, *args, **kwargs):
+        last_password = request.POST.get('last_password')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        user = authenticate(request, username = request.user.username, password = last_password)
+        if user is not None:
+            if password1 == password2:
+                user.set_password(password1)
+                user.save()
+                return redirect(reverse('login'))
+            else:
+                self.context['msg'] = 'پسورد ها با هم یکی نیستند'
+        else:
+            self.context['msg'] = 'پسورد قبلی اشتباه است'
+        return render(request, self.template_name, self.context)
+
+
 def logoutView(request):
     if request.user.is_authenticated:
         logout(request)
