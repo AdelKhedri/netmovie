@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ZarFilm</title>
+        <title>{{ title_page }}</title>
         <link rel="stylesheet" href="{% static 'css/main_site.css' %}">
         <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
     
@@ -53,12 +53,12 @@
                 </button>
                     
                 <!-- Dropdown menu -->
-                <div id="dropdownHover" class="hidden rounded-3xl shadow w-60 p-1 blur-d">
+                <div id="dropdownHover" class="hidden rounded-3xl shadow w-60 p-1 blur-d z-10">
                     <ul class="py-2 text-sm px-2" aria-labelledby="dropdownHoverButton">
                         <li>
                             <div class="flex">
                                 <img class="mr-1" src="{% static 'images/сrown.png' %}" alt="" srcset="">
-                                <p>اشتراک باقی مانده: <div class="flex px-0.5 mr-1 rounded-lg bg-stone-400/25"><span class="bg-green-400 text-green-700 rounded-lg ml-0.5">3 روز</span><a href="#" class="hover:text-amber-500">تمدید</a></div></p>
+                                <p>اشتراک باقی مانده: <div class="flex px-0.5 mr-1 rounded-lg bg-stone-400/25"><span class="bg-green-400 text-green-700 rounded-lg ml-0.5">{{ special_time }} روز</span><a href="#" class="hover:text-amber-500">تمدید</a></div></p>
                             </div>
                         </li>
                         <hr class="mt-3">
@@ -126,9 +126,9 @@
                         <i class="fa-light fa-grid-2 text-2xl ml-2"></i>
                         <p>داشبورد</p>
                     </a>
-                    <a href="" class="px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                    <a href="{% url 'dashboard:buy-subscription' %}" class="{% if page_name == 'buy subscription' %}bg-zinc-800{% endif %} px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
                         <i class="fa-light fa-crown text-2xl ml-2"></i>
-                        <p>خرید اشتراک <span class="bg-green-600 rounded-xl px-2 py-1.5">فعال</span><span class="bg-red-600 rounded-xl px-2 py-1.5">غیرفعال</span></p>
+                        <p>خرید اشتراک {% if request.user.special_time > current_time %}<span class="bg-green-600 rounded-xl px-2 py-1.5">فعال</span>{% else %}<span class="bg-red-600 rounded-xl px-2 py-1.5">غیرفعال</span>{% endif %}</p>
                     </a>
                     <a href="{% url 'dashboard:profile' %}" class="{% if page_name == 'profile' %}bg-zinc-800{% endif %} px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
                         <i class="fa-light fa-user text-2xl ml-2"></i>
