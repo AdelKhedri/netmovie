@@ -6,6 +6,7 @@ from django.db.models import F
 import datetime
 from django.utils import timezone
 from .utils import get_left_special_time
+from django.core.paginator import Paginator
 
 
 # Auth imports
@@ -116,7 +117,7 @@ class ChangePasswordView(LoginRequiredMixin, View):
                 'page_name': 'change password',
                 'title_page': 'تغییر پسورد | نت موی',
                 'current_time': timezone.now(),
-                    'special_time': get_left_special_time(request.user)
+                'special_time': get_left_special_time(request.user)
             }
         return super().setup(request, *args, **kwargs)
 
@@ -170,6 +171,23 @@ class BuySubscriptionView(LoginRequiredMixin, View):
                 'daytes': pakage.dates,
                 'special_time': get_left_special_time(request.user)
             })
+        return render(request, self.template_name, context)
+
+
+class HistorySubscriptionView(LoginRequiredMixin, View):
+    template_name = 'user/history-subscription.html'
+
+    def get(self, request, *args, **kwargs):
+        p = Paginator(Subscription.objects.filter(user=request.user).order_by('actived_at'), 20)
+        page = request.GET.get('page', 1)
+
+        context = {
+            'page_name': 'history subscription',
+            'title_page': 'سابقه خرید | نت موی',
+            'special_time': get_left_special_time(request.user),
+            'page': p.page(page),
+            'current_time': timezone.now(),
+        }
         return render(request, self.template_name, context)
 
 

@@ -1,0 +1,83 @@
+{% extends 'user/base_panel.html' %}
+{% block content %}
+<duv class="lg:w-4/5 w-full  bg-black rounded-tr-[50px]">
+    <div class="flex justify-between px-4 my-3">
+        <p class="font-bold text-xl">سابقه خرید ها<span class="text-sm pr-2">(لیست آخرین خریدهای انجام شده توسط شما.)</span></p>
+        <p></p>
+    </div>
+    <div class="mt-2 p-5 relative">
+        <div id="main" class="border-2 overflow-x-scroll max-h-[88vh] border-zinc-800 bg-zinc-900/80 rounded-lg xl:w-4/5 w-full p-3">
+            <div id="items" class="bg-zinc-900/80 p-[1rem] py-3 rounded-3xl outline outline-4 outline-zinc-800">
+                <table class="w-full text-right">
+                    <thead class="lg:text-xl text-sm border-b-2 border-zinc-800 font-bold">
+                        <tr>
+                            <th class="py-2">پکیج نیم</th>
+                            <th class="py-2">ایدی</th>
+                            <th class="py-2">مبلغ</th>
+                            <th class="py-2">مدت اشتراک</th>
+                            <th class="py-2">زمان خرید</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-200">
+                        {% for history in page %}
+                        <tr class="border-b-2 border-zinc-800">
+                            <th class="py-2">{{ history.pakage.title }}</th>
+                            <th class="py-2">{{ history.id }}</th>
+                            <th class="py-2">{{ history.price }}</th>
+                            <th class="py-2">{{ history.days }}</th>
+                            <th class="py-2">{{ history.active_at|date:'Y/m/d' }}</th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if page.has_previous or page.has_next %}
+            <div id="pagination" class="hiddens flex mx-auto justify-center bg-zinc-900 p-3 rounded-lg mt-5">
+
+                <!-- last page -->
+                <a {% if page.has_previous %} href="?page={{ page.previous_page_number }}" {% endif %} class="{% if not page.has_previous %} cursor-not-allowed {% endif %} pagination-btn">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+
+                <!-- page 1 -->
+                {% if page.previous_page_number|add:'-1' > -1 %}
+                <a href="?page=1" class="pagination-btn">
+                    1
+                </a>
+                {% endif %}
+
+                <a href="?page={{ page.number }}" class="bg-zinc-950 pagination-btn">
+                    {{ page.number }}
+                </a>
+
+                <p class="pagination-btn">
+                    ...
+                </p>
+                
+                {% if page.next_page_number|add:'1' < page.paginator.num_pages|add:'1' %}
+                <a href="?page={{ page.num_pages }}" class="pagination-btn">
+                    {{ page.next_page_number }}
+                </a>
+                {% endif %}
+
+                {% if page.number < page.paginator.num_pages %}
+                <a href="?page={{ page.paginator.num_pages }}" class="pagination-btn">
+                    {{ page.paginator.num_pages }}
+                </a>
+                {% endif %}
+
+                {% if page.has_next %}
+                <a href="?page={{ page.next_page_number }}" class="pagination-btn">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+                {% endif %}
+
+            </div>
+            {% endif %}
+        </div>    
+    </div>
+</duv>
+<!-- <div id="main" class="border-2 overflow-x-scroll max-h-[88vh] border-zinc-800 bg-zinc-900/80 rounded-lg xl:w-4/5 w-full p-3">
+    
+</div>   -->
+{% endblock %}

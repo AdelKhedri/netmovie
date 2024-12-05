@@ -134,7 +134,7 @@
                         <i class="fa-light fa-user text-2xl ml-2"></i>
                         <p>پروفایل</p>
                     </a>
-                    <a href="" class="px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                    <a href="{% url 'dashboard:history-subscription' %}" class="{% if page_name == 'history subscription' %}bg-zinc-800{% endif %} px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
                         <i class="fa-regular fa-file-lines text-2xl ml-2"></i>
                         <p>سابقه خرید</p>
                     </a>
