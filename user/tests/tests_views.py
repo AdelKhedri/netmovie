@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
-from user.models import PhoneNumber, User
+from user.models import PhoneNumber, User, Pakage
 
+from django.utils import timezone
 from django.conf import settings
 
 
@@ -282,3 +283,55 @@ class TestChangePasswordView(TestCase):
         }
         response = self.client.post(reverse('dashboard:change-password'), data = data)
         self.assertContains(response, 'پسورد ها با هم یکی نیستند')
+
+
+class TestBuySubscriptionView(TestCase):
+    def setUp(self):
+        data = {
+            'username': 'user1',
+            'password': 'password'
+        }
+        user = User.objects.create(**data)
+        user.set_password(data['password'])
+        user.save()
+        pakages = [
+            Pakage(
+                title = "نقره",
+                is_active = False,
+                dates = 30,
+                price = 250000
+                ),
+            Pakage(
+                title = "طلا",
+                is_active = True,
+                dates = 30,
+                price = 50000
+                ),
+            Pakage(
+                title = "الماس",
+                is_active = True,
+                dates = 40,
+                price = 30000
+                )
+        ]
+        Pakage.objects.bulk_create(pakages)
+        response = self.client.post(reverse('login'), data = data)
+
+    def test_url(self):
+        response = self.client.get(reverse('dashboard:buy-subscription'))
+
+    def test_template_used(self):
+        response = self.client.get(reverse('dashboard:buy-subscription'))
+        self.assertTemplateUsed(response, 'user/buy-subscription.html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_buy_subscription_success(self):
+        response = self.client.get(reverse('dashboard:buy-subscription') + '?pakage=2')
+        self.assertContains(response, 'خرید موفقیت امیز بود')
+
+        diffrence = (response.wsgi_request.user.special_time - timezone.now()).days
+        self.assertEqual(diffrence, 29)
+
+    def test_buy_subscription_failed_not_found(self):
+        response = self.client.get(reverse('dashboard:buy-subscription') + '?pakage=1')
+        self.assertEqual(response.status_code, 404)
