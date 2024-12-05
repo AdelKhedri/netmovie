@@ -116,8 +116,8 @@
                 <div class="h-64 flex flex-row justify-center items-center">
                     <div class="flex flex-col items-center">
                         <img class="rounded-3xl mx-auto w-24 h-24 outline outline-4 outline-offset-8 outline-amber-500 hover:outline-white transition-all duration-[400ms] ease-in-out" src="{% static 'images/male.png' %}" alt="">
-                        <p class="mt-2 font-bold text-2xl">Name</p>
-                        <p class="text-gray-300">452****0992</p>
+                        <p class="mt-2 font-bold text-2xl">{{ request.user.get_full_name|default:request.user.username }}</p>
+                        <p class="text-gray-300">{{ request.user.number.number|default:'شماره تلفن تنظیم نشده' }}</p>
                     </div>
                 </div>
 
@@ -138,7 +138,7 @@
                         <i class="fa-regular fa-file-lines text-2xl ml-2"></i>
                         <p>سابقه خرید</p>
                     </a>
-                    <a href="" class="px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                    <a href="{% url 'dashboard:change-password' %}" class="{% if page_name == 'change password' %}bg-zinc-800{% endif %} px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
                         <i class="fa-light fa-lock text-2xl ml-2"></i>
                         <p>تغییر پسورد</p>
                     </a>
