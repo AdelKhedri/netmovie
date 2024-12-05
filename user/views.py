@@ -1,14 +1,20 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from .forms import LoginForm, SignupForm, UpdateProfileForm, PhoneNumberForm
+from django.db.models import F
+import datetime
+from django.utils import timezone
+from .utils import get_left_special_time
+
 
 # Auth imports
 from django.contrib.auth import authenticate, login, logout
 from .mixins import RedirectAuthenticatedUser
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import User, PhoneNumber
 from django.conf import settings
+
+from .models import User, Pakage, Subscription
 
 
 class LoginView(RedirectAuthenticatedUser, View):
@@ -70,7 +76,10 @@ class ProfileView(LoginRequiredMixin, View):
             self.context = {
                 'user_form': UpdateProfileForm(instance=request.user),
                 'phone_form': PhoneNumberForm(user=request.user),
-                'page_name': 'profile'
+                'page_name': 'profile',
+                'title_page': 'آپدیت پروفایل | نت موی',
+                'current_time': timezone.now(),
+            'special_time': get_left_special_time(request.user)
             }
         else:
             return redirect(reverse('login'))
@@ -102,9 +111,14 @@ class ProfileView(LoginRequiredMixin, View):
 
 class ChangePasswordView(LoginRequiredMixin, View):
     template_name = 'user/change-password.html'
-    context = {
-        'page_name': 'change password'
-    }
+    def setup(self, request, *args, **kwargs):
+        self.context = {
+                'page_name': 'change password',
+                'title_page': 'تغییر پسورد | نت موی',
+                'current_time': timezone.now(),
+                    'special_time': get_left_special_time(request.user)
+            }
+        return super().setup(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, self.context)
@@ -124,6 +138,39 @@ class ChangePasswordView(LoginRequiredMixin, View):
         else:
             self.context['msg'] = 'پسورد قبلی اشتباه است'
         return render(request, self.template_name, self.context)
+
+
+class BuySubscriptionView(LoginRequiredMixin, View):
+    template_name = 'user/buy-subscription.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'page_name': 'buy subscription',
+            'title_page': 'خرید اشتراک | نت موی',
+            'pakages': Pakage.objects.filter(is_active = True),
+            'current_time': timezone.now(),
+            'special_time': get_left_special_time(request.user)
+        }
+        pakage_id = request.GET.get('pakage', None)
+
+        if pakage_id:
+            pakage = get_object_or_404(Pakage, is_active = True, id=pakage_id)
+            Subscription.objects.create(user = request.user, pakage = pakage, price = pakage.get_price(), days = pakage.dates)
+            time = datetime.timedelta(days=pakage.dates)
+            user = User.objects.get(id=request.user.id)
+            if user.special_time:
+                user.special_time = F('special_time') + time
+            else:
+                user.special_time = datetime.datetime.now() + time
+            user.save()
+
+            request.user.refresh_from_db()
+            context.update({
+                'msg': 'success',
+                'daytes': pakage.dates,
+                'special_time': get_left_special_time(request.user)
+            })
+        return render(request, self.template_name, context)
 
 
 def logoutView(request):
