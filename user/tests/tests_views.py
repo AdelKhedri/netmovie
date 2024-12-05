@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from user.models import PhoneNumber, User, Pakage
+from user.models import PhoneNumber, User, Pakage, Subscription
 
 from django.utils import timezone
 from django.conf import settings
@@ -335,3 +335,36 @@ class TestBuySubscriptionView(TestCase):
     def test_buy_subscription_failed_not_found(self):
         response = self.client.get(reverse('dashboard:buy-subscription') + '?pakage=1')
         self.assertEqual(response.status_code, 404)
+
+
+class TestHistorySubscriptionView(TestCase):
+    def setUp(self):
+        pakage = Pakage.objects.create(title = 'pakage1', description = 'test', price = 22, dates = 30)
+        user = User.objects.create(username = 'user1')
+        user.set_password('password')
+        user.save()
+        self.client.post(reverse('login'), data = {'username': 'user1', 'password': 'password'})
+        subscriptions = []
+        for i in range(0, 35):
+            subscriptions.append(
+                Subscription(
+                    user = user,
+                    pakage = pakage,
+                    price = pakage.get_price(),
+                    days = pakage.dates
+                    )
+                )
+        Subscription.objects.bulk_create(subscriptions)
+
+    def test_url(self):
+        response = self.client.get(reverse('dashboard:history-subscription'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_used(self):
+        response = self.client.get(reverse('dashboard:history-subscription'))
+        self.assertTemplateUsed(response, 'user/history-subscription.html')
+
+    def test_item_per_page(self):
+        response = self.client.get(reverse('dashboard:history-subscription'))
+        self.assertEqual(len(response.context['page'].object_list), 20)
+        self.assertEqual(response.context['page'].object_list[0].id, 1)
