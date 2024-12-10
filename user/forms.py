@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django import forms
-from .models import User, PhoneNumber
+from .models import User, PhoneNumber, Ticket, MessageSupport
 
 # validate
 from django.core.exceptions import ValidationError
@@ -11,6 +11,7 @@ input_attrs = {'class': 'input-bg-slate'}
 checkbox_attrs = {'class': 'checkbox'}
 radio_input = {'class': ''}
 input_dark_attrs = {'class': 'input-dark'}
+input_full_dark_attrs = {'class': 'input-full-dark simple-input'}
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -123,3 +124,42 @@ class UpdateProfileForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs=input_dark_attrs),
             'gender': forms.RadioSelect(attrs=radio_input)
         }
+
+
+class TicketForm(forms.ModelForm):
+    message = forms.CharField(widget=forms.Textarea(attrs=input_full_dark_attrs),
+                              label='توضیحات',
+                              error_messages = {
+                                'required': 'این فیلد اجباری است.'
+                            })
+
+    class Meta:
+        model = Ticket
+        fields = ['title', 'departeman']
+
+        widgets = {
+            'title': forms.TextInput(attrs=input_full_dark_attrs),
+        }
+
+        error_messages = {
+            'departeman': {
+                'required': 'این فیلد اجباری است.',
+                'invalid_choice': 'لطفا گذینه درست رو انتخاب کنید.'
+            },
+            'title': {
+                'required': 'این فیلد اجباری است.'
+            }
+        }
+
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit = True):
+        obj = super().save(commit = False)
+        obj.user = self.user
+        if commit:
+            obj.save()
+        MessageSupport.objects.create(message = self.cleaned_data['message'], sender = self.user, ticket = obj)
+        return obj

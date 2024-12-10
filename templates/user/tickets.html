@@ -1,0 +1,106 @@
+{% extends 'user/base_panel.html' %}
+{% block content %}
+            <duv class="lg:w-4/5 w-full  bg-black rounded-tr-[50px]">
+                <div class="flex justify-between px-4 my-3">
+                    <p>پشتیابنی<span class="mr-1"> (پشتیبانان زرفیلم 24 ساعته پاسخگوی مسائل شما هستند)</span></p>
+                    <div class="flex">
+                        <i class="fa-light fa-calendar-days ml-1"></i>
+                        <p class="text-sm">دوشنبه <span>21</span> <span>آذر</span> <span>1403</span></p>
+                    </div>
+                </div>
+
+                <div class="mt-2 p-5">
+                    <form method="post" accept="" class="bg-zinc-900 rounded-2xl px-10 py-9">
+                        {% csrf_token %}
+                        {% if msg == 'success' %}
+                        <p class="bg-green-400/30 w-full text-center rounded-lg text-green-500 p-3 pt-2">تیکت با موفقیت ایجاد شد</p>
+                        {% elif msg == 'failed' %}
+                        <p class="bg-red-400/30 w-full text-center rounded-lg text-red-500 p-3 pt-2">تیکت با موفقیت ایجاد شد</p>
+                        {% endif %}
+                        {{form.errors}}
+                        <div class="lg:flex items-center mt-2 justify-between">
+                            <div class="m-2">
+                                <label for="ticket-title" class="">
+                                    {{ form.title.label }}
+                                    {{ form.title }}
+                                </label>
+                            </div>
+
+                            <label class="m-2">دپارتماتن تیکت را انتخاب کنید</label>
+                            <div class="flex items-center m-2">
+                                <div class="bg-zinc-950 rounded-xl px-3 py-6 pt-5">
+                                    <label onclick="change_color(this)" class="p-3 mx-2 cursor-pointer rounded-lg bg-amber-500" for="id_departeman_0" id="id_departeman_0_label">
+                                        مالی و فروش
+                                        <input class="appearance-none" type="radio" name="departeman" value="finance and sales" checked id="id_departeman_0">
+                                    </label>
+                                    <label onclick="change_color(this)" class="p-3 mx-2 cursor-pointer rounded-lg" for="id_departeman_1" id="id_departeman_1_label">
+                                        پشتیبانی فنی
+                                        <input class="appearance-none" type="radio" name="departeman" value="technical" id="id_departeman_1">
+                                    </label>
+                                </div>
+
+                                <script>
+                                    var departemans = ['id_departeman_0', 'id_departeman_1']
+
+                                    function change_color(el) {
+                                        departemans.forEach((id) => document.getElementById(`${id}_label`).classList.remove('bg-amber-500'))
+                                        el.classList.add('bg-amber-500')
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="">{{ form.label }}</label>
+                            {{ form.message }}
+                            <button class="btn-amber animation m-2" type="submit">ذخیره</button>
+                        </div>
+                    </form>
+
+                    <div class="mt-3 bg-zinc-900 px-10 py-9 rounded-2xl">
+                        <p>تیکت های اخیر</p>
+                        {% for ticket in tickets %}
+                        <a href="./ticket-details.html" class="p-5 mt-1 rounded-xl bg-zinc-950 flex justify-between">
+                            <div>
+                                <p>{{ ticket.title }}</p>
+                                <div class="flex items-center">
+                                    <i class="fa-light fa-folder ml-1"></i>
+                                    <p>{{ ticket.get_departeman_display }}</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <p class="border border-green-600 text-green-600 w-fit rounded-lg px-2 pt-0 pb-1 mb-3">پاسخ داده شده</p>
+                                <!-- <p class="border border-amber-600 text-amber-600 rounded-lg px-2 pt-0 pb-1">در انتظار پاسخ</p> -->
+                                 <p>
+                                    <i class="fa-ligtht far far fa-clock ml-1"></i>
+                                    آخرین بروزرسانی:
+                                    <span>{{ ticket.update_at|date:'Y/m/d H:i:s' }}</span></p>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <div id="pagination" class="hiddens flex mx-auto justify-center bg-zinc-900/80 p-3 rounded-lg mt-5">
+                        <a href="" class="pagination-btn">
+                            <i class="fa-solid fas fa-chevron-right"></i>
+                        </a>
+                        <a href="" class="pagination-btn">
+                            1
+                        </a>
+                        <a href="" class="pagination-btn">
+                            2
+                        </a>
+                        <p class="pagination-btn">
+                            ...
+                        </p>
+                        <a href="" class="pagination-btn">
+                            9
+                        </a>
+                        <a href="" class="pagination-btn">
+                            10
+                        </a>
+                        <a href="" class="pagination-btn">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </a>
+                    </div>
+                </div>
+            </duv>
+{% endblock %}

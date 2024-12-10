@@ -368,3 +368,62 @@ class TestHistorySubscriptionView(TestCase):
         response = self.client.get(reverse('dashboard:history-subscription'))
         self.assertEqual(len(response.context['page'].object_list), 20)
         self.assertEqual(response.context['page'].object_list[0].id, 1)
+
+
+class TestTicketView(TestCase):
+
+    def setUp(self):
+        user = User.objects.create(username = 'user')
+        user.set_password('password')
+        user.save()
+        self.client.post(reverse('login'), data={'username': 'user', 'password': 'password'})
+    
+    def test_url(self):
+        response = self.client.get(reverse('dashboard:ticket'))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_template_used(self):
+        response = self.client.get(reverse('dashboard:ticket'))
+        self.assertTemplateUsed(response, 'user/tickets.html')
+    
+    def test_create_ticket_success(self):
+        data = {
+            'title': 'new ticket',
+            'departeman': 'finance and sales',
+            'message': 'this a test ticket',
+        }
+        response = self.client.post(reverse('dashboard:ticket'), data = data)
+        self.assertEqual(response.context['tickets'].first().title, data['title'])
+
+    def test_create_ticket_failed_invalid_departeman(self):
+        data = {
+            'title': 'new ticket',
+            'departeman': 'fincanc test',
+            'message': 'this a test ticket',
+        }
+        response = self.client.post(reverse('dashboard:ticket'), data = data)
+        self.assertEqual(response.context['form'].errors['departeman'][0], 'لطفا گذینه درست رو انتخاب کنید.')
+    
+    def test_create_ticket_failed_required_title(self):
+        data = {
+            'departeman': 'fincanc test',
+            'message': 'this a test ticket',
+        }
+        response = self.client.post(reverse('dashboard:ticket'), data = data)
+        self.assertEqual(response.context['form'].errors['title'][0], 'این فیلد اجباری است.')
+
+    def test_create_ticket_failed_required_departeman(self):
+        data = {
+            'title': 'test',
+            'message': 'this a test ticket',
+        }
+        response = self.client.post(reverse('dashboard:ticket'), data = data)
+        self.assertEqual(response.context['form'].errors['departeman'][0], 'این فیلد اجباری است.')
+
+    def test_create_ticket_failed_required_message(self):
+        data = {
+            'departeman': 'fincanc test',
+            'title': 'this a test ticket',
+        }
+        response = self.client.post(reverse('dashboard:ticket'), data = data)
+        self.assertEqual(response.context['form'].errors['message'][0], 'این فیلد اجباری است.')
