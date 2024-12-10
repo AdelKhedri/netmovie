@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, PhoneNumber, Pakage, Subscription
+from .models import User, PhoneNumber, Pakage, Subscription, Ticket, MessageSupport
 from .forms import UserChangeForm, UserCreationForm
 from django.utils.html import format_html
 
@@ -59,4 +59,19 @@ class PakageAdmin(admin.ModelAdmin):
 class SubscriptionAdmin(admin.ModelAdmin):
     list_display = ['user', 'pakage', 'days', 'price']
     search_fields = ['user']
-    
+
+
+@admin.register(Ticket)
+class TicketAdmin(admin.ModelAdmin):
+    list_display = ['title', 'user', 'departeman']
+    search_fields = ['title']
+    list_filter = ['departeman']
+
+
+@admin.register(MessageSupport)
+class MessageSupportAdmin(admin.ModelAdmin):
+    list_display = ['sender', 'ticket', 'get_simple_message']
+
+    @admin.display(description='متن پیام')
+    def get_simple_message(self, obj):
+        return f'{obj.message[:100]} ...'

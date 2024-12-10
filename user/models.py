@@ -74,3 +74,23 @@ class Subscription(models.Model):
 
     def __str__(self):
         return f"{self.user}: {self.price}"
+
+
+class Ticket(models.Model):
+    departeman_types = (('finance and sales', 'مالی و فروش'), ('technical', 'پشتیبانی فنی'))
+    title = models.CharField(max_length=200, verbose_name="عنوان تیکت")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='سازنده')
+    departeman = models.CharField(choices=departeman_types, max_length=17, default='finance and sales', verbose_name='دپارتمان')
+    update_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user}: {self.title[:50]} ...'
+
+
+class MessageSupport(models.Model):
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name='تیکت')
+    message = models.TextField(verbose_name = 'پیام')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='فرستنده')
+
+    def __str__(self):
+        return self.sender.__str__()

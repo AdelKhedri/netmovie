@@ -1,5 +1,5 @@
 from django.test import TestCase
-from user.forms import LoginForm, SignupForm, PhoneNumberForm, UpdateProfileForm
+from user.forms import LoginForm, SignupForm, PhoneNumberForm, UpdateProfileForm, TicketForm
 from user.models import User, PhoneNumber
 
 
@@ -110,3 +110,52 @@ class TestUpdateProfileForm(TestCase):
         }
         form = UpdateProfileForm(instance = self.user, data = data)
         self.assertTrue(form.fields['username'].disabled)
+
+
+class TestTicketForm(TestCase):
+
+    def test_valid_data(self):
+        data = {
+            'title': 'new ticket',
+            'departeman': 'finance and sales',
+            'message': 'this a test ticket',
+        }
+        form = TicketForm(data = data)
+        self.assertTrue(form.is_valid())
+    
+    def test_invalid_data_required_title(self):
+        data = {
+            'departeman': 'finance and sales',
+            'message': 'this a test ticket',
+        }
+        form = TicketForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['title'][0], 'این فیلد اجباری است.')
+
+    def test_invalid_data_required_description(self):
+        data = {
+            'title': 'new ticket',
+            'message': 'this a test ticket',
+        }
+        form = TicketForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['departeman'][0], 'این فیلد اجباری است.')
+
+    def test_invalid_data_required_message(self):
+        data = {
+            'title': 'new ticket',
+            'departeman': 'finance and sales',
+        }
+        form = TicketForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['message'][0], 'این فیلد اجباری است.')
+
+    def test_invalid_data_departeman_invalid_choice(self):
+        data = {
+            'title': 'new ticket',
+            'departeman': 'test',
+            'message': 'this a test ticket',
+        }
+        form = TicketForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['departeman'][0], 'لطفا گذینه درست رو انتخاب کنید.')
