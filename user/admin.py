@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, PhoneNumber, Pakage, Subscription, Ticket, MessageSupport
+from .models import User, PhoneNumber, Pakage, Subscription, Ticket, MessageSupport, Request
 from .forms import UserChangeForm, UserCreationForm
 from django.utils.html import format_html
 
@@ -75,3 +75,26 @@ class MessageSupportAdmin(admin.ModelAdmin):
     @admin.display(description='متن پیام')
     def get_simple_message(self, obj):
         return f'{obj.message[:100]} ...'
+
+
+@admin.register(Request)
+class RequestAdmin(admin.ModelAdmin):
+    list_display = ['name', 'user', 'year', 'get_status']
+    list_filter = ['status']
+    search_fields = ['name', 'user']
+
+    @admin.display(description='وضعیت')
+    def get_status(self, obj):
+        if obj.status == 'pending':
+            classes = 'bg-amber-500/30 text-amber-500'
+        elif obj.status == 'accept':
+            classes = 'bg-green-500/30 text-green-500'
+        elif obj.status == 'reject':
+            classes = 'bg-red-500/30 text-red-500'
+        response = format_html(f'<span class="{classes} rounded-lg p-1">{obj.get_status_display()} </span>')
+        return response
+    
+    class Media:
+        css = {
+            'all': ['admin/css/style.css']
+        }

@@ -1,7 +1,8 @@
 from django.test import TestCase
-from user.forms import LoginForm, SignupForm, PhoneNumberForm, UpdateProfileForm, TicketForm, MessageSupportForm
-from user.models import MessageSupport, Ticket, User, PhoneNumber
+from user.forms import LoginForm, SignupForm, PhoneNumberForm, UpdateProfileForm, TicketForm, MessageSupportForm, RequestForm
+from user.models import Ticket, User, PhoneNumber
 from django.urls import reverse
+from django.utils import timezone
 
 
 class TestLoginForm(TestCase):
@@ -196,3 +197,98 @@ class TestMessageSupportForm(TestCase):
         self.client.post(reverse('login'), data = {'username': 'user', 'password': 'password'})
         response = self.client.get(reverse('dashboard:ticket-details', args=[ticket.id]))
         self.assertEqual(response.context['messages'].last().message, 'test2')
+
+
+class TestRequestForm(TestCase):
+
+    def test_valid_form(self):
+        data = {
+            'name': 'test',
+            'year': 2020,
+            'request_type': 'serial'
+        }
+        form = RequestForm(data = data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_form_required_name(self):
+        data = {
+            'year': 2020,
+            'request_type': 'serial'
+        }
+        form = RequestForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['name'][0], 'این فیلد اجباری است.')
+
+    def test_invalid_form_required_request_type(self):
+        data = {
+            'year': 2020,
+            'name': 'test',
+        }
+        form = RequestForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['request_type'][0], 'این فیلد اجباری است.')
+
+    def test_invalid_form_invalid_choice_request_type(self):
+        data = {
+            'year': 2020,
+            'request_type': 'sesadwawdwrial',
+            'name': 'test',
+        }
+        form = RequestForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['request_type'][0], 'لطفا گذینه درست رو انتخاب کنید.')
+
+    def test_invalid_form_required_year(self):
+        data = {
+            'request_type': 'movie',
+            'name': 'test',
+        }
+        form = RequestForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'][0], 'این فیلد اجباری است.')
+
+    def test_invalid_form_max_year(self):
+        data = {
+            'year': timezone.now().year + 1,
+            'request_type': 'movie',
+            'name': 'test',
+        }
+        form = RequestForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'][0], 'سال انتشار نباید از امسال بیشتر باشد.')
+
+    def test_invalid_form_max_year(self):
+        data = {
+            'year': 1815,
+            'request_type': 'movie',
+            'name': 'test',
+        }
+        form = RequestForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'][0], 'سال انتشار نمیتواند قبل از اختراع دوربین باشد.')
+
+    def test_invalid_form_max_year(self):
+        data = {
+            'year': 'ss',
+            'request_type': 'movie',
+            'name': 'test',
+        }
+        form = RequestForm(data = data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['year'][0], 'سال انتشار باید عددی باشد.')
+
+    def test_save_request_with_current_user(self):
+        data = {
+            'year': 2022,
+            'request_type': 'movie',
+            'name': 'test',
+        }
+        user = User.objects.create(username = 'user')
+        user.set_password('password')
+        user.save()
+        self.client.post(reverse('dashboard:request'), data = {'username': 'user', 'password': 'password'})
+        form = RequestForm(data = data, user = user)
+        self.assertTrue(form.is_valid())
+        request = form.save()
+        self.assertIsInstance(request.user, User)
+        self.assertEqual(request.user, user)

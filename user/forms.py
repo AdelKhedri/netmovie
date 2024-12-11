@@ -1,8 +1,9 @@
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django import forms
-from .models import User, PhoneNumber, Ticket, MessageSupport
+from .models import Request, User, PhoneNumber, Ticket, MessageSupport
 
 # validate
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 from .validators import validate_phone_number, validate_username
 
@@ -193,3 +194,47 @@ class MessageSupportForm(forms.ModelForm):
                 'required': 'این فیلد اجباری است.'
             }
         }
+
+
+class RequestForm(forms.ModelForm):
+    # the camera Invented in 1816
+    year = forms.IntegerField(max_value=timezone.now().year,
+                              min_value=1816,
+                              widget=forms.NumberInput(attrs=input_full_dark_attrs),
+                              error_messages = {
+                                    'required': 'این فیلد اجباری است.',
+                                    'max_value': 'سال انتشار نباید از امسال بیشتر باشد.',
+                                    'min_value': 'سال انتشار نمیتواند قبل از اختراع دوربین باشد.',
+                                    'invalid': 'سال انتشار باید عددی باشد.'
+                                })
+    
+    class Meta:
+        model = Request
+        fields = ['name', 'year', 'request_type']
+
+        widgets = {
+            'name': forms.TextInput(attrs=input_full_dark_attrs),
+            'request_type': forms.RadioSelect(),
+        }
+
+        error_messages = {
+            'name': {
+                'required': 'این فیلد اجباری است.'
+            },
+            'request_type': {
+                'required': 'این فیلد اجباری است.',
+                'invalid_choice': 'لطفا گذینه درست رو انتخاب کنید.'
+            }
+        }
+
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit = True):
+        obj = super().save(False)
+        obj.user = self.user
+        if commit:
+            obj.save()
+        return obj

@@ -111,3 +111,24 @@ class MessageSupport(models.Model):
 
     def __str__(self):
         return self.sender.__str__()
+
+
+class Request(models.Model):
+    request_types = (('movie', 'فیلم'), ('serial', 'سریال'))
+    request_type = models.CharField(max_length=7, choices=request_types, default='movie', verbose_name='نوع درخواست')
+    name = models.CharField(max_length=150, verbose_name='نام فیلم یا سریال')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر')
+    year = models.IntegerField(verbose_name='سال انتشار')
+    date = models.DateField(auto_now_add=True, verbose_name='زمان')
+    link = models.URLField(blank=True, null=True, verbose_name='لینک')
+    status_types = (('pending', 'در صف'), ('accept', 'قبول شده'), ('reject', 'رد شده'))
+    status = models.CharField(max_length=7, choices=status_types, default='pending', verbose_name='وضعیت')
+    message = models.CharField(max_length=300, verbose_name='پیام', blank=True)
+
+    class Meta:
+        verbose_name = 'درخواست'
+        verbose_name_plural = 'درخواست ها'
+
+
+    def __str__(self):
+        return f'{self.user}: {self.name}'
