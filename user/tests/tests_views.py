@@ -427,3 +427,54 @@ class TestTicketView(TestCase):
         }
         response = self.client.post(reverse('dashboard:ticket'), data = data)
         self.assertEqual(response.context['form'].errors['message'][0], 'این فیلد اجباری است.')
+
+    def test_redirect_anonymoususer(self):
+        self.client.get(reverse('logout'))
+        response = self.client.get(reverse('dashboard:ticket'))
+        self.assertEqual(response.status_code, 302)
+
+
+class TestTicketDetailsView(TestCase):
+
+    def setUp(self):
+        user = User.objects.create(username = 'user')
+        user.set_password('password')
+        user.save()
+        self.client.post(reverse('login'), data = {'username': 'user', 'password': 'password'})
+        ticket_data = {
+            'title': 'test',
+            'departeman': 'finance and sales',
+            'message': 'test'
+        }
+        self.client.post(reverse('dashboard:ticket'), data = ticket_data)
+    
+    def test_url(self):
+        response = self.client.get(reverse('dashboard:ticket-details', args = [1]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_used(self):
+        response = self.client.get(reverse('dashboard:ticket-details', args=[1]))
+        self.assertTemplateUsed(response, 'user/ticket-details.html')
+    
+    def test_send_message_success(self):
+        response = self.client.post(reverse('dashboard:ticket-details', args=[1]), data = {'message': 'test2'})
+        self.assertEqual(response.context['messages'].count(), 2)
+        self.assertEqual(response.context['messages'].last().message, 'test2')
+
+    def test_update_ticket_update_at_with_signal(self):
+        response1 = self.client.get(reverse('dashboard:ticket-details', args=[1]))
+        response2 = self.client.post(reverse('dashboard:ticket-details', args=[1]), data = {'message': 'tes2'})
+        self.assertGreater(response2.context['ticket'].update_at, response1.context['ticket'].update_at)
+
+    def test_send_message_failed_required_message(self):
+        response = self.client.post(reverse('dashboard:ticket-details', args=[1]))
+        self.assertContains(response, 'این فیلد اجباری است.')
+    
+    def test_404_notfound_ticket(self):
+        response = self.client.get(reverse('dashboard:ticket-details', args=[2]))
+        self.assertEqual(response.status_code, 404)
+
+    def test_redirect_anonymoususer(self):
+        self.client.get(reverse('logout'))
+        response = self.client.get(reverse('dashboard:ticket-details', args=[1]))
+        self.assertEqual(response.status_code, 302)

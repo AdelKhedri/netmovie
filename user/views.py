@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from .forms import LoginForm, SignupForm, UpdateProfileForm, PhoneNumberForm, TicketForm
+from .forms import LoginForm, SignupForm, UpdateProfileForm, PhoneNumberForm, TicketForm, MessageSupportForm
 from django.db.models import F
 import datetime
 from django.utils import timezone
@@ -15,7 +15,7 @@ from .mixins import RedirectAuthenticatedUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
-from .models import User, Pakage, Subscription, Ticket
+from .models import MessageSupport, User, Pakage, Subscription, Ticket
 
 
 class LoginView(RedirectAuthenticatedUser, View):
@@ -191,18 +191,19 @@ class HistorySubscriptionView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class TicketSupportView(View):
+class TicketSupportView(LoginRequiredMixin, View):
     template_name = 'user/tickets.html'
 
     def setup(self, request, *args, **kwargs):
-        self.context = {
-            'page_name': 'ticket',
-            'title_page': 'تیکت پشتیبانی | نت موی',
-            'special_time': get_left_special_time(request.user),
-            'current_time': timezone.now(),
-            'tickets': Ticket.objects.filter(user = request.user),
-            'form': TicketForm(user=request.user),
-        }
+        if request.user.is_authenticated:
+            self.context = {
+                'page_name': 'ticket',
+                'title_page': 'تیکت پشتیبانی | نت موی',
+                'special_time': get_left_special_time(request.user),
+                'current_time': timezone.now(),
+                'tickets': Ticket.objects.filter(user = request.user),
+                'form': TicketForm(user=request.user),
+            }
         super().setup(request, *args, **kwargs)
     
     def get(self, request, *args, **kwargs):
@@ -213,6 +214,35 @@ class TicketSupportView(View):
         if form.is_valid():
             form.save()
             self.context['msg'] = 'success'
+        else:
+            self.context['form'] = form
+        return render(request, self.template_name, self.context)
+
+
+class TicketDetailsView(LoginRequiredMixin, View):
+    template_name = 'user/ticket-details.html'
+
+    def setup(self, request, ticket_id, *args, **kwargs):
+        if request.user.is_authenticated:
+            self.ticket = get_object_or_404(Ticket, id = ticket_id)
+            self.context = {
+                # 'page_name': '',
+                'title_page': f'ticket: {self.ticket.title} | نت موی',
+                'special_time': get_left_special_time(request.user),
+                'current_time': timezone.now(),
+                'messages': MessageSupport.objects.filter(ticket = self.ticket),
+                'form': MessageSupportForm(),
+                'ticket': self.ticket
+            }
+        return super().setup(request, ticket_id, *args, **kwargs)
+
+    def get(self, request, ticket_id, *args, **kwargs):
+        return render(request, self.template_name, self.context)
+
+    def post(self, request, ticket_id, *args, **kwargs):
+        form = MessageSupportForm(request.POST, ticket = self.ticket, user = request.user)
+        if form.is_valid():
+            form.save()
         else:
             self.context['form'] = form
         return render(request, self.template_name, self.context)

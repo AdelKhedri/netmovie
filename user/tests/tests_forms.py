@@ -1,6 +1,7 @@
 from django.test import TestCase
-from user.forms import LoginForm, SignupForm, PhoneNumberForm, UpdateProfileForm, TicketForm
-from user.models import User, PhoneNumber
+from user.forms import LoginForm, SignupForm, PhoneNumberForm, UpdateProfileForm, TicketForm, MessageSupportForm
+from user.models import MessageSupport, Ticket, User, PhoneNumber
+from django.urls import reverse
 
 
 class TestLoginForm(TestCase):
@@ -159,3 +160,39 @@ class TestTicketForm(TestCase):
         form = TicketForm(data = data)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors['departeman'][0], 'لطفا گذینه درست رو انتخاب کنید.')
+
+
+class TestMessageSupportForm(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username = 'user')
+        cls.user.set_password('password')
+        cls.user.save()
+        cls.ticket = Ticket.objects.create(title = 'test', departeman = 'finance and sales', user = cls.user)
+
+    def test_valid_form(self):
+        form = MessageSupportForm(data = {'message': 'test'})
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_form_required_message(self):
+        form = MessageSupportForm(data = {}, user = self.user, ticket = self.ticket)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['message'][0], 'این فیلد اجباری است.')
+
+    def test_save_message(self):
+        ticket_data = {
+            'title': 'test',
+            'departeman': 'finance and sales',
+            'message': 'test' 
+        }
+        message_data = {
+            'message': 'test2'
+        }
+        form1 = TicketForm(data = ticket_data, user = self.user)
+        ticket = form1.save()
+        form2 = MessageSupportForm(data = message_data, user = self.user, ticket = ticket)
+        form2.save()
+        self.client.post(reverse('login'), data = {'username': 'user', 'password': 'password'})
+        response = self.client.get(reverse('dashboard:ticket-details', args=[ticket.id]))
+        self.assertEqual(response.context['messages'].last().message, 'test2')
