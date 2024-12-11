@@ -163,3 +163,33 @@ class TicketForm(forms.ModelForm):
             obj.save()
         MessageSupport.objects.create(message = self.cleaned_data['message'], sender = self.user, ticket = obj)
         return obj
+
+
+class MessageSupportForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.ticket = kwargs.pop('ticket', None)
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit = True):
+        obj = super().save(commit = False)
+        obj.ticket = self.ticket
+        obj.sender = self.user
+        if commit:
+            obj.save()
+        return obj
+
+    class Meta:
+        model = MessageSupport
+        fields = ['message',]
+
+        widgets = {
+            'message': forms.Textarea(attrs=input_full_dark_attrs)
+        }
+
+        error_messages = {
+            'message': {
+                'required': 'این فیلد اجباری است.'
+            }
+        }

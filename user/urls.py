@@ -1,7 +1,8 @@
 from django.urls import path
 
 # import Views
-from .views import ProfileView, ChangePasswordView, BuySubscriptionView, HistorySubscriptionView, TicketSupportView
+from .views import (ProfileView, ChangePasswordView, BuySubscriptionView, HistorySubscriptionView, TicketSupportView,
+                    TicketDetailsView)
 
 
 app_name = 'dashboard'
@@ -11,4 +12,5 @@ urlpatterns = [
     path('buy-subscription/', BuySubscriptionView.as_view(), name='buy-subscription'),
     path('history-subscription/', HistorySubscriptionView.as_view(), name='history-subscription'),
     path('ticket/', TicketSupportView.as_view(), name='ticket'),
+    path('ticket/<int:ticket_id>/', TicketDetailsView.as_view(), name='ticket-details')
 ]

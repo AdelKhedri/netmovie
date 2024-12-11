@@ -2,7 +2,7 @@
 {% block content %}
             <duv class="lg:w-4/5 w-full  bg-black rounded-tr-[50px]">
                 <div class="flex justify-between px-4 my-3">
-                    <p>پشتیابنی<span class="mr-1"> (پشتیبانان زرفیلم 24 ساعته پاسخگوی مسائل شما هستند)</span></p>
+                    <p>پشتیابنی<span class="mr-1"> (پشتیبانان نت موی 24 ساعته پاسخگوی مسائل شما هستند)</span></p>
                     <div class="flex">
                         <i class="fa-light fa-calendar-days ml-1"></i>
                         <p class="text-sm">دوشنبه <span>21</span> <span>آذر</span> <span>1403</span></p>
@@ -59,7 +59,7 @@
                     <div class="mt-3 bg-zinc-900 px-10 py-9 rounded-2xl">
                         <p>تیکت های اخیر</p>
                         {% for ticket in tickets %}
-                        <a href="./ticket-details.html" class="p-5 mt-1 rounded-xl bg-zinc-950 flex justify-between">
+                        <a href="{% url 'dashboard:ticket-details' ticket.id %}" class="p-5 mt-1 rounded-xl bg-zinc-950 flex justify-between">
                             <div>
                                 <p>{{ ticket.title }}</p>
                                 <div class="flex items-center">

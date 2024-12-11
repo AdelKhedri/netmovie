@@ -55,6 +55,8 @@ class Pakage(models.Model):
     dates = models.IntegerField(verbose_name="مدت بسته")
 
     class Meta:
+        verbose_name = 'بسته'
+        verbose_name_plural = 'بسته ها'
         ordering = ['price']
 
 
@@ -72,6 +74,11 @@ class Subscription(models.Model):
     days = models.IntegerField(verbose_name="مدت اشتراک")
     actived_at = models.DateTimeField(auto_now_add=True, verbose_name="زمان خرید")
 
+    class Meta:
+        verbose_name = 'اشتراک'
+        verbose_name_plural = 'اشتراک ها'
+
+
     def __str__(self):
         return f"{self.user}: {self.price}"
 
@@ -83,6 +90,11 @@ class Ticket(models.Model):
     departeman = models.CharField(choices=departeman_types, max_length=17, default='finance and sales', verbose_name='دپارتمان')
     update_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'تیکت'
+        verbose_name_plural = 'تیکت ها'
+        ordering = ['-update_at']
+
     def __str__(self):
         return f'{self.user}: {self.title[:50]} ...'
 
@@ -91,6 +103,11 @@ class MessageSupport(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name='تیکت')
     message = models.TextField(verbose_name = 'پیام')
     sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='فرستنده')
+
+    class Meta:
+        verbose_name = 'پیام پشتیبانی'
+        verbose_name_plural = 'پیام های پشتیبانی'
+
 
     def __str__(self):
         return self.sender.__str__()
