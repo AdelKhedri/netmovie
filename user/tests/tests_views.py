@@ -478,3 +478,91 @@ class TestTicketDetailsView(TestCase):
         self.client.get(reverse('logout'))
         response = self.client.get(reverse('dashboard:ticket-details', args=[1]))
         self.assertEqual(response.status_code, 302)
+
+
+class TestRequestView(TestCase):
+
+    def setUp(self):
+        user = User.objects.create(username = 'user')
+        user.set_password('password')
+        user.save()
+        self.view_url = 'dashboard:request'
+        self.client.post(reverse('login'), data = {'username': 'user', 'password': 'password'})
+
+    def test_url(self):
+        response = self.client.get(reverse(self.view_url))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_used(self):
+        response = self.client.get(reverse(self.view_url))
+        self.assertTemplateUsed(response, 'user/request.html')
+
+    def test_create_request_success(self):
+        request_data = {
+            'name': 'new movie',
+            'request_type': 'movie',
+            'year': 2022
+        }
+        response = self.client.post(reverse(self.view_url), data = request_data)
+        self.assertEqual(response.context['requests'].count(), 1)
+
+    def test_create_request_failed_required_name(self):
+        request_data = {
+            'request_type': 'movie',
+            'year': 2022
+        }
+        response = self.client.post(reverse(self.view_url), data = request_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'این فیلد اجباری است.')
+
+    def test_create_request_filed_required_request_type(self):
+        request_data = {
+            'name': 'new movie',
+            'year': 2022
+        }
+        response = self.client.post(reverse(self.view_url), data = request_data)
+        self.assertContains(response, 'این فیلد اجباری است.')
+
+    def test_create_request_filed_invalid_request_type(self):
+        request_data = {
+            'name': 'new movie',
+            'request_type': 'test',
+            'year': 2022
+        }
+        response = self.client.post(reverse(self.view_url), data = request_data)
+        self.assertContains(response, 'لطفا گذینه درست رو انتخاب کنید.')
+
+    def test_create_request_filed_required_year(self):
+        request_data = {
+            'name': 'new movie',
+            'request_type': 'movie',
+        }
+        response = self.client.post(reverse(self.view_url), data = request_data)
+        self.assertContains(response, 'این فیلد اجباری است.')
+
+    def test_create_request_filed_max_year(self):
+        request_data = {
+            'name': 'new movie',
+            'request_type': 'movie',
+            'year': timezone.now().year + 1
+        }
+        response = self.client.post(reverse(self.view_url), data = request_data)
+        self.assertContains(response, 'سال انتشار نباید از امسال بیشتر باشد.')
+
+    def test_create_request_filed_min_year(self):
+        request_data = {
+            'name': 'new movie',
+            'request_type': 'movie',
+            'year': 1815
+        }
+        response = self.client.post(reverse(self.view_url), data = request_data)
+        self.assertContains(response, 'سال انتشار نمیتواند قبل از اختراع دوربین باشد.')
+
+    def test_create_request_filed_invalid_char_year(self):
+        request_data = {
+            'name': 'new movie',
+            'request_type': 'movie',
+            'year': 'sfs'
+        }
+        response = self.client.post(reverse(self.view_url), data = request_data)
+        self.assertContains(response, 'سال انتشار باید عددی باشد.')

@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ title_page }}</title>
         <link rel="stylesheet" href="{% static 'css/main_site.css' %}">
+        {% block styles %} {% endblock %}
         <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
     
         <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-duotone-solid.css">
@@ -78,11 +79,11 @@
                                 </div>
                             </li>
                         </a>
-                        <a href="">
+                        <a href="{% url 'dashboard:request' %}">
                             <li class="my-1 py-3 pt-2 hover:bg-gray-400/20 rounded-md hover:text-amber-400">
                                 <div class="flex items-center">
                                     <i class="fa-regular fa-square-plus fa-lg ml-2"></i>
-                                    در خواست فیلم/سریال
+                                    درخواست فیلم/سریال
                                 </div>
                             </li>
                         </a>
@@ -142,7 +143,7 @@
                         <i class="fa-light fa-lock text-2xl ml-2"></i>
                         <p>تغییر پسورد</p>
                     </a>
-                    <a href="" class="px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                    <a href="{% url 'dashboard:request' %}" class="px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
                         <i class="fa-light fa-bullhorn text-2xl ml-2"></i>
                         <p>درخواست فیلم و سریال</p>
                     </a>

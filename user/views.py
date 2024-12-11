@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from .forms import LoginForm, SignupForm, UpdateProfileForm, PhoneNumberForm, TicketForm, MessageSupportForm
+from .forms import LoginForm, SignupForm, UpdateProfileForm, PhoneNumberForm, TicketForm, MessageSupportForm, RequestForm
 from django.db.models import F
 import datetime
+import pytz
 from django.utils import timezone
 from .utils import get_left_special_time
 from django.core.paginator import Paginator
@@ -15,7 +16,7 @@ from .mixins import RedirectAuthenticatedUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
-from .models import MessageSupport, User, Pakage, Subscription, Ticket
+from .models import MessageSupport, Request, User, Pakage, Subscription, Ticket
 
 
 class LoginView(RedirectAuthenticatedUser, View):
@@ -162,7 +163,7 @@ class BuySubscriptionView(LoginRequiredMixin, View):
             if user.special_time:
                 user.special_time = F('special_time') + time
             else:
-                user.special_time = datetime.datetime.now() + time
+                user.special_time = datetime.datetime.now(tz=pytz.timezone('Asia/Tehran')) + time
             user.save()
 
             request.user.refresh_from_db()
@@ -245,6 +246,36 @@ class TicketDetailsView(LoginRequiredMixin, View):
             form.save()
         else:
             self.context['form'] = form
+        return render(request, self.template_name, self.context)
+
+
+class RequestView(LoginRequiredMixin, View):
+    template_name = 'user/request.html'
+    
+    def setup(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            self.context = {
+                'page_name': 'request',
+                'page_title': 'درخواست ها | نت موی',
+                'special_time': get_left_special_time(request.user),
+                'current_time': timezone.now(),
+                'requests': Request.objects.filter(user = request.user),
+                'form': RequestForm(user = request.user)
+            }
+        super().setup(request, *args, **kwargs)
+    
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.context)
+
+    def post(self, request, *args, **kwargs):
+        form = RequestForm(request.POST, user = request.user)
+        if form.is_valid():
+            form.save()
+        else:
+            self.context.update({
+                'form': form,
+                'msg': 'failed',
+            })
         return render(request, self.template_name, self.context)
 
 
