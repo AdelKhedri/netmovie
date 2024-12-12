@@ -7,3 +7,11 @@ def get_left_special_time(user):
         return current_time.days
     else:
         return 0
+
+def get_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.splite(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

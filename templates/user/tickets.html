@@ -5,7 +5,7 @@
                     <p>پشتیابنی<span class="mr-1"> (پشتیبانان نت موی 24 ساعته پاسخگوی مسائل شما هستند)</span></p>
                     <div class="flex">
                         <i class="fa-light fa-calendar-days ml-1"></i>
-                        <p class="text-sm">دوشنبه <span>21</span> <span>آذر</span> <span>1403</span></p>
+                        <p class="text-sm">{{ current_time|date:'l H:i:s Y/m/s' }}</p>
                     </div>
                 </div>
 
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                             <div class="flex flex-col items-end">
-                                <p class="border border-green-600 text-green-600 w-fit rounded-lg px-2 pt-0 pb-1 mb-3">پاسخ داده شده</p>
+                                <p class="border w-fit rounded-lg px-2 pt-0 pb-1 mb-3 {% if ticket.status == 'pending' %} border-amber-600 text-amber-600 {% elif ticket.status == 'answered' %} border-green-600 text-green-600 {% elif ticket.status == 'closed' %} border-red-600 text-red-600 {% endif %}">{{ ticket.get_status_display }}</p>
                                 <!-- <p class="border border-amber-600 text-amber-600 rounded-lg px-2 pt-0 pb-1">در انتظار پاسخ</p> -->
                                  <p>
                                     <i class="fa-ligtht far far fa-clock ml-1"></i>

@@ -63,7 +63,7 @@
                             </div>
                         </li>
                         <hr class="mt-3">
-                        <a href="">
+                        <a href="{% url 'dashboard:dashboard' %}">
                             <li class="my-1 py-3 pt-2 hover:bg-gray-400/20 rounded-md hover:text-amber-400">
                                 <div class="flex items-center">
                                     <i class="fa-duotone fa-solid fa-grid-2 fa-lg ml-2"></i>
@@ -123,7 +123,7 @@
                 </div>
 
                 <ul class="px-4">
-                    <a href="" class="px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                    <a href="{% url 'dashboard:dashboard' %}" class="{% if page_name == 'dashboard' %}bg-zinc-800{% endif %} px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
                         <i class="fa-light fa-grid-2 text-2xl ml-2"></i>
                         <p>داشبورد</p>
                     </a>
@@ -143,11 +143,11 @@
                         <i class="fa-light fa-lock text-2xl ml-2"></i>
                         <p>تغییر پسورد</p>
                     </a>
-                    <a href="{% url 'dashboard:request' %}" class="px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                    <a href="{% url 'dashboard:request' %}" class="{% if page_name == 'request' %}bg-zinc-800{% endif %} px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
                         <i class="fa-light fa-bullhorn text-2xl ml-2"></i>
                         <p>درخواست فیلم و سریال</p>
                     </a>
-                    <a href="{% url 'dashboard:ticket' %}" class="px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                    <a href="{% url 'dashboard:ticket' %}" class="{% if page_name == 'ticket' %}bg-zinc-800{% endif %} px-2 p-5 my-1 rounded-xl flex items-center hover:bg-zinc-800 transition-all duration-[400ms]">
                         <i class="fa-light fa-comment text-2xl ml-2"></i>
                         <p>تیکت و پشتیابنی</p>
                     </a>
