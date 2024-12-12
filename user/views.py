@@ -6,7 +6,7 @@ from django.db.models import F
 import datetime
 import pytz
 from django.utils import timezone
-from .utils import get_left_special_time
+from .utils import get_ip, get_left_special_time
 from django.core.paginator import Paginator
 
 
@@ -256,7 +256,7 @@ class RequestView(LoginRequiredMixin, View):
         if request.user.is_authenticated:
             self.context = {
                 'page_name': 'request',
-                'page_title': 'درخواست ها | نت موی',
+                'title_page': 'درخواست ها | نت موی',
                 'special_time': get_left_special_time(request.user),
                 'current_time': timezone.now(),
                 'requests': Request.objects.filter(user = request.user),
@@ -278,6 +278,34 @@ class RequestView(LoginRequiredMixin, View):
             })
         return render(request, self.template_name, self.context)
 
+
+class DashboardView(LoginRequiredMixin, View):
+    template_name = 'user/panel.html'
+
+
+    def get(self, request, *args, **kwargs):
+        try:
+            special_time = (request.user.special_time - timezone.now()).total_seconds()
+            last_pakage = Subscription.objects.filter(user = request.user).last()
+            total_sconds_of_last_subscription = datetime.timedelta(days=last_pakage.days).total_seconds()
+            percentage = (special_time // (total_sconds_of_last_subscription // 100) )
+        except:
+            percentage = 0
+        
+        left_special_time = (request.user.special_time - timezone.now()).total_seconds() if request.user.special_time else 0
+
+        context = {
+            'page_name': 'dashboard',
+            'title_page': 'پنل | نت موی',
+            'special_time': get_left_special_time(request.user),
+            'left_special_time': left_special_time,
+            'special_time_percentage': percentage, 
+            'current_time': timezone.now(),
+            'ip': get_ip(request),
+            'tickets': Ticket.objects.filter(user = request.user)[:4],
+            'request_count': Request.objects.filter(user = request.user).count(),
+        }
+        return render(request, self.template_name, context)
 
 def logoutView(request):
     if request.user.is_authenticated:

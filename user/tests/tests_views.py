@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from user.models import PhoneNumber, User, Pakage, Subscription
+from user.models import PhoneNumber, Request, Ticket, User, Pakage, Subscription
 
 from django.utils import timezone
 from django.conf import settings
@@ -114,6 +114,47 @@ class TestLogoutView(TestCase):
         response2 = self.client.get(reverse('logout'))
         self.assertTrue(response.wsgi_request.user.is_anonymous)
         self.assertRedirects(response2, reverse('login'))
+
+
+class TestPanel(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username = 'user')
+        cls.user.set_password('password')
+        cls.user.save()
+        cls.ticket1 = Ticket.objects.create(title = 'test', user = cls.user, departeman = 'technical', status = 'closed')
+        cls.ticket2 = Ticket.objects.create(title = 'test', user = cls.user, departeman = 'technical', status = 'answered')
+        cls.ticket3 = Ticket.objects.create(title = 'test', user = cls.user, departeman = 'technical', status = 'pending')
+        cls.ticket4 = Ticket.objects.create(title = 'test1', user = cls.user, departeman = 'technical', status = 'answered')
+        cls.ticket5 = Ticket.objects.create(title = 'test2', user = cls.user, departeman = 'technical', status = 'pending')
+        cls.request1 = Request.objects.create(name = 'test1', user = cls.user, year = 2020, status = 'pending')
+        cls.request1 = Request.objects.create(name = 'test2', user = cls.user, year = 2020, status = 'accept')
+
+    def setUp(self):
+        self.client.post(reverse('login'), data = {'username': 'user', 'password': 'password'})
+
+    def test_url(self):
+        response = self.client.get(reverse('dashboard:dashboard'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_used(self):
+        response = self.client.get(reverse('dashboard:dashboard'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_exist_page_name(self):
+        response = self.client.get(reverse('dashboard:dashboard'))
+        self.assertContains(response, 'پنل | نت موی')
+
+    def test_tickets_list(self):
+        response = self.client.get(reverse('dashboard:dashboard'))
+        tickets_queryset = Ticket.objects.filter(user = self.user)[:4]
+        self.assertQuerySetEqual(response.context['tickets'], tickets_queryset, ordered=False)
+
+    def test_request_count(self):
+        response = self.client.get(reverse('dashboard:dashboard'))
+        request_queryset = Request.objects.filter(user = self.user)
+        self.assertEqual(response.context['request_count'], request_queryset.count())
 
 
 class TestProfileUpdateView(TestCase):

@@ -6,6 +6,11 @@ from django.core.exceptions import ValidationError
 class PhoneNumber(models.Model):
     number = models.CharField(max_length=11, verbose_name="شماره تلفن")
 
+    class Meta:
+        verbose_name = 'شماره تلفن'
+        verbose_name_plural = 'شماره تلفن ها'
+
+
     def __str__(self):
         return str(self.number)
 
@@ -38,7 +43,6 @@ class User(AbstractUser):
     class Meta:
         verbose_name = "کاربر"
         verbose_name_plural = "کاربرها"
-
 
 
     def __str__(self):
@@ -89,6 +93,8 @@ class Ticket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='سازنده')
     departeman = models.CharField(choices=departeman_types, max_length=17, default='finance and sales', verbose_name='دپارتمان')
     update_at = models.DateTimeField(auto_now_add=True)
+    status_types = (('pending', 'در انتظار پاسخ'), ('answered', 'پاسخ داده'), ('closed', 'بسته شده'))
+    status = models.CharField(max_length=8, choices=status_types, default='pending', verbose_name='وضعیت')
 
     class Meta:
         verbose_name = 'تیکت'

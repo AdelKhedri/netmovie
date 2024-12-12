@@ -1,0 +1,270 @@
+{% extends 'user/base_panel.html' %}
+{% load math_filters static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'admin/css/style.css' %}">
+{% endblock %}
+{% block content %}
+            <duv class="lg:w-4/5 w-full  bg-black rounded-tr-[50px]">
+                <div class="flex justify-between px-4 my-3">
+                    <p>خوش آمدید<span class="mx-1 text-green-500">{{ request.user }}</span>عزیز</p>
+                    <div class="flex">
+                        <i class="fa-light fa-calendar-days ml-1"></i>
+                        <p class="text-sm">{{ current_time|date:'l H:i:s Y/m/s' }}</p>
+                    </div>
+                </div>
+
+                <div class="mt-2 p-5">
+                    <div class="grid grid-cols-2 gap-3">
+
+                        <!-- Subscription Info -->
+                        <div class="col-span-2 lg:col-span-1 rounded-2xl">
+                            <div class="flex flex-col rounded-2xl bg-zinc-900/80 border p-4 border-red-500">
+                                <div class="grid grid-cols-2 gap-2">
+                                    
+                                    <div class="relative xl:size-52 lg:size-40 size-52 col-span-2 mx-auto mb-4 md:col-span-1 md:">
+                                        <svg class="size-full -rotate-90" viewBox="0 1 36 36" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Background Circle -->
+                                        <circle cx="18" cy="18" r="13" fill="none" class="stroke-current text-amber-600 dark:text-blue-500" stroke-width="7"></circle>
+                                        <!-- Progress Circle -->
+                                        <circle cx="18" cy="18" r="13" fill="none" class="stroke-current text-zinc-800 dark:text-neutral-700" stroke-width="7" stroke-dasharray="81.68" stroke-dashoffset="{{ 0.8168|multiply:special_time_percentage }}" stroke-linecap="butt"></circle>
+                                        </svg>
+                                    
+                                        <!-- Percentage Text -->
+                                        <div class="absolute top-1/2 end-1/2 -translate-x-1/2 transform -translate-y-1/2">
+                                        <span class="text-center text-2xl font-bold text-blue-600 dark:text-blue-500">{{ special_time_percentage }}%</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="self-center col-span-2 md:col-span-1 mx-auto mb-4 md:ml-2">
+                                        <p class="text-2xl font-bold">اشتراک شما <span {% if request.user.special_time  > current_time %} class="text-green-500">فعال {% else %} class="text-red-500"> غیرفعال {% endif %}</span> است</p>
+                                        <p class="text-green-600">تاریخ انقضا: {{ request.user.special_time|date:'Y/m/d ساعت H:i:s' }}</p>
+                                        <p class="text-red-600">زمان باقی مانده:</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex justify-center mb-4">
+                                        <div class="flex items-center flex-col">
+                                            <span id="target_seconds" class="text-3xl font-bold"></span>
+                                            <p class="bg-zinc-800 rounded-full text-sm py-[1px] px-1">ثانیه</p>
+                                        </div>
+                                        <span class="mx-1">:</span>
+                                        
+                                        <div class="flex items-center flex-col">
+                                            <span id="target_minutes" class="text-3xl font-bold"></span>
+                                            <p class="bg-zinc-800 rounded-full text-sm py-[1px] px-1">دقیقه</p>
+                                        </div>
+
+                                        <span class="mx-1">:</span>
+
+                                        <div class="flex items-center flex-col">
+                                            <span id="target_hours" class="text-3xl font-bold"></span>
+                                            <p class="bg-zinc-800 rounded-full text-sm py-[1px] px-1">ساعت</p>
+                                        </div>
+
+                                        <span class="mx-1">:</span>
+
+                                        <div class="flex items-center flex-col">
+                                            <span id="target_days" class="text-3xl font-bold"></span>
+                                            <p class="bg-zinc-800 rounded-full text-sm py-[1px] px-1">روز</p>
+                                        </div>
+
+                                        <span class="mx-1">:</span>
+
+                                        <div class="flex items-center flex-col">
+                                            <span id="target_months" class="text-3xl font-bold"></span>
+                                            <p class="bg-zinc-800 rounded-full text-sm py-[1px] px-1">ماه</p>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <!-- Sotials Link -->
+                            <div class="flex mt-3">
+                                <a href="" class="w-full flex items-center transition-all duration-[400ms] p-4 border-green-600 hover:border-amber-500 hover:text-amber-500 rounded-2xl ml-2 bg-zinc-900/80 border">
+                                    <i class="fa-brands fa-instagram ml-1"></i>
+                                    <p>پیج اینستاگرام</p>
+                                </a>
+                                <a href="#" class="w-full flex items-center transition-all duration-[400ms] p-4 border-green-600 hover:border-amber-500 hover:text-amber-500 rounded-2xl bg-zinc-900/80 border">
+                                    <i class="fa-brands fa-telegram ml-1"></i>
+                                    <p>پیج اینستاگرام</p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Last Tickets -->
+                        <div class="hidden lg:flex lg:flex-col bg-zinc-900/80 rounded-2xl">
+                            <div class="flex justify-between p-3 rounded-t-2xl bg-zinc-800">
+                                <p>تیکت های اخیر</p>
+                                <a href="{% url 'dashboard:ticket' %}">مشاهده همه</a>
+                            </div>
+                            <div class="p-2">
+                                {% for ticket in tickets %}
+                                <a href="{% url 'dashboard:ticket-details' ticket.id %}" class="p-3 rounded-xl my-3 bg-zinc-950 flex justify-between">
+                                    <div>
+                                        <p>{{ ticket.title }}</p>
+                                        <div class="flex items-center mt-2">
+                                            <i class="fa-ligth fa-folder"></i>
+                                            <p>{{ ticket.get_departeman_display }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-end">
+                                        <p class="border w-fit rounded-lg px-2 pt-0 pb-1 mb-3 {% if ticket.status == 'pending' %} border-amber-600 text-amber-600 {% elif ticket.status == 'answered' %} border-green-600 text-green-600 {% elif ticket.status == 'closed' %} border-red-600 text-red-600 {% endif %}">{{ ticket.get_status_display }}</p>
+                                        <div class="flex items-center">
+                                            <i class="fa-light fa-clock"></i>
+                                            <p class="mx-2">آخرین بروزرسانی:</p>
+                                            <p>{{ ticket.update_at|date:'Y/m/d' }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                {% empty %}
+                                    <p>بدون تیکت</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:hidden grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
+                        <a href="{% url 'dashboard:dashboard' %}" class="{% if page_name == 'dashboard' %}bg-zinc-800 {% else %} bg-zinc-900/80 {% endif %} px-2 py-3 pb-5 rounded-xl flex flex-col items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                            <i class="fa-light text-amber-600 fa-grid-2 text-2xl ml-2"></i>
+                            <p>داشبورد</p>
+                        </a>
+                        <a href="{% url 'dashboard:buy-subscription' %}" class="px-2 py-3 pb-5 bg-zinc-900/80 rounded-xl flex flex-col items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                            <i class="fa-light text-amber-600 fa-crown text-2xl ml-2"></i>
+                            <p>خرید اشتراک</p>
+                        </a>
+                        <a href="{% url 'dashboard:profile' %}" class="px-2 py-3 pb-5 bg-zinc-900/80 rounded-xl flex flex-col items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                            <i class="fa-light text-amber-600 fa-user text-2xl ml-2"></i>
+                            <p>پروفایل</p>
+                        </a>
+                        <a href="{% url 'dashboard:history-subscription' %}" class="px-2 py-3 pb-5 bg-zinc-900/80 rounded-xl flex flex-col items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                            <i class="fa-regular text-amber-600 fa-file-lines text-2xl ml-2"></i>
+                            <p>سابقه خرید</p>
+                        </a>
+                        <a href="{% url 'dashboard:change-password' %}" class="px-2 py-3 pb-5 bg-zinc-900/80 rounded-xl flex flex-col items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                            <i class="fa-light text-amber-600 fa-lock text-2xl ml-2"></i>
+                            <p>تغییر پسورد</p>
+                        </a>
+                        <a href="{% url 'dashboard:request' %}" class="px-2 py-3 pb-5 bg-zinc-900/80 rounded-xl flex flex-col items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                            <i class="fa-light text-amber-600 fa-bullhorn text-2xl ml-2"></i>
+                            <p>درخواست فیلم و سریال</p>
+                        </a>
+                        <a href="{% url 'dashboard:ticket' %}" class="px-2 py-3 pb-5 bg-zinc-900/80 rounded-xl flex flex-col items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                            <i class="fa-light text-amber-600 fa-comment text-2xl ml-2"></i>
+                            <p>تیکت و پشتیابنی</p>
+                        </a>
+                        <a href="{% url 'logout' %}" class="px-2 py-3 pb-5 bg-zinc-900/80 rounded-xl flex flex-col items-center hover:bg-zinc-800 transition-all duration-[400ms]">
+                            <i class="fa-light text-amber-600 fa-rigth-from-bracket text-2xl ml-2"></i>
+                            <p>خروج</p>
+                        </a>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-3">
+                        <div class="bg-zinc-900/80 p-3 flex justify-between rounded-xl">
+                            <p>تاریخ عضویت:</p>
+                            <div class="flex">
+                                <i class="fa-ligth fa-"></i>
+                                <p>{{ request.user.date_joined|date:'H:i:s Y/m/d' }}</p>
+                            </div>
+                        </div>
+                        <div class="bg-zinc-900/80 p-3 flex justify-between rounded-xl">
+                            <p>آخرین فعالیت شما:</p>
+                            <div class="flex">
+                                <i class="fa-ligth fa-"></i>
+                                <p>--/--/----</p>
+                            </div>
+                        </div>
+                        <div class="bg-zinc-900/80 p-3 flex justify-between rounded-xl">
+                            <p>آی پی شما:</p>
+                            <div class="flex">
+                                <i class="fa-ligth fa-"></i>
+                                <p>{{ ip }}</p>
+                            </div>
+                        </div>
+                        <div class="bg-zinc-900/80 p-3 flex justify-between rounded-xl">
+                            <p>اشتراک ویژه:</p>
+                            <div class="flex">
+                                <i class="fa-ligth fa-"></i>
+                                {% if request.user.special_time %}
+                                <p class="bg-green-500/30 text-green-500 rounded-lg p-1">فعال است</p>
+                                {% else %}
+                                <p class="bg-red-500/30 text-red-500 rounded-lg p-1">غیر فعال</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 my-5">
+                        <div class="bg-zinc-900/80 rounded-2xl p-5">
+                            <div class="flex">
+                                <i class="fa-light fa-camera-movie bg-lime-800 p-5 rounded-lg text-3xl ml-2"></i>
+                                <div>
+                                    <p class="text-3xl font-bold">{{ request_count|default:0 }}</p>
+                                    <p class="text-xl">درخواست های فیلم / سریال</p>
+                                </div>
+                            </div>
+                            <a href="{% url 'dashboard:request' %}" class="flex mt-5">
+                                <p class="p-3 w-full rounded-xl ml-2 self-center bg-zinc-950">مشاهده همه</p>
+                                <i class="fa-light fa-square-plus self-center p-3.5 rounded-lg bg-zinc-950"></i>
+                            </a>
+                        </div>
+                        <div class="bg-zinc-900/80 rounded-2xl p-5">
+                            <div class="flex">
+                                <i class="fa-light fa-camera-movie bg-lime-800 p-5 rounded-lg text-3xl ml-2"></i>
+                                <div>
+                                    <p class="text-3xl font-bold">0</p>
+                                    <p class="text-xl">لیست تماشا</p>
+                                </div>
+                            </div>
+                            <a href="#" class="flex mt-5">
+                                <p class="p-3 w-full rounded-xl ml-2 self-center bg-zinc-950">مشاهده همه</p>
+                                <i class="fa-light fa-square-plus self-center p-3.5 rounded-lg bg-zinc-950"></i>
+                            </a>
+                        </div>
+                        <div class="bg-zinc-900/80 rounded-2xl p-5">
+                            <div class="flex">
+                                <i class="fa-light fa-camera-movie bg-lime-800 p-5 rounded-lg text-3xl ml-2"></i>
+                                <div>
+                                    <p class="text-3xl font-bold">0</p>
+                                    <p class="text-xl">لیست عمومی</p>
+                                </div>
+                            </div>
+                            <a href="#" class="flex mt-5">
+                                <p class="p-3 w-full rounded-xl ml-2 self-center bg-zinc-950">مشاهده همه</p>
+                                <i class="fa-light min-w-min fa-square-plus self-center p-3.5 rounded-lg bg-zinc-950"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </duv>
+            <script>
+                let special_time = parseInt({{ left_special_time }});
+
+                let target_sconds = document.getElementById('target_seconds');
+                let target_minuets = document.getElementById('target_minutes');
+                let target_hours = document.getElementById('target_hours');
+                let target_days = document.getElementById('target_days');
+                let target_months = document.getElementById('target_months');
+                let end = false
+                function special_timer() {
+                    const seconds = Math.floor(special_time % 60 );
+                    const minutes = Math.floor((special_time % (60 * 60)) / 60);
+                    const hours = Math.floor((special_time % (60 * 60 * 24)) / (60 * 60) );
+                    const days = Math.floor((special_time % (60 * 60 * 24 * 30)) / (60 * 60 * 24) );
+                    const months = Math.floor(special_time / (60 * 60 * 24 * 30 ));
+                    target_sconds.innerHTML = seconds;
+                    target_minuets.innerHTML = minutes;
+                    target_hours.innerHTML = hours;
+                    target_days.innerHTML = days;
+                    target_months.innerHTML = months;
+                    special_time--;
+                }
+                const interval = setInterval(() => {
+                    if (special_time > 0) {
+                        special_timer();
+                    } else {
+                        clearInterval(interval);
+                    }
+                },
+                1000)
+                special_timer();
+            </script>
+{% endblock %}

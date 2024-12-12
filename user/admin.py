@@ -63,9 +63,27 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ['title', 'user', 'departeman']
+    list_display = ['title', 'user', 'get_status', 'departeman']
     search_fields = ['title']
     list_filter = ['departeman']
+
+    @admin.display(description = 'وضعیت')
+    def get_status(self, obj):
+        if obj.status == 'pending':
+            color = 'amber'
+        elif obj.status == 'answered':
+            color = 'green'
+        elif obj.status == 'closed':
+            color = 'red'
+        else:
+            color = ''
+        return format_html(f'<span class="bg-{color}-500/30 text-{color}-500 rounded-lg p-1">{obj.get_status_display()} </span>')
+    
+    
+    class Media:
+        css = {
+            'all': ['admin/css/style.css']
+        }
 
 
 @admin.register(MessageSupport)
@@ -86,12 +104,14 @@ class RequestAdmin(admin.ModelAdmin):
     @admin.display(description='وضعیت')
     def get_status(self, obj):
         if obj.status == 'pending':
-            classes = 'bg-amber-500/30 text-amber-500'
+            color = 'amber'
         elif obj.status == 'accept':
-            classes = 'bg-green-500/30 text-green-500'
+            color = 'green'
         elif obj.status == 'reject':
-            classes = 'bg-red-500/30 text-red-500'
-        response = format_html(f'<span class="{classes} rounded-lg p-1">{obj.get_status_display()} </span>')
+            color = 'red'
+        else:
+            color = ''
+        response = format_html(f'<span class="bg-{color}-500/30 text-{color}-500 rounded-lg p-1">{obj.get_status_display()} </span>')
         return response
     
     class Media:

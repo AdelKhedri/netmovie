@@ -2,7 +2,7 @@ from django.urls import path
 
 # import Views
 from .views import (ProfileView, ChangePasswordView, BuySubscriptionView, HistorySubscriptionView, TicketSupportView,
-                    TicketDetailsView, RequestView)
+                    TicketDetailsView, RequestView, DashboardView)
 
 
 app_name = 'dashboard'
@@ -14,4 +14,5 @@ urlpatterns = [
     path('ticket/', TicketSupportView.as_view(), name='ticket'),
     path('ticket/<int:ticket_id>/', TicketDetailsView.as_view(), name='ticket-details'),
     path('request/', RequestView.as_view(), name='request'),
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
 ]
