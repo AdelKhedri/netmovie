@@ -1,0 +1,158 @@
+{% extends 'movieserial/base_site.html' %}
+{% load static %}
+{% block homead %}
+                <div class="container flex mx-auto items-center mt-32 pb-28 justify-between">
+                    <!-- <div class="flex"> -->
+                        <div class="w-[45%] h-96 overflow-x-scroll overflow-y-hidden flex pt-4">
+
+                            {% for media in all_media %}
+                            <div class="transition duration-300 hover:scale-110 cursor-pointer group ml-8" onclick="window.location.href='../pages/detail.html'">
+                                <!-- image and icons and animations -->
+                                <div class="relative w-max">
+                                    <img src="{{ media.media_object.baner.url }}" alt="" class="rounded-2xl transition duration-[400ms] group-hover:brightness-50 w-48 h-72 border-black border group-hover:border-amber-500 ">
+                                    <div class="absolute flex top-1 right-1">
+                                        {% if media.media_object.is_subtitle %}
+                                        <img class="h-7 bg-black/50 rounded-full p-1" src="{% static 'images/sound-translate.png' %}" alt="" srcset="">
+                                        {% endif %}
+                                        {% if media.media_object.is_sound_translate %}
+                                        <img class="h-7 bg-black/50 rounded-full p-1 mr-1" src="{% static 'images/subtitle.png' %}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    {% if media.media_object.online_play == '' %}
+                                    <img class="absolute top-1 left-1 h-7 p-1 bg-black/50 rounded-full" src="{% static 'images/play.png' %}" alt="">
+                                    {% endif %}
+                                </div>
+                
+                                <!-- links -->
+                                <div class="absolute bottom-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-[400ms] group-hover:opacity-100">
+                                    <div class="flex">
+                                        {% for ganer in media.media_object.ganers.all %}
+                                        <a class="bg-white/20 rounded-md p-1 mr-1" href="">{{ ganer }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <!-- </div> -->
+                        <div class="grid grid-cols-8 w-[55%]">
+                            <a class="" id="media-imdb-link" href="#">
+                                <div class="relative col-span-1">
+                                    <div class="absolute inset-0 border-2 border-amber-500 rounded-full h-24 w-24 blur-c"></div>
+                                    <img class="absolute left-1/2 -translate-x-1/2 top-1/2 translate-y-1/2 z-10" src="{% static 'images/play.png' %}" alt="">
+                                </div>
+                            </a>
+                            <div class="col-span-6"></div>
+                            <a href="#" class="col-span-1 flex flex-col items-end space-y-2">
+                                <p id="media-name" class="text-4xl self-center">From</p>
+                                <img id="media-imdb-link" src="{% static 'images/imdb.png' %}" alt="">
+                                <h6><span id="media-point" class="text-4xl">8</span><span>/10</span></h6>
+                            </a>
+                        </div>
+                </div>
+{% endblock %}
+
+{% block content %}
+    <div class="h-24"></div>
+
+
+    <!-- series -->
+    <div class="container mx-auto">
+        <div class="flex justify-between">
+            <div class="flex">
+                <img class="max-h-20 icons-bg p-3.5 rounded-full"
+                    src="https://cdn-icons-png.freepik.com/512/4557/4557162.png" alt="" srcset="">
+                <div class="self-center ms-3">
+                    <h3 class="font-bold">سریال های درحال پخش</h3>
+                    <p>آخرین سریال های بروز شده در نت موی</p>
+                </div>
+            </div>
+            <div class="self-center flex">
+                <a href="#" class="mt-1 me-2">تمامی سریال ها</a>
+                <i class="fa-solid fas fa-arrow-left self-center icons-bg rounded-full p-2"></i>
+            </div>
+        </div>
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-10 gap-y-3 mt-2 pb-3">
+            {% for serialad in serials %}
+            <a href="#">
+                <div class="relative h-64 w-96">
+                    <img class="rounded-2xl transition duration-[400ms] hover:brightness-50" src="{% if serialad.background_baner %} {{serialad.background_baner.url}} {% else %} '' {% endif %}" alt="">
+                    <div class="absolute flex top-1 right-1">
+                        {% if serialad.is_sound_translate %}
+                        <img class="h-7 bg-black/50 rounded-full p-1" src="{% static 'images/sound-translate.png' %}" alt="" srcset="">
+                        {% endif %}
+                        {% if serialad.is_subtitle %}
+                        <img class="h-7 bg-black/50 rounded-full p-1 mr-1" src="{% static 'images/subtitle.png' %}" alt="">
+                        {% endif %}
+                    </div>
+                    {% if serialad.online_play != '' %}
+                    <img class="absolute top-1 left-1 h-7 p-1 bg-black/50 rounded-full" src="{% static 'images/play.png' %}" alt="">
+                    {% endif %}
+
+                    <div class="absolute flex left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black p-1">
+                        <div class="bg-amber-500 p-1 px-2 rounded-lg">
+                            <span>{{ serialad.last_episod }}</span>
+                        </div>
+                        <span class="mr-1 self-center">{{ serialad.last_section.name }}</span>
+                    </div>
+                    <h6 class="absolute bottom-0 left-1/2 -translate-x-1/2">{{ serialad.name }}</h6>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- movies -->
+    <div class="container mx-auto">
+        <div class="flex justify-between my-2 mb-4">
+            <div class="flex">
+                <img class="max-h-20 icons-bg p-3.5 rounded-full"
+                    src="https://cdn-icons-png.freepik.com/512/4557/4557162.png" alt="" srcset="">
+                <div class="self-center ms-3">
+                    <h3 class="font-bold">جدید ترین فیلم ها</h3>
+                    <p>آخرین فیلم های بروز شده در زرفیلم</p>
+                </div>
+            </div>
+            <div class="self-center flex">
+                <a href="#" class="mt-1 me-2">تمامی فیلم ها</a>
+                <i class="fa-solid fas fa-arrow-left self-center icons-bg rounded-full p-2"></i>
+            </div>
+        </div>
+        
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 gap-x-20 gap-y-20 mt-2 pb-3">
+            {% for movie in movies %}
+            <div class="transition duration-300 hover:scale-110 cursor-pointer group" onclick="window.location.href='../pages/detail.html'">
+                <div class="relative w-max">
+                    <img src="{{ movie.baner.url }}" alt="" class="rounded-2xl transition duration-[400ms] group-hover:brightness-50 w-48 h-72 border-black border group-hover:border-amber-500">
+                    <div class="absolute flex top-1 right-1">
+                        {% if movie.is_sound_translate %}
+                        <img src="{% static 'images/sound-translate.png' %}" alt="" class="bg-black/50 rounded-full p-1 h-7">
+                        {% endif %}
+                        {% if movie.is_subtitle %}
+                        <img src="{% static 'images/subtitle.png' %}" alt="" class="bg-black/50 rounded-full p-1 h-7 mr-1">
+                        {% endif %}
+                    </div>
+                    {% if movie.online_play != '' %}
+                    <img src="{% static 'images/play.png' %}" alt="" class="absolute top-1 left-1 bg-black/50 p-1 rounded-full h-7">
+                    {% endif %}
+                </div>
+
+                <div class="absolute bottom-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-[400ms] group-hover:opacity-100">
+                    <div class="flex">
+                        {% for ganer in movie.ganers.all %}
+                        <a href="#" class="bg-white/20 rounded-md p-1 mr-1">{{ ganer }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <h6 class="text-center">{{ movie.name }}</h6>
+                <h6 class="text-center"><span class="text-amber-400">{{ movie.point }}/10</span><span class="mx-2">|</span>{{ movie.year_create }}</h6>
+            </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+{% endblock %}

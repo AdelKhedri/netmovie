@@ -18,7 +18,7 @@ class TestLoginView(TestCase):
     
     def test_template_used(self):
         response = self.client.get(reverse('login'))
-        self.assertTemplateUsed(response, 'main/auth.html')
+        self.assertTemplateUsed(response, 'movieserial/auth.html')
     
     def test_login_successful(self):
         response = self.client.post(reverse('login'), {
@@ -71,7 +71,7 @@ class TestSignupView(TestCase):
     
     def test_template_used(self):
         response = self.client.get(reverse('signup'))
-        self.assertTemplateUsed(response, 'main/auth.html')
+        self.assertTemplateUsed(response, 'movieserial/auth.html')
 
     def test_signup_successful(self):
         data = {

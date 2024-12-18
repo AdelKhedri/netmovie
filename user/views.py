@@ -20,7 +20,7 @@ from .models import MessageSupport, Request, User, Pakage, Subscription, Ticket
 
 
 class LoginView(RedirectAuthenticatedUser, View):
-    template_name = 'main/auth.html'
+    template_name = 'movieserial/auth.html'
     context = {'page_name': 'ورود',
                'form': LoginForm()}
 
@@ -46,7 +46,7 @@ class LoginView(RedirectAuthenticatedUser, View):
 
 
 class SignupView(RedirectAuthenticatedUser, View):
-    template_name = 'main/auth.html'
+    template_name = 'movieserial/auth.html'
     context = {
         'page_name': 'ثبت نام',
         'form': SignupForm()
