@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title_page|default:'NetMovie' }}</title>
+    <link rel="stylesheet" href="{% static 'css/main_site.css' %}">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-duotone-solid.css">
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-thin.css">
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-solid.css">
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-regular.css">
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-light.css">
+</head>
+<body dir="rtl" class="bg-black text-slate-100">
+    <div >
+        <div class="{% if page_name in '' %} h-[600px] {% else %} h-[100px] {% endif %} hidden lg:flex justify-end relative overflow-hidden">
+            {% if page_name == 'home' %}
+            <img class="absolute w-9/12 h-[600px]" src="{bg}" alt="">
+            {% endif %}
+            <div class="absolute w-full bg-gradient-to-l from-neutral-900 to-neutral-900/0 h-max">
+        
+                <!-- Top Menu -->
+                <div id="nav-bar" class="fixed left-1/2 -translate-x-1/2 z-20 container rounded-b-2xl flex justify-between mx-auto px-5 py-3">
+                    <div class="flex relative">
+                        <img src="{% static 'images/image.png' %}" alt="">
+                        <ul class="hidden items-center lg:flex">
+                            <li class="active mx-1">
+                                <button id="dropdownHoverButton1" data-dropdown-toggle="dropdownHover1" data-dropdown-trigger="hover"  data-dropdown-offset-skidding="100" data-dropdown-placement="right" class="flex items-center" type="button">
+                                    <i class="fa-duotone fa-solid fa-grid-2 ml-1"></i>دسته بندی ها
+                                    <svg class="w-2.5 h-2.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                    </svg>
+                                </button>
+                                
+                                <div id="dropdownHover1" class="hidden flex rounded-3xl shadow w-[900px] p-7 blur-d">
+                                    <ul class="border-l border-gray-200 pl-7">
+                                        <li class="p-6 hover:bg-[#000101] rounded-2xl" id="sites-part">بخش ها</li>
+                                        <li class="p-6 hover:bg-[#000101] rounded-2xl" id="movie-gener">ژانر فیلم ها</li>
+                                        <li class="p-6 hover:bg-[#000101] rounded-2xl" id="serial-gener">ژانر سریال ها</li>
+                                    </ul>
+                                    <div class="grid grid-cols-5" id="sites-part-section">
+                                        <a class="p-5" href="#"><p class="p-1 border-r-4 border-amber-500 hover:text-amber-500">سریال ها({{ serial_counts }})</p></a>
+                                        <a class="p-5" href="#"><p class="p-1 border-r-4 border-amber-500 hover:text-amber-500">فیلم ها({{ movie_counts }})</p></a>
+                                    </div>
+                                    <div class="grid grid-cols-5 hidden" id="movie-gener-section">
+                                        {% for ganer in movie_ganers %}
+                                        <a class="px-2" href="#"><p class="p-1 border-r-4 border-amber-500 hover:text-amber-500">{{ ganer.name }} ({{ ganer.count }})</p></a>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="grid grid-cols-5 hidden" id="serial-gener-section">
+                                        {% for ganer in serial_ganers %}
+                                        <a class="p-5" href="#"><p class="p-1 border-r-4 border-amber-500 hover:text-amber-500">{{ ganer.name }} ({{ ganer.count }})</p></a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="active: mx-2">هنرمندان</li>
+                            <li class="mx-2">پخش آنلاین</li>
+                            <li class="mx-2">خرید اشتراک</li>
+                            <li class="mx-2">اپلیکیشن</li>
+                        </ul>
+                    </div>
+        
+                    <div class="flex items-center">
+                        <img class="h-8 bg-black/50 p-1 rounded-2xl mr-3" src="{% static 'images/search.png' %}" alt="">
+                        <img class="h-8 bg-black/50 p-1 rounded-2xl mr-3" src="{% static 'images/notification.png' %}" alt="">
+                        
+                        {% if request.user.is_authenticated %}
+                        <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="flex items-center" type="button">
+                            {{ request.user }}
+                            <svg class="w-2.5 h-2.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                            </svg>
+                            <img class="h-11 rounded-2xl mr-3" src="{% if request.user.gender == 'male' %} {% static 'images/male.png' %} {% else %} {% static 'images/female.png' %} {% endif %}" alt="">
+                        </button>
+
+                        <!-- User Dropdown -->
+                        <div id="dropdownHover" class="hidden rounded-3xl shadow w-60 p-1 blur-d z-10">
+                            <ul class="py-2 text-sm px-2" aria-labelledby="dropdownHoverButton">
+                                <li>
+                                    <div class="flex">
+                                        <img class="mr-1" src="{% static 'images/сrown.png' %}" alt="" srcset="">
+                                        <p>اشتراک باقی مانده: <div class="flex px-0.5 mr-1 rounded-lg bg-stone-400/25"><span class="bg-green-400 text-green-700 rounded-lg ml-0.5">{{ special_time }} روز</span><a href="#" class="hover:text-amber-500">تمدید</a></div></p>
+                                    </div>
+                                </li>
+                                <hr class="mt-3">
+                                <a href="{% url 'dashboard:dashboard' %}">
+                                    <li class="my-1 py-3 pt-2 hover:bg-gray-400/20 rounded-md hover:text-amber-400">
+                                        <div class="flex items-center">
+                                            <i class="fa-duotone fa-solid fa-grid-2 fa-lg ml-2"></i>
+                                            ورود به داشبورد
+                                        </div>
+                                    </li>
+                                </a>
+                                <a href="{% url 'dashboard:profile' %}">
+                                    <li class="my-1 py-3 pt-2 hover:bg-gray-400/20 rounded-md hover:text-amber-400">
+                                        <div class="flex items-center">
+                                            <i class="fa-solid fa-gear fa-lg ml-2"></i>
+                                            ویرایش اطلاعات
+                                        </div>
+                                    </li>
+                                </a>
+                                <a href="{% url 'dashboard:request' %}">
+                                    <li class="my-1 py-3 pt-2 hover:bg-gray-400/20 rounded-md hover:text-amber-400">
+                                        <div class="flex items-center">
+                                            <i class="fa-regular fa-square-plus fa-lg ml-2"></i>
+                                            درخواست فیلم/سریال
+                                        </div>
+                                    </li>
+                                </a>
+                                <a href="{% url 'dashboard:ticket' %}">
+                                    <li class="my-1 py-3 pt-2 hover:bg-gray-400/20 rounded-md hover:text-amber-400">
+                                        <div class="flex items-center">
+                                            <i class="fa-light fa-messages-question fa-lg ml-2"></i>
+                                            تیکت ها
+                                        </div>
+                                    </li>
+                                </a>
+        
+                                <hr class="mt-2">
+        
+                                <a href="{% url 'logout' %}">
+                                    <li class="mt-1 hover:bg-gray-400/20 rounded-md hover:text-amber-400">
+                                        <div class="pb-2 flex items-center justify-center">
+                                            <i class="fa-solid fa-arrow-right-from-bracket fa-lg ml-2"></i>
+                                            خروج
+                                        </div>
+                                    </li>
+                                </a>
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% block homead %} {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    {% block content %} {% endblock %}
+
+    <!-- Footer -->
+    <div class="flex mt-5 py-5 bg-[#000c1e]">
+        <div class="container flex justify-start mx-auto">
+            <ul class="flex flex-col md:flex-row space-y-2 space-x-5 ">
+                <li class="ml-5 hover:text-amber-500 text-black p-2.5 w-fit bg-white rounded-full "><a href="#">top</a></li>
+                <li class="hover:text-amber-500"><a href="#">خرید اشتراک</a></li>
+                <li class="hover:text-amber-500"><a href="#">پخش آنلاین</a></li>
+                <li class="hover:text-amber-500"><a href="#">سوالات متداول</a></li>
+                <li class="hover:text-amber-500"><a href="#">قوانین</a></li>
+                <li class="hover:text-amber-500"><a href="#">تماس با ما</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Script for add bg blur in Top menu -->
+    <script>
+        const parts = document.getElementById('sites-part');
+        const movieGener = document.getElementById('movie-gener');
+        const serialGener = document.getElementById('serial-gener');
+        
+        const partsSection = document.getElementById('sites-part-section');
+        const movieGenerSection = document.getElementById('movie-gener-section');
+        const serialGenerSection = document.getElementById('serial-gener-section');
+
+        parts.addEventListener('mouseover', function(){
+            partsSection.classList.remove('hidden');
+            movieGenerSection.classList.add('hidden');
+            serialGenerSection.classList.add('hidden');
+        })
+        movieGener.addEventListener('mouseover', function(){
+            partsSection.classList.add('hidden');
+            movieGenerSection.classList.remove('hidden');
+            serialGenerSection.classList.add('hidden');
+        })
+        serialGener.addEventListener('mouseover', function(){
+            partsSection.classList.add('hidden');
+            movieGenerSection.classList.add('hidden');
+            serialGenerSection.classList.remove('hidden');
+        })
+        window.addEventListener('scroll', function(){
+            const nav = document.getElementById('nav-bar');
+            
+            if (window.scrollY > 0) {
+                nav.classList.add('blur-d');
+            } else {
+                nav.classList.remove('blur-d');
+            }
+        })
+    </script>
+    <script src="{% static 'js/flowbite.min.js.js' %}"></script>
+</body>
+</html>
