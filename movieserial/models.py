@@ -178,9 +178,11 @@ class MovieComment(BaseComment):
         return f'{self.user.__str__()}: {self.id}'
 
 
+
 class SerialComment(BaseComment):
     serial = models.ForeignKey(Serial, on_delete=models.CASCADE, verbose_name='سریال')
     parent_comment = models.ForeignKey('SerialComment', on_delete=models.CASCADE, null=True, blank=True, verbose_name='کامنت پرنت')
+
 
     class Meta:
         verbose_name = 'کامنت سریال'

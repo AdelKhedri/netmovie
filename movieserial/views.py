@@ -7,6 +7,7 @@ from django.db.models import Count, Sum, Prefetch
 from .forms import SerialCommentForm, MovieCommentForm
 
 
+
 class HomeView(View):
     template_name = 'movieserial/home.html'
 

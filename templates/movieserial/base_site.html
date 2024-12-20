@@ -23,6 +23,7 @@
     <div >
         <div class="{% if page_name in 'serial-details,movie-details' %} h-[600px] {% else %} h-[100px] {% endif %} justify-end relative overflow-hidden">
             {% if page_name in 'serial-details,movie-details' %}
+
             <img class="absolute lg:w-9/12 h-[650px]" src="{% if object.background_baner %} {{ object.background_baner.url }} {% else %} {% endif %}" alt="">
 
             {% endif %}
