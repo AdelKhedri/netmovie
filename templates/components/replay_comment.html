@@ -1,0 +1,27 @@
+{% load static %}
+{% for replay in comments %}
+<div class="p-3 mr-10e">
+    <div class="flex">
+        <img class="h-12 rounded-xl ml-1" src="{% if replay.user.gender == 'female' %}{% static 'images/female.png' %}{% else %}{% static 'images/male.png' %}{% endif %}" alt="">
+        <strong class="ml-1">{{ replay.user }}</strong>
+        <p>{{ replay.created_at|date:'Y/m/d H:i:s' }}</p>
+    </div>
+    <p class="px-3.5">{{ replay.text }}</p>
+    <div class="flex justify-between">
+        <p onclick="sednReplay({{ replay.id }}, '{{ replay.user }}')">پاسخ</p>
+        <div class="flex">
+            <img src="{% static 'images/like.png' %}" alt="" class="h-7 mb-2">            <p>--</p>
+            <span class="border mx-2"></span>
+            <p>--</p>
+            <img src="{% static 'images/dislike.png' %}" alt="" class="h-7 mt-2">
+        </div>
+    </div>
+</div>
+
+<hr>
+{% if replay.serialcomment_set.exists %}
+<div style="margin-right: 50px;">
+{% include 'components/replay_comment.html' with comments=replay.serialcomment_set.all %}
+</div>
+{% endif %}
+{% endfor %}
