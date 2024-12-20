@@ -1,0 +1,977 @@
+[
+    {
+        "model": "movieserial.actor",
+        "pk": 1,
+        "fields": {
+            "name": "Archie Renaux",
+            "photo": "images/actor/s1._SY600_SX400.jpg",
+            "imdb_link": "https://www.imdb.com/name/nm8850556/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 2,
+        "fields": {
+            "name": "Cailee Spaeny",
+            "photo": "images/actor/a1._SY600_SX400.jpg",
+            "imdb_link": "https://www.imdb.com/name/nm8314228/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 3,
+        "fields": {
+            "name": "David Jonsson",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm9657438/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 4,
+        "fields": {
+            "name": "Bae Doona",
+            "photo": "images/actor/s-1.jpg",
+            "imdb_link": "https://www.imdb.com/name/nm0046277/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 5,
+        "fields": {
+            "name": "Baek Yoon-shik",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm1328575/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 6,
+        "fields": {
+            "name": "Ryu Seung-beom",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm0753486/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 7,
+        "fields": {
+            "name": "Özge Gürel",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/nm6221099/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 8,
+        "fields": {
+            "name": "Sercan Badur",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/nm4236738/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 9,
+        "fields": {
+            "name": "Sumru Yavrucuk",
+            "photo": "images/actor/a-6.jpg",
+            "imdb_link": "https://www.imdb.com/name/nm0946912/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 10,
+        "fields": {
+            "name": "Arshdeep Singh Dhillon",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm16323646/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 11,
+        "fields": {
+            "name": "Gurdev Dhaliwal",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm16441086/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 12,
+        "fields": {
+            "name": "Vikas Mehta",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm9269607/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 13,
+        "fields": {
+            "name": "Barbara Crampton",
+            "photo": "images/actor/a-7._SY600_SX400.jpg",
+            "imdb_link": "https://www.imdb.com/name/nm0186225/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 14,
+        "fields": {
+            "name": "Ludovic Hughes",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm8379765/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 15,
+        "fields": {
+            "name": "Sophie Stevens",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm6018252/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 16,
+        "fields": {
+            "name": "Dhruva Sarja",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm5890975/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 17,
+        "fields": {
+            "name": "Sriram Reddy Polasane",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm12903795/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 18,
+        "fields": {
+            "name": "Vaibhavi Shandilya",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm6684659/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 19,
+        "fields": {
+            "name": "Alexander Ludwig",
+            "photo": "images/actor/sb-1._SY600_SX400.jpg",
+            "imdb_link": "https://www.imdb.com/name/nm1573253/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 20,
+        "fields": {
+            "name": "Elyse Levesque",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm1137028/"
+        }
+    },
+    {
+        "model": "movieserial.actor",
+        "pk": 21,
+        "fields": {
+            "name": "Jessica Frances Dukes",
+            "photo": "",
+            "imdb_link": "https://www.imdb.com/name/https:www.imdb.comnm7048307/"
+        }
+    },
+    {
+        "model": "movieserial.ganers",
+        "pk": 1,
+        "fields": {
+            "name": "ترسناک",
+            "slug": "horror"
+        }
+    },
+    {
+        "model": "movieserial.ganers",
+        "pk": 2,
+        "fields": {
+            "name": "علمی تخیلی",
+            "slug": "sci-fi"
+        }
+    },
+    {
+        "model": "movieserial.ganers",
+        "pk": 3,
+        "fields": {
+            "name": "هیجان انگیز",
+            "slug": "exciting"
+        }
+    },
+    {
+        "model": "movieserial.ganers",
+        "pk": 4,
+        "fields": {
+            "name": "درام",
+            "slug": "darama"
+        }
+    },
+    {
+        "model": "movieserial.ganers",
+        "pk": 5,
+        "fields": {
+            "name": "رازآلود",
+            "slug": "Mystery"
+        }
+    },
+    {
+        "model": "movieserial.ganers",
+        "pk": 6,
+        "fields": {
+            "name": "اکشن",
+            "slug": "action"
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 1,
+        "fields": {
+            "name": "BluRay 2160p x265 4K",
+            "link": "https://dl3.linkro.info/Movies6/2024/Alien_Romulus_2024/Alien.Romulus.2024.2160p.HDR10Plus.DV.BluRay.8CH.x265.HEVC.PSA.mkv?md5=7pmQBG_dE-v9aJnnssykdA&u=892132&expires=1734343046",
+            "size": 4460000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 2,
+        "fields": {
+            "name": "BluRay 1080p",
+            "link": "https://dl3.linkro.info/Movies6/2024/Alien_Romulus_2024/Alien.Romulus.2024.1080p.BluRay.x264.AAC5.1.YTS.ZarFilm.mkv?md5=PvzowL4qjE1_nkLl3vtvhQ&u=892132&expires=1734343046",
+            "size": 2190000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 3,
+        "fields": {
+            "name": "BluRay 720p",
+            "link": "https://dl3.linkro.info/Movies6/2024/Alien_Romulus_2024/Alien.Romulus.2024.720p.BluRay.x264.AAC.YTS.ZarFilm.mkv?md5=6qOzmrJAQ4Gtd4703c4IWw&u=892132&expires=1734343046",
+            "size": 1070000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 4,
+        "fields": {
+            "name": "BluRay 480p",
+            "link": "https://dl3.linkro.info/Movies6/2024/Alien_Romulus_2024/Alien.Romulus.2024.480p.BluRay.x264.RMT.ZarFilm.mkv?md5=zFZgqwgGL5YgnCxnuyRW-w&u=892132&expires=1734343047",
+            "size": 654000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 5,
+        "fields": {
+            "name": "BluRay 2160p x265 4K",
+            "link": "https://dl3.linkro.info/Movies6/2024/Alien_Romulus_2024/Alien.Romulus.2024.2160p.4K.BluRay.2Dubbed.ZarFilm.mkv?md5=tqaoZt73phJV5WmRkXIqpQ&u=892132&expires=1734343047",
+            "size": 489000000000,
+            "is_subtitle": false,
+            "subtitle_type": "nosub",
+            "is_persian_sound": true
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 6,
+        "fields": {
+            "name": "BluRay 1080p",
+            "link": "https://dl3.linkro.info/Movies6/2024/Alien_Romulus_2024/Alien.Romulus.2024.1080p.BluRay.2Dubbed.ZarFilm.mkv?md5=4hDyVoJSXOYglDrAF70Sow&u=892132&expires=1734343047",
+            "size": 2610000000000,
+            "is_subtitle": false,
+            "subtitle_type": "nosub",
+            "is_persian_sound": true
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 7,
+        "fields": {
+            "name": "BluRay 720p",
+            "link": "https://dl3.linkro.info/Movies6/2024/Alien_Romulus_2024/Alien.Romulus.2024.720p.BluRay.2Dubbed.ZarFilm.mkv?md5=V8-yZ7-DX3mfDh3jD4gigA&u=892132&expires=1734343047",
+            "size": 1490000000000,
+            "is_subtitle": false,
+            "subtitle_type": "nosub",
+            "is_persian_sound": true
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 8,
+        "fields": {
+            "name": "BluRay 480p",
+            "link": "https://dl3.linkro.info/Movies6/2024/Alien_Romulus_2024/Alien.Romulus.2024.480p.BluRay.2Dubbed.ZarFilm.mkv?md5=vFoZk6Zf-nRf2NOJoIRXhA&u=892132&expires=1734343047",
+            "size": 1060000000000,
+            "is_subtitle": false,
+            "subtitle_type": "nosub",
+            "is_persian_sound": true
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 9,
+        "fields": {
+            "name": "قسمت 1",
+            "link": "https://dl3.upenlod.pw/Series5/Family.Plan.2024/S01/1080p/Family.Plan.S01E01.1080p.WEB-DL.ZarFilm.mkv?md5=uYHXUZLMoif3qTjn4jNixg&u=892132&expires=1734358906",
+            "size": 1200000000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 10,
+        "fields": {
+            "name": "قسمت 2",
+            "link": "https://dl3.upenlod.pw/Series5/Family.Plan.2024/S01/1080p/Family.Plan.S01E02.1080p.WEB-DL.ZarFilm.mkv?md5=nHir2yD6R_c0yMd8MrLkUA&u=892132&expires=1734358906",
+            "size": 1000000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 11,
+        "fields": {
+            "name": "قسمت 3",
+            "link": "https://dl3.upenlod.pw/Series5/Family.Plan.2024/S01/1080p/Family.Plan.S01E03.1080p.WEB-DL.ZarFilm.mkv?md5=JpEctot7_mepR7_upRrZ5g&u=892132&expires=1734358906",
+            "size": 102000000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 12,
+        "fields": {
+            "name": "قسمت 4",
+            "link": "https://dl3.upenlod.pw/Series5/Family.Plan.2024/S01/1080p/Family.Plan.S01E04.1080p.WEB-DL.ZarFilm.mkv?md5=0Pd4J9YZuLtQ11SaXN7Npg&u=892132&expires=1734358906",
+            "size": 106000000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 13,
+        "fields": {
+            "name": "WEB-DL 1080p",
+            "link": "https://dl1.cdnfun.info/Movies/2019/01/Annem%202019/Annem.2019.1080p.WEB-DL.Dubbed.ZarFilm.mkv?md5=hWpgb0qwTUZmdMMRs6Q_-w&u=892132&expires=1734359724",
+            "size": 406000000000,
+            "is_subtitle": false,
+            "subtitle_type": "nosub",
+            "is_persian_sound": true
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 14,
+        "fields": {
+            "name": "WEB-DL 720p",
+            "link": "https://dl1.cdnfun.info/Movies/2019/01/Annem%202019/Annem.2019.720p.WEB-DL.Dubbed.ZarFilm.mkv?md5=q3vAD1-x2wHWXa9ImFz2og&u=892132&expires=1734359724",
+            "size": 1090000000,
+            "is_subtitle": false,
+            "subtitle_type": "nosub",
+            "is_persian_sound": true
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 15,
+        "fields": {
+            "name": "WEB-DL 480p",
+            "link": "https://dl1.cdnfun.info/Movies/2019/01/Annem%202019/Annem.2019.480p.WEB-DL.Dubbed.ZarFilm.mkv?md5=C027EZOMfR0wSiPMJjT0Lg&u=892132&expires=1734359724",
+            "size": 704000000,
+            "is_subtitle": false,
+            "subtitle_type": "nosub",
+            "is_persian_sound": true
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 16,
+        "fields": {
+            "name": "WEB-DL 1080p",
+            "link": "https://dl1.cdnfun.info/Movies/2019/01/Annem%202019/Annem_2019_1080p_WEB-DL.mkv?md5=-yUBdWd6gTgISvV8wwTn3A&u=892132&expires=1734359724",
+            "size": 3950000000000,
+            "is_subtitle": false,
+            "subtitle_type": "nosub",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 17,
+        "fields": {
+            "name": "WEB-DL 1080p",
+            "link": "https://dl1.cdnfun.info/Movies7/2024/Je.jatt.Vigarh.gya.2024/Je.jatt.Vigarh.gya.2024.1080p.WEB-DL.6CH.YIFY.ZarFilm.mkv?md5=A2m_4KMOMFb9smTGDJ2NmQ&u=892132&expires=1734360124",
+            "size": 2430000000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 18,
+        "fields": {
+            "name": "WEB-DL 720p",
+            "link": "https://dl1.cdnfun.info/Movies7/2024/Je.jatt.Vigarh.gya.2024/Je.jatt.Vigarh.gya.2024.480p.WEB-DL.AAC.ZarFilm.mkv?md5=OwvCZWLzjUoAIepj2-FD-w&u=892132&expires=1734360124",
+            "size": 1180000000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 19,
+        "fields": {
+            "name": "WEB-DL 480p",
+            "link": "https://dl1.cdnfun.info/Movies7/2024/Je.jatt.Vigarh.gya.2024/Je.jatt.Vigarh.gya.2024.480p.WEB-DL.AAC.ZarFilm.mkv?md5=OwvCZWLzjUoAIepj2-FD-w&u=892132&expires=1734360124",
+            "size": 600000000,
+            "is_subtitle": true,
+            "subtitle_type": "nosub",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 20,
+        "fields": {
+            "name": "BluRay 1080p",
+            "link": "https://dl3.linkro.info/Movies6/2020/Sacrifice.2020/Sacrifice.2020.1080p.BrRip.YIFY.ZarFilm.mkv?md5=5dIe7IRk25Oo1JUBtv_h4w&u=892132&expires=1734361746",
+            "size": 162000000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 21,
+        "fields": {
+            "name": "BluRay 720p",
+            "link": "https://dl3.linkro.info/Movies6/2020/Sacrifice.2020/Sacrifice.2020.720p.BrRip.YIFY.ZarFilm.mkv?md5=HGLhyAa_d-y4g-olodjbcg&u=892132&expires=1734361746",
+            "size": 805000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 22,
+        "fields": {
+            "name": "WEB-DL 1080p",
+            "link": "https://dl1.cdnfun.info/Movies7/2024/Martin.2024/Martin.2024.1080p.WEB-DL.6CH.YIFY.ZarFilm.mkv?md5=E_KU0MM1YVzVR-OBVGvnZA&u=892132&expires=1734360156",
+            "size": 2660000000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 23,
+        "fields": {
+            "name": "WEB-DL 720p",
+            "link": "https://dl1.cdnfun.info/Movies7/2024/Martin.2024/Martin.2024.720p.WEB-DL.AAC.YIFY.ZarFilm.mkv?md5=c-OIgkkw_ccPYSlGlqayeA&u=892132&expires=1734360156",
+            "size": 1300000000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 24,
+        "fields": {
+            "name": "WEB-DL 480p",
+            "link": "https://dl1.cdnfun.info/Movies7/2024/Martin.2024/Martin.2024.480p.WEB-DL.AAC.ZarFilm.mkv?md5=UXNazC2BvFB0tQ2Z4f7YKQ&u=892132&expires=1734360156",
+            "size": 656000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 25,
+        "fields": {
+            "name": "قسمت 1",
+            "link": "https://dl3.upenlod.pw/Series5/Earth.Abides.2024/S01/1080p/Earth.Abides.S01E01.1080p.WEB-DL.x264-ZarFilm.mkv?md5=3HcUlXD7d0sVc0ub6M9gTw&u=892132&expires=1734364229",
+            "size": 950000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 26,
+        "fields": {
+            "name": "قسمت 2",
+            "link": "https://dl3.upenlod.pw/Series5/Earth.Abides.2024/S01/1080p/Earth.Abides.S01E02.1080p.WEB-DL.x264-ZarFilm.mkv?md5=oKc25z7-nH40uNcyb-491g&u=892132&expires=1734364229",
+            "size": 980000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 27,
+        "fields": {
+            "name": "قسمت 3",
+            "link": "https://dl3.upenlod.pw/Series5/Earth.Abides.2024/S01/1080p/Earth.Abides.S01E03.1080p.WEB-DL.x264-ZarFilm.mkv?md5=NQHdAszV1j9XC6Ag4EoT4w&u=892132&expires=1734364229",
+            "size": 990000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 28,
+        "fields": {
+            "name": "قسمت 1",
+            "link": "https://dl3.upenlod.pw/Series5/Earth.Abides.2024/S01/720p/Earth.Abides.S01E01.720p.WEB-DL.x264-ZarFilm.mkv?md5=95sZF9A1EElcnMGjGZvyog&u=892132&expires=1734364230",
+            "size": 490000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 29,
+        "fields": {
+            "name": "قسمت 2",
+            "link": "https://dl3.upenlod.pw/Series5/Earth.Abides.2024/S01/720p/Earth.Abides.S01E02.720p.WEB-DL.x264-ZarFilm.mkv?md5=VoaGh0cRPa-f2c8A3vL3vA&u=892132&expires=1734364230",
+            "size": 450000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.downloadlink",
+        "pk": 30,
+        "fields": {
+            "name": "قسمت 3",
+            "link": "https://dl3.upenlod.pw/Series5/Earth.Abides.2024/S01/720p/Earth.Abides.S01E03.720p.WEB-DL.x264-ZarFilm.mkv?md5=bj0mTwBP2VCfufha0wCIsw&u=892132&expires=1734364230",
+            "size": 420000000,
+            "is_subtitle": true,
+            "subtitle_type": "subsoft",
+            "is_persian_sound": false
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 1,
+        "fields": {
+            "name": "نسخه زیرنویس فارسی چسبیده",
+            "episodes": [
+                2,
+                1,
+                4,
+                3
+            ]
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 2,
+        "fields": {
+            "name": "نسخه دوبله فارسی",
+            "episodes": [
+                6,
+                5,
+                8,
+                7
+            ]
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 3,
+        "fields": {
+            "name": "کیفیت : WEB-DL 1080p",
+            "episodes": [
+                9,
+                10,
+                11,
+                12
+            ]
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 4,
+        "fields": {
+            "name": "نسخه دوبله فارسی",
+            "episodes": [
+                13,
+                15,
+                14
+            ]
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 5,
+        "fields": {
+            "name": "نسخه بدون زیرنویس",
+            "episodes": [
+                16
+            ]
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 6,
+        "fields": {
+            "name": "نسخه زیرنویس فارسی چسبیده",
+            "episodes": [
+                17,
+                19,
+                18
+            ]
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 7,
+        "fields": {
+            "name": "نسخه زیرنویس فارسی چسبیده",
+            "episodes": [
+                20,
+                21
+            ]
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 8,
+        "fields": {
+            "name": "نسخه زیرنویس فارسی چسبیده",
+            "episodes": [
+                22,
+                24,
+                23
+            ]
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 9,
+        "fields": {
+            "name": "WEB-DL 1080p - ZarFilm",
+            "episodes": [
+                25,
+                26,
+                27
+            ]
+        }
+    },
+    {
+        "model": "movieserial.quality",
+        "pk": 10,
+        "fields": {
+            "name": "WEB-DL 720p - ZarFilm",
+            "episodes": [
+                28,
+                29,
+                30
+            ]
+        }
+    },
+    {
+        "model": "movieserial.section",
+        "pk": 1,
+        "fields": {
+            "name": "فصل یک",
+            "status": "creating",
+            "qualitys": [
+                5
+            ]
+        }
+    },
+    {
+        "model": "movieserial.section",
+        "pk": 2,
+        "fields": {
+            "name": "فصل 1",
+            "status": "creating",
+            "qualitys": [
+                9,
+                10
+            ]
+        }
+    },
+    {
+        "model": "movieserial.serial",
+        "pk": 1,
+        "fields": {
+            "name": "Earth Abides",
+            "persian_name": "زمین پابرجا",
+            "description": "پس از ماه‌ها انزوا، ایشروود «ایش» ویلیامز می‌فهمد که بیشتر مردم جهان درگیر یک بیماری مرموز شده‌اند. با این حال، ایش علیرغم غرایز خود برای انزوای بیشتر، مسئولیت توسعه یک تمدن جدید را بر عهده دارد.",
+            "info": "",
+            "baner": "images/serials/baner/sb-1._V1_SX500-210x310.jpg",
+            "backgroud_baner": "images/serials/backgrounds/sbb-1.jpg",
+            "slug": "earth-abides",
+            "trailer": "",
+            "online_play": "",
+            "imdb_link": "https://www.imdb.com/title/tt26443935/",
+            "year_create": 2024,
+            "duration": "03:22:28",
+            "release_date": "2024-12-15T15:56:05Z",
+            "created_at": "2024-12-15T16:10:55.607Z",
+            "is_subtitle": true,
+            "is_sound_translate": false,
+            "point": "6.00",
+            "last_episod": "قسمت 3",
+            "last_section": 2,
+            "ganers": [
+                2
+            ],
+            "starts": [
+                19,
+                20,
+                21
+            ],
+            "sections": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "movieserial.movie",
+        "pk": 1,
+        "fields": {
+            "name": "Alien: Romulus 2024",
+            "persian_name": "بیگانه: رومولوس",
+            "description": "وقایع داستانی این فیلم بین فیلم‌های بیگانه ۱ (ساخته ریدلی اسکات) و بیگانه ۲ (ساخته جیمز کامرون) جریان دارد. گروهی از مستعمره‌نشین‌های جوان در یک ایستگاه فضایی متروکه با وحشتناک‌ترین موجودات کیهان روبرو می‌شوند....",
+            "info": "",
+            "baner": "images/movies/baner/romulus.jpg",
+            "backgroud_baner": "images/movies/backgrounds/romulus-big-baner.jpg",
+            "slug": "alien-romulus-2024",
+            "trailer": "",
+            "online_play": "https://www.imdb.com/title/tt18412256/",
+            "imdb_link": "https://www.imdb.com/title/tt18412256/",
+            "year_create": 2024,
+            "duration": "01:33:09",
+            "release_date": "2024-12-15T10:03:25Z",
+            "created_at": "2024-12-15T10:15:55.916Z",
+            "is_subtitle": true,
+            "is_sound_translate": true,
+            "point": "7.30",
+            "ganers": [
+                1,
+                2,
+                3
+            ],
+            "starts": [
+                1,
+                2,
+                3
+            ],
+            "qualitys": [
+                2,
+                1
+            ]
+        }
+    },
+    {
+        "model": "movieserial.movie",
+        "pk": 2,
+        "fields": {
+            "name": "Annem",
+            "persian_name": "مادر من",
+            "description": "مادری فداکار و فداکار که غیرممکن ها را برای دخترش \" ممکن\" می کند - دختری که از مادرش خجالت می کشد و می خواهد از مادر و زندگی با او فرار کند. سفر او به کالج، نازل را می راند...",
+            "info": "",
+            "baner": "images/movies/baner/b-3.jpg",
+            "backgroud_baner": "images/movies/backgrounds/ba-3.jpg",
+            "slug": "annem-2019",
+            "trailer": "",
+            "online_play": "",
+            "imdb_link": "https://www.imdb.com/title/tt10332672/",
+            "year_create": 2019,
+            "duration": "01:29:00",
+            "release_date": "2024-12-15T14:34:54Z",
+            "created_at": "2024-12-15T14:40:03.603Z",
+            "is_subtitle": false,
+            "is_sound_translate": true,
+            "point": "5.90",
+            "ganers": [
+                4
+            ],
+            "starts": [
+                8,
+                9,
+                7
+            ],
+            "qualitys": [
+                5,
+                4
+            ]
+        }
+    },
+    {
+        "model": "movieserial.movie",
+        "pk": 3,
+        "fields": {
+            "name": "Je Jatt Vigarh Gya",
+            "persian_name": "تغییری اساسی",
+            "description": "فیلم داستان مردی که با خشم و عصبانیت دست و پنجه نرم می‌کند. او زندگی آرامی ندارد اما همه چیز با سفر برای آوردن خواهر باردارش به خانه، به طور چشمگیری تغییر می‌کند. این سفر باعث می‌شود زندگی او وارد ...",
+            "info": "",
+            "baner": "images/movies/baner/b-4.jpg",
+            "backgroud_baner": "images/movies/backgrounds/ba-4.jpg",
+            "slug": "je-jatt-vigarh-gya-2024",
+            "trailer": "",
+            "online_play": "",
+            "imdb_link": "https://www.imdb.com/title/tt31616101/",
+            "year_create": 2024,
+            "duration": "01:42:00",
+            "release_date": "2024-12-15T14:44:44Z",
+            "created_at": "2024-12-15T14:47:34.125Z",
+            "is_subtitle": true,
+            "is_sound_translate": false,
+            "point": "5.30",
+            "ganers": [
+                4
+            ],
+            "starts": [
+                10,
+                11,
+                12
+            ],
+            "qualitys": [
+                6
+            ]
+        }
+    },
+    {
+        "model": "movieserial.movie",
+        "pk": 4,
+        "fields": {
+            "name": "Sacrifice",
+            "persian_name": "قربانی",
+            "description": "پس از مرگ مادرش، آیزاک و همسر باردارش برای ارث از زادگاهش در جزیره نروژ دیدن می کنند. آنها اسرار تاریک گذشته اسحاق را کشف می کنند. وقتی با فرقه ای روبرو می شوند که خدای دریایی را می پرستند، سفر آنها به کابوس تبدیل می شود.",
+            "info": "",
+            "baner": "images/movies/baner/b-5._V1_SX500-206x310.jpg",
+            "backgroud_baner": "images/movies/backgrounds/ba-5.jpg",
+            "slug": "sacrifice-2020",
+            "trailer": "",
+            "online_play": "",
+            "imdb_link": "https://www.imdb.com/title/tt10004108/",
+            "year_create": 2020,
+            "duration": "01:42:00",
+            "release_date": "2024-12-15T15:08:32Z",
+            "created_at": "2024-12-15T15:10:49.107Z",
+            "is_subtitle": true,
+            "is_sound_translate": false,
+            "point": "4.90",
+            "ganers": [
+                1,
+                5,
+                3
+            ],
+            "starts": [
+                13,
+                14,
+                15
+            ],
+            "qualitys": [
+                7
+            ]
+        }
+    },
+    {
+        "model": "movieserial.movie",
+        "pk": 5,
+        "fields": {
+            "name": "Martin",
+            "persian_name": "مارتین",
+            "description": "داستان فیلم درباره افسری به نام \"آرجون ساکسنا\" که از پاکستان به هند سفر می‌کند تا هویت واقعی خود را کشف کرده و با دلالان بازار سیاه که با تروریست‌ها برای سازماندهی حملات گسترده در کشور ...",
+            "info": "",
+            "baner": "images/movies/baner/b-6._V1_SX500-210x263.jpg",
+            "backgroud_baner": "images/movies/backgrounds/ba-6.jpg",
+            "slug": "martin-2024",
+            "trailer": "",
+            "online_play": "",
+            "imdb_link": "https://www.imdb.com/title/tt15334030/",
+            "year_create": 2024,
+            "duration": "01:29:00",
+            "release_date": "2024-12-15T15:14:15Z",
+            "created_at": "2024-12-15T15:16:29.972Z",
+            "is_subtitle": true,
+            "is_sound_translate": false,
+            "point": "2.40",
+            "ganers": [
+                6,
+                4,
+                3
+            ],
+            "starts": [
+                16,
+                17,
+                18
+            ],
+            "qualitys": [
+                8
+            ]
+        }
+    },
+    {
+        "model": "movieserial.mainpageserialsad",
+        "pk": 1,
+        "fields": {
+            "serial": 1,
+            "ad_baner": "images/serials/ad/sa-1.jpg"
+        }
+    },
+    {
+        "model": "movieserial.mainpagemoviesad",
+        "pk": 1,
+        "fields": {
+            "movies": [
+                1,
+                2,
+                3,
+                5,
+                4
+            ]
+        }
+    }
+]

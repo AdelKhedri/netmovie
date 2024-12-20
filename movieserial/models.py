@@ -164,28 +164,23 @@ class BaseComment(models.Model):
     is_spoil = models.BooleanField(default=False, verbose_name='نظر حاوی اسپویل')
 
 
+
 class MovieComment(BaseComment):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name='سینمایی')
     parent_comment = models.ForeignKey('MovieComment', on_delete=models.CASCADE, null=True, blank=True, verbose_name='کامنت پرنت')
-
-    def __str__(self):
-        return self.user.__str__()
-
 
     class Meta:
         verbose_name = 'کامنت فیلم'
         verbose_name_plural = 'کامنت های فیلم'
 
 
+    def __str__(self):
         return f'{self.user.__str__()}: {self.id}'
-
-        self.user.__str__()
 
 
 class SerialComment(BaseComment):
     serial = models.ForeignKey(Serial, on_delete=models.CASCADE, verbose_name='سریال')
     parent_comment = models.ForeignKey('SerialComment', on_delete=models.CASCADE, null=True, blank=True, verbose_name='کامنت پرنت')
-
 
     class Meta:
         verbose_name = 'کامنت سریال'

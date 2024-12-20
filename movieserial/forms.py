@@ -1,5 +1,4 @@
 from django import forms
-
 from user.models import User
 from .models import MovieComment, SerialComment
 from user.forms import input_full_dark_attrs, checkbox_attrs
@@ -51,11 +50,21 @@ class BaseCommentFrom(forms.ModelForm):
         return obj
 
 
-class SerialCommantForm(BaseCommentFrom):
+class SerialCommentForm(BaseCommentFrom):
     class Meta(BaseCommentFrom.Meta):
         model = SerialComment
 
 
     def __init__(self, *args, **kwargs):
         self.serial = kwargs.pop('serial', None)
+        super().__init__(*args, **kwargs)
+
+
+class MovieCommentForm(BaseCommentFrom):
+    class Meta(BaseCommentFrom.Meta):
+        model = MovieComment
+
+
+    def __init__(self, *args, **kwargs):
+        self.movie = kwargs.pop('movie', None)
         super().__init__(*args, **kwargs)
