@@ -1,9 +1,11 @@
+from django.http import Http404
 from django.shortcuts import get_list_or_404, render
-from .models import Ganers, Movie, Quality, Section, Serial, SerialComment
+from .models import Ganers, Movie, MovieComment, Quality, Section, Serial, SerialComment
 from django.views.generic import View
 from user.utils import get_left_special_time
 from django.db.models import Count, Sum, Prefetch
-from .forms import SerialCommantForm
+from .forms import SerialCommentForm, MovieCommentForm
+
 
 
 class HomeView(View):
@@ -49,9 +51,10 @@ class SerialDetailsView(View):
         self.context = {
             'object': self.serial,
             'page_name': 'serial-details',
+            'title_page': f'جزیات سریال {self.serial.name}',
             'comments': comments,
-            'comment_form': SerialCommantForm(),
-            'comment_counts': comments_count
+            'comment_form': SerialCommentForm(),
+            'comment_count': comments_count
         }
         super().setup(request, slug, *args, **kwargs)
 
@@ -60,9 +63,42 @@ class SerialDetailsView(View):
         return render(request, self.template_name, self.context)
 
     def post(self, request, slug, *args, **kwargs):
-        form = SerialCommantForm(request.POST, user = request.user, serial = self.serial)
+        form = SerialCommentForm(request.POST, user = request.user, serial = self.serial)
         if form.is_valid():
             form.save()
         else:
             self.context['comment_form'] = form
+        return render(request, self.template_name, self.context)
+
+
+class MovieDetailsView(View):
+    template_name = 'movieserial/details.html'
+
+    def setup(self, request, slug, *args, **kwargs):
+        try:
+            self.movie = Movie.objects.get(slug = slug)
+        except:
+            return Http404()
+        
+        movie_comments = MovieComment.objects.filter(movie = self.movie, parent_comment__isnull = True)
+        comment_count = MovieComment.objects.filter(movie = self.movie).count()
+        self.context = {
+            'page_name': 'movie-details',
+            'title_page': f'جزیات فیلم {self.movie.name}',
+            'object': self.movie,
+            'comments': movie_comments,
+            'comment_count': comment_count,
+            'comment_form': MovieCommentForm()
+        }
+        super().setup(request, slug, *args, **kwargs)
+
+    def post(self, request, slug, *args, **kwargs):
+        form = MovieCommentForm(request.POST, user = request.user, movie = self.movie)
+        if form.is_valid():
+            form.save()
+        else:
+            self.context['comment_form'] = form
+        return render(request, self.template_name, self.context)
+
+    def get(self, request, slug, *args, **kwargs):
         return render(request, self.template_name, self.context)

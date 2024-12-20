@@ -24,4 +24,9 @@
 {% include 'components/replay_comment.html' with comments=replay.serialcomment_set.all %}
 </div>
 {% endif %}
+{% if replay.moviecomment_set.exists %}
+<div style="margin-right: 50px;">
+{% include 'components/replay_comment.html' with comments=replay.moviecomment_set.all %}
+</div>
+{% endif %}
 {% endfor %}

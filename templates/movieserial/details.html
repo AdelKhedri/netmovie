@@ -214,13 +214,56 @@
     {% endfor %}
     {% endif %}
 
+    {% if page_name == 'movie-details' %}
+    <!-- Movie dl -->
+    <div class="container mx-auto">
+        {% for quality in object.qualitys.all %}
+        <div data-accordion="collapse" class="my-2">
+            <div class="flex items-center cursor-pointer text-slate-100 bg-black " style="background-color: #000101;" data-accordion-target="#quality-{{ quality.id }}" aria-expanded="true" aria-controls="dlbox"> <!-- {% if forloop.counter == 1 %}true{% else %}false{% endif %} -->
+                <div class="flex-none flex text-xl">
+                    <img class="h-7 mx-2" src="{% static 'images/download.png' %}" alt="">
+                    {{ quality.name }}
+                </div>
+                <hr class="grow mx-3 border-gray-600">
+                <span class="p-3 py-0 text-lg bg-gray-700 rounded-full">-</span>
+            </div>
+
+            <div id="quality-{{ quality.id }}" class="hidden px-2 sm:px-10 mt-5">
+                {% for link in quality.episodes.all %}
+                <div class="flex justify-between p-5 m-5 rounded-2xl bg-gray-100/5 flex-wrap">
+                    <a href="#" class="p-3 flex hover:bg-amber-600 rounded-lg border duration-[400ms] border-gray-100">
+                        <img class="h-7 ml-1" src="{% static 'images/downloading.png' %}">
+                        <span>دانلود با لینک مستقیم</span>
+                    </a>
+                    <div class="flex w-full justify-between">
+                        <div class="">
+                            <p class="text-gray-400/80 mb-1 hidden sm:inline">حجم</p>
+                            <p>{{ link.size }}</p>
+                        </div>
+                        <div class="">
+                            <p class="text-gray-400/80 mb-1 hidden sm:inline">نوع زیرنویس</p>
+                            <p>{{ link.get_subtitle_type_display }}</p>
+                        </div>
+                        <div class=" text-left">
+                            <p class="text-amber-600 font-bold text-lg">{{ link.name }}</p>
+                            <p class="hidden sm:inline">Encoder: YIFY</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
 
 <div class="container mx-auto mt-3 hidden" id="info">
     <div class="border border-gray-400 p-3 rounded-lg space-y-2">
         <div class="flex justify-between my-3">
             <div class="flex items-center">
-                <img class="h-7 ml-2" src="../images/so-subtitle.png" alt="">
+                <img class="h-7 ml-2" src="{% static 'images/subtitle.png' %}" alt="">
+
                 <p>زیرنویس</p>
             </div>
             <div class="flex">
@@ -237,11 +280,11 @@
 
         <div class="flex justify-between my-3">
             <div class="flex items-center">
-                <img class="h-7 ml-2" src="../images/microphone.png" alt="">
+                <img class="h-7 ml-2" src="{% static 'images/microphone.png' %}" alt="">
                 <p>دوبله</p>
             </div>
             <div class="flex">
-                <p>ندارد</p>
+                <p>{% if object.is_sound_translate %} دارد {% else %} ندارد {% endif %}</p>
                 {% if object.is_sound_translate %}
                 <img class="h-7 mr-1" src="{% static 'images/downloaded.png' %}" alt="">
                 {% else %}
@@ -255,7 +298,7 @@
         
         <div class="flex justify-between my-3">
             <div class="flex items-center">
-                <img class="h-7 ml-2" src="../images/user.png" alt="">
+                <img class="h-7 ml-2" src="" alt="">
                 <p>سال تولید</p>
             </div>
             <div class="flex">
@@ -266,7 +309,7 @@
 
         <div class="flex justify-between my-3">
             <div class="flex items-center">
-                <img class="h-7 ml-2" src="../images/so-subtitle.png" alt="">
+                <img class="h-7 ml-2" src="{% static 'images/star.png' %}" alt="">
                 <p>ستارگان</p>
             </div>
             <div class="flex">
@@ -280,7 +323,7 @@
         
         <div class="flex justify-between my-3">
             <div class="flex items-center">
-                <img class="h-7 ml-2" src="../images/so-subtitle.png" alt="">
+                <img class="h-7 ml-2" src="" alt="">
                 <p>کارگردان</p>
             </div>
             <div class="flex">
@@ -292,7 +335,7 @@
     
         <div class="flex justify-between my-3">
             <div class="flex items-center">
-                <img class="h-7 ml-2" src="../images/age.png" alt="">
+                <img class="h-7 ml-2" src="" alt="">
                 <p>رده سنی</p>
             </div>
             <div class="flex">
@@ -304,7 +347,7 @@
     
         <div class="flex justify-between my-3">
             <div class="flex items-center">
-                <img class="h-7 ml-2" src="../images/star.png" alt="">
+                <img class="h-7 ml-2" src="" alt="">
                 <p>زبان</p>
             </div>
             <div class="flex">
@@ -316,7 +359,7 @@
 
 <div class="container mx-auto mt-3 bg-zinc-900 rounded-3xl border hidden" id="comment">
     <div class="grid grid-cols-10 pt-5">
-        <img class="col-span-2 p-3" src="../images/chat.png" alt="">
+        <img class="col-span-2 p-3" src="{% static 'images/chat.png' %}" alt="">
         <form action="" method="post" class="col-span-6">
             {% csrf_token %}
             <input id="id_parent_comment" name="parent_comment" type="number" class="hidden">
@@ -330,7 +373,7 @@
                 <button class="p-3 pt-2 mt-1 bg-amber-600 rounded-xl" type="submit">ارسال دیدگاه</button>
             </div>
         </form>
-        <p class="col-span-2 text-end p-3">نظرات: <span>{{ comment_counts }}</span></p>
+        <p class="col-span-2 text-end p-3">نظرات: <span>{{ comment_count }}</span></p>
     </div>
 
     <div class="border-t mt-3 px-4 py-3">
@@ -358,6 +401,11 @@
         {% if comment.serialcomment_set.exists %}
         <div style="margin-right: 50px;">
             {% include 'components/replay_comment.html' with comments=comment.serialcomment_set.all %}
+        </div>
+        {% endif %}
+        {% if comment.moviecomment_set.exists %}
+        <div style="margin-right: 50px;">
+            {% include 'components/replay_comment.html' with comments=comment.moviecomment_set.all %}
         </div>
         {% endif %}
         {% endfor %}
