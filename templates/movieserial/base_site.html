@@ -17,19 +17,20 @@
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-regular.css">
 
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-light.css">
+    <script src="{% static 'js/jquery.js' %}"></script>
 </head>
 <body dir="rtl" class="bg-black text-slate-100">
     <div >
-        <div class="{% if page_name in '' %} h-[600px] {% else %} h-[100px] {% endif %} hidden lg:flex justify-end relative overflow-hidden">
-            {% if page_name == 'home' %}
-            <img class="absolute w-9/12 h-[600px]" src="{bg}" alt="">
+        <div class="{% if page_name in 'serial-details,' %} h-[600px] {% else %} h-[100px] {% endif %} justify-end relative overflow-hidden">
+            {% if page_name in 'serial-details,' %}
+            <img class="absolute lg:w-9/12 h-[650px]" src="{% if object.background_baner %} {{ object.background_baner.url }} {% else %} {% endif %}" alt="">
             {% endif %}
             <div class="absolute w-full bg-gradient-to-l from-neutral-900 to-neutral-900/0 h-max">
         
                 <!-- Top Menu -->
                 <div id="nav-bar" class="fixed left-1/2 -translate-x-1/2 z-20 container rounded-b-2xl flex justify-between mx-auto px-5 py-3">
                     <div class="flex relative">
-                        <img src="{% static 'images/image.png' %}" alt="">
+                        <img src="{% static 'images/site.png' %}" alt="">
                         <ul class="hidden items-center lg:flex">
                             <li class="active mx-1">
                                 <button id="dropdownHoverButton1" data-dropdown-toggle="dropdownHover1" data-dropdown-trigger="hover"  data-dropdown-offset-skidding="100" data-dropdown-placement="right" class="flex items-center" type="button">
@@ -142,8 +143,9 @@
 
                 </div>
 
-                {% block homead %} {% endblock %}
+                {% block top_section %} {% endblock %}
             </div>
+            {% block mobile_detail_section %} {% endblock %}
         </div>
     </div>
 

@@ -46,7 +46,7 @@ class BaseMedia(models.Model):
     persian_name = models.CharField(max_length=200, verbose_name='نام فارسی')
     ganers = models.ManyToManyField(Ganers, verbose_name='ژانر ها')
     description = models.CharField(max_length=500, blank=True, verbose_name='درباره')
-    starts = models.ManyToManyField(Actor, blank=True, verbose_name='ستارگان')
+    stars = models.ManyToManyField(Actor, blank=True, verbose_name='ستارگان')
     info = models.CharField(max_length=200, blank=True, verbose_name='جزیات')
     baner = models.ImageField(upload_to=partial(folder_finder, folder='baner'), verbose_name='عکس فیلم')
     background_baner = models.ImageField(upload_to=partial(folder_finder, folder='backgrounds'), blank=True, verbose_name='بک گراند')
@@ -159,18 +159,15 @@ class Movie(BaseMedia):
 
 class BaseComment(models.Model):
     text = models.TextField(verbose_name='متن')
-    parent_comment = models.IntegerField(null=True, blank=True, verbose_name='کامنت پرنت')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر ارسال کننده')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='زمان ساخت')
     is_spoil = models.BooleanField(default=False, verbose_name='نظر حاوی اسپویل')
 
 
-    def __str__(self):
-        return self.user.__str__()
-
 
 class MovieComment(BaseComment):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name='سینمایی')
+    parent_comment = models.ForeignKey('MovieComment', on_delete=models.CASCADE, null=True, blank=True, verbose_name='کامنت پرنت')
 
     class Meta:
         verbose_name = 'کامنت فیلم'
@@ -178,11 +175,12 @@ class MovieComment(BaseComment):
 
 
     def __str__(self):
-        self.user.__str__()
+        return f'{self.user.__str__()}: {self.id}'
 
 
 class SerialComment(BaseComment):
     serial = models.ForeignKey(Serial, on_delete=models.CASCADE, verbose_name='سریال')
+    parent_comment = models.ForeignKey('SerialComment', on_delete=models.CASCADE, null=True, blank=True, verbose_name='کامنت پرنت')
 
     class Meta:
         verbose_name = 'کامنت سریال'
@@ -190,4 +188,4 @@ class SerialComment(BaseComment):
 
 
     def __str__(self):
-        self.user.__str__()
+        return f'{self.user.__str__()}: {self.id}'

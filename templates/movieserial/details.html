@@ -1,0 +1,380 @@
+{% extends 'movieserial/base_site.html' %}
+{% load static %}
+{% block top_section %}
+
+
+                <div class="container hidden lg:flex mx-auto mt-32 pb-28 justify-between">
+                    <div id="h" class="flex">
+                        <div class="relative">
+                            <img id="image" class="md:h-72 md:w-64 xl:w-72 xl:h-96 rounded-2xl" src="{{ object.baner.url }}" alt="">
+                            <!-- <p class="absolute top-8 -right-8 px-6 py-2 transition-transform origin-bottom overflow-hidden rotate-45 bg-amber-600">زیرنویس</p> -->
+                        </div>
+                        <div class="mr-4">
+                            <h6 class="text-4xl">دانلود {% if page_name == 'serial-details' %}سریال{% endif %} {{ object.name }}</h6>
+                            <h6 class="mt-2 mb-3">{{ object.persian_name }}</h6>
+                            <h6>ژانرها: &nbsp;&nbsp;
+                                <!-- TODO: Add ganer link -->
+                                {% for ganer in object.ganers.all %}
+                                <a href="#" class="px-2 py-1 mx-1 bg-black hover:border-amber-500 hover:text-amber-400 transition duration-[400ms] rounded-lg border border-gray-200/50">{{ ganer }}</a>
+                                {% endfor %}
+                            </h6>
+                            <p class="font-lateef mt-4">{{ object.description }}</p>
+                            <div class="flex mt-2 items-center">
+                                <img class="h-7 me-2" src="{% static 'images/star.png' %}" alt="">
+                                ستارگان: 
+                                <!-- TODO: Add actor details link -->
+                                {% for star in object.stars.all %}
+                                <a class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]" href="#">{{ star.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex">
+                            <div class="relative ml-5">
+                                <div class="flex mb-2">
+                                    <img class="h-7 me-3" src="{% static 'images/bookmarck.png' %}" alt="">
+                                    <img class="h-7 mr-1 mb-2" src="{% static 'images/like.png' %}" alt="">
+                                    <img class="h-7 mr-1 mt-2" src="{% static 'images/dislike.png' %}" alt="">
+                                </div>
+                                <div class="absolute left-2 px-2 text-xs py-1 rounded-lg border inline">%20(5رای)</div>
+                            </div>
+                            <div>
+                                <div class="flex items-center mb-1">
+                                    <a href="#"><span class="text-3xl">{{ object.point }}</span>/10</a>
+                                    <a href="{{ object.imdb_link }}"><img class="h-10 mr-2" src="{% static 'images/imdb.png' %}" alt=""></a>
+                                </div>
+                                <div class="px-2 py-1 inline text-xs rounded-lg border">229رای</div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-40">
+                            {% if object.online_play %}
+                            <a href="{{ object.online_play }}" class="p-3 self-center pt-2 border rounded-xl bg-amber-600 hover:bg-amber-700 border-red-600 hover:border-red-700">پخش انلاین</a>
+                            {% endif %}
+                            {% if object.trailer %}
+                            <a href="{{ object.trailer }}" class="p-3 self-center pt-2 border rounded-xl bg-zinc-800 hover:bg-zinc-900 border-black">مشاهده تریلر</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    
+                    @media (min-width: 1024px) {
+                        div#h {
+                        width: 80%;
+                        }
+                        img#image {
+                            width: 800px;
+                            height: 450px;
+                        }
+                    }
+                    @media (min-width: 1526px) {
+                        img#image {
+                            width: 500px;
+                            height: 450px;
+                            }
+                        }
+                </style>
+{% endblock %}
+
+
+
+{% block mobile_detail_section %}
+<div class="absolute lg:hidden top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-center">
+    <p class="text-lg">دانلود {% if page_name == 'serial-details' %}سریال{% endif %} {{ object.name }}</p>
+    <p>{{ object.persian_name }}</p>
+    <div class="">
+        <div class="flex justify-center items-center mb-1">
+            <a href="#"><span class="text-3xl">{{ object.point }}</span>/10</a>
+            <a href="{{ object.imdb_link }}"><img class="h-10 mr-2" src="{% static 'images/imdb.png' %}" alt=""></a>
+            <div class="px-2 mr-1 py-1 inline text-xs rounded-lg border">229رای</div>
+        </div>
+    </div>
+    <h6>ژانرها: &nbsp;&nbsp;
+        <!-- TODO: Add ganer link -->
+        {% for ganer in object.ganers.all %}
+        <a href="#" class="px-2 py-1 mx-1 bg-black hover:border-amber-500 hover:text-amber-400 transition duration-[400ms] rounded-lg border border-gray-200/50">{{ ganer.name }}</a>
+        {% endfor %}
+    </h6>
+    <p>{{ object.description }}</p>
+    <div class="flex mt-2 items-center">
+        <img class="h-7 me-2" src="{% static 'images/star.png' %}" alt="">
+        ستارگان: 
+        <!-- TODO: Add actor details link -->
+        {% for star in object.stars.all %}
+        <a class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]" href="#">{{ star.name }}</a>
+        {% endfor %}
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+        {% if object.online_play %}
+        <a href="{{ object.online_play }}" class="p-3 self-center pt-2 border rounded-xl bg-amber-600 hover:bg-amber-700 border-red-600 hover:border-red-700">پخش انلاین</a>
+        {% endif %}
+        {% if object.trailer %}
+        <a href="{{ object.trailer }}" class="p-3 self-center pt-2 border rounded-xl bg-zinc-800 hover:bg-zinc-900 border-black">مشاهده تریلر</a>
+        {% endif %}
+        </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="bg-slate-900 py-3.5">
+    <div class="container mx-auto">
+        <ul id="tabs" class="flex">
+            <li data-tab="dlbox"><a class="flex mx-3 items-center hover:text-amber-500" ><img class="ml-2 h-7" src="{% static 'images/download.png' %}" alt=""> باکس دانلود</a></li>
+            <li data-tab="info"><a class="flex mx-3 items-center hover:text-amber-500" ><img class="ml-2 h-7" src="{% static 'images/microphone.png' %}" alt=""> اطلاعات بیشتر</a></li>
+            <li data-tab="comment"><a class="flex mx-3 items-center hover:text-amber-500" ><img class="ml-2 h-7" src="{% static 'images/chat.png' %}" alt=""> نظرات</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="container mx-auto mt-16" id="dlbox">
+
+    {% if page_name == 'serial-details' %}
+    <!-- Serial dl -->
+    {% for section in object.sections.all %}
+    <div data-accordion="collapse" class="bg-slate-900 my-3 rounded-3xl">
+        <div class="flex items-center cursor-pointer justify-between text-slate-100 bg-slate-900/70 p-5 rounded-3xl" data-accordion-target="#section-{{ section.id }}" aria-expanded="false" aria-controls="dlbox">
+            <div class="">
+                {{ section.name }}
+                <span class="mx-2 border-gray-100/25 border"></span> قسمت 8 اضافه شد
+            </div>
+            <span class="">
+                <svg class="w-2.5 h-2.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+            </span>
+        </div>
+
+        <div id="section-{{ section.id }}" class="hidden px-10 mt-10 mb-5">
+            <!-- S1 Q1 -->
+            {% for quality in section.qualitys.all %}
+            <div data-accordion="collapse" class="z-10 my-2 rounded-3xl">
+                <div class="hidden sm:flex cursor-pointer justify-between text-slate-100 bg-black p-5 rounded-3xl" style="background-color: #000101;" data-accordion-target="#section-{{ section.id }}-quality-{{ quality.id }}" aria-expanded="false" aria-controls="section-{{ section.id }}-quality-{{ quality.id }}-aria">
+                    <div class="flex flex-wrap">
+                        <!-- <span class="flex"> -->
+                            کیفیت: 
+                            <img class="h-6 ml-1" src="{% static 'images/downloading.png' %}">
+                            <span class="ml-2">{{ quality.name }}</span>
+                            <span class="bg-amber-600 rounded-full p-2 pt-0">زیرنویس</span>
+                            <span class="mx-4 border-gray-100/25 border"></span>
+                            <img class="h-6" src="../images/folder.png" alt="">
+                            <span class="mr-2">تعداد قسمت: {{ quality.episodes.all.count }}</span>
+                            <span class="mx-4 border-gray-100/25 border"></span>
+                            <div class="flex">
+                                <img class="h-7" src="{% static 'images/downloading.png' %}" alt="">
+                                <span>حجم: {{ quality.total_size }}</span>
+                            </div>
+                            <span class="mx-4 border-gray-100/25 border"></span>
+                            <span>soft</span>
+                        <!-- </span> -->
+                    </div>
+                    <span class="">
+                        <svg class="w-2.5 h-2.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                        </svg>
+                    </span>
+                </div>
+                <div class="sm:hidden bg-zinc-900 p-2 my-2 rounded-lg"  data-accordion-target="#section-{{ section.id }}-quality-{{ quality.id }}" aria-expanded="false" aria-controls="section-{{ section.id }}-quality-{{ quality.id }}-aria">
+                    <div class="flex-col">
+                        <div class="flex">
+                            <img class="h-6 ml-1" src="{% static 'images/downloading.png' %}">
+                            <span class="ml-2">{{ quality.name }}</span>
+                            <span class="bg-amber-600 rounded-full p-2 pt-0">زیرنویس</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <div class="flex">
+                                <img class="h-6" src="{% static 'images/folder.png' %}" alt="">
+                                <span class=" mr-2">{{ quality.episodes.all.count }}</span>
+                            </div>
+                            <span class="mx-4 border-gray-100/25 border"></span>
+                            <span>حجم: {{ quality.total_size }}</span>
+                            <span class="mx-4 border-gray-100/25 border"></span>
+                            <span>soft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-{{ section.id }}-quality-{{ quality.id }}" class="hidden px-10 mt-10 mb-5">
+                    <div class="grid gap-3 grid-cols-1 sm:grid-cols-3 md:grid-cols-4">
+                        {% for episode in quality.episodes.all %}
+                        <a href="{{ episode.link }}" target="_blank" onclick="$('#section-{{ section.id }}-quality-{{ quality.id }}-episode-{{ episode.id }}').show()" class="p-5 hover:bg-black/20 border border-gray-200/50 rounded-2xl duration-300 transition text-center">
+                            دانلود {{ episode.name }}
+                            <img id="section-{{ section.id }}-quality-{{ quality.id }}-episode-{{ episode.id }}" class="h-6 inline" style="display: none;" src="{% static 'images/downloaded.png' %}" alt="">
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="pb-10"></div>
+        </div>
+
+    </div>
+    {% endfor %}
+    {% endif %}
+
+</div>
+
+<div class="container mx-auto mt-3 hidden" id="info">
+    <div class="border border-gray-400 p-3 rounded-lg space-y-2">
+        <div class="flex justify-between my-3">
+            <div class="flex items-center">
+                <img class="h-7 ml-2" src="../images/so-subtitle.png" alt="">
+                <p>زیرنویس</p>
+            </div>
+            <div class="flex">
+                <p>{% if object.is_subtitle %} دارد {% else %} ندارد {% endif %}</p>
+                {% if object.is_subtitle %}
+                <img class="h-7 mr-1" src="{% static 'images/downloaded.png' %}" alt="">
+                {% else %}
+                <img src="{% static 'images/failed.png' %}" alt="" class="h-7 mr-1">
+                {% endif %}
+            </div>
+        </div>
+
+        <hr class="border-gray-500">
+
+        <div class="flex justify-between my-3">
+            <div class="flex items-center">
+                <img class="h-7 ml-2" src="../images/microphone.png" alt="">
+                <p>دوبله</p>
+            </div>
+            <div class="flex">
+                <p>ندارد</p>
+                {% if object.is_sound_translate %}
+                <img class="h-7 mr-1" src="{% static 'images/downloaded.png' %}" alt="">
+                {% else %}
+                <img src="{% static 'images/failed.png' %}" alt="" class="h-7 mr-1">
+                {% endif %}
+            </div>
+        </div>
+
+        
+        <hr class="border-gray-500">
+        
+        <div class="flex justify-between my-3">
+            <div class="flex items-center">
+                <img class="h-7 ml-2" src="../images/user.png" alt="">
+                <p>سال تولید</p>
+            </div>
+            <div class="flex">
+                <p>{{ object.year_create }}</p>
+            </div>
+        </div>
+        <hr class="border-gray-500">
+
+        <div class="flex justify-between my-3">
+            <div class="flex items-center">
+                <img class="h-7 ml-2" src="../images/so-subtitle.png" alt="">
+                <p>ستارگان</p>
+            </div>
+            <div class="flex">
+                {% for star in object.stars.all %}
+                <a class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]" href="#">{{ star.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <hr class="border-gray-500">
+        
+        <div class="flex justify-between my-3">
+            <div class="flex items-center">
+                <img class="h-7 ml-2" src="../images/so-subtitle.png" alt="">
+                <p>کارگردان</p>
+            </div>
+            <div class="flex">
+                <p></p>
+            </div>
+        </div>
+
+        <hr class="border-gray-500">
+    
+        <div class="flex justify-between my-3">
+            <div class="flex items-center">
+                <img class="h-7 ml-2" src="../images/age.png" alt="">
+                <p>رده سنی</p>
+            </div>
+            <div class="flex">
+                <p></p>
+            </div>
+        </div>
+    
+        <hr class="border-gray-500">
+    
+        <div class="flex justify-between my-3">
+            <div class="flex items-center">
+                <img class="h-7 ml-2" src="../images/star.png" alt="">
+                <p>زبان</p>
+            </div>
+            <div class="flex">
+                <p></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mx-auto mt-3 bg-zinc-900 rounded-3xl border hidden" id="comment">
+    <div class="grid grid-cols-10 pt-5">
+        <img class="col-span-2 p-3" src="../images/chat.png" alt="">
+        <form action="" method="post" class="col-span-6">
+            {% csrf_token %}
+            <input id="id_parent_comment" name="parent_comment" type="number" class="hidden">
+            <p id="parent_comment_info"></p>
+            {{ comment_form.text }}
+            <!-- <textarea name="" id="" rows="5" class="w-full rounded-xl p-2 bg-slate-950"></textarea> -->
+            <div class="flex justify-between">
+                <div class="flex">
+                    {{ comment_form.is_spoil.as_field_group }}
+                </div>
+                <button class="p-3 pt-2 mt-1 bg-amber-600 rounded-xl" type="submit">ارسال دیدگاه</button>
+            </div>
+        </form>
+        <p class="col-span-2 text-end p-3">نظرات: <span>{{ comment_counts }}</span></p>
+    </div>
+
+    <div class="border-t mt-3 px-4 py-3">
+        {% for comment in comments %}
+        <div class="p-3 ">
+            <div class="flex">
+                <img class="h-12 rounded-xl ml-1" src="{% if comment.user.gender == 'female' %}{% static 'images/female.png' %}{% else %}{% static 'images/male.png' %}{% endif %}" alt="">
+                <strong class="ml-1">{{ comment.user }}</strong>
+                <p>{{ comment.created_at|date:'Y/m/d H:i:s' }}</p>
+            </div>
+            <p class="px-3.5">{{ comment.text }}</p>
+            <div class="flex justify-between">
+                <p onclick="sednReplay({{ comment.id }}, '{{ comment.user }}')">پاسخ</p>
+                <div class="flex">
+                    <img src="{% static 'images/like.png' %}" alt="" class="h-7 mb-2">
+                    <p>--</p>
+                    <span class="border mx-2"></span>
+                    <p>--</p>
+                    <img src="{% static 'images/dislike.png' %}" alt="" class="h-7 mt-2">
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        {% if comment.serialcomment_set.exists %}
+        <div style="margin-right: 50px;">
+            {% include 'components/replay_comment.html' with comments=comment.serialcomment_set.all %}
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#tabs li').click(function(){
+            $('#dlbox').addClass('hidden');
+            $('#info').addClass('hidden');
+            $('#comment').addClass('hidden');
+            $('#' + $(this).data('tab')).removeClass('hidden');
+        })
+    })
+    function sednReplay (id, user) {
+        document.getElementById('id_parent_comment').value = id
+        document.getElementById('parent_comment_info').innerHTML = `شما درحال پاسخ به ${user} هستید`
+    }
+</script>
+{% endblock %}
