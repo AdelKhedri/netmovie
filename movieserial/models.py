@@ -141,7 +141,7 @@ class Serial(BaseMedia):
 
 
     def __str__(self):
-        return self.name
+        return f'{self.name}: {self.id}'
 
 
 class Movie(BaseMedia):
@@ -154,7 +154,7 @@ class Movie(BaseMedia):
 
 
     def __str__(self):
-        return self.name
+        return f'{self.name}: {self.id}'
 
 
 class BaseComment(models.Model):

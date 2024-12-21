@@ -1,6 +1,5 @@
 from django import forms
-from user.models import User
-from .models import MovieComment, SerialComment
+from .models import MovieComment, SerialComment, Ganers
 from user.forms import input_full_dark_attrs, checkbox_attrs
 
 
@@ -68,3 +67,26 @@ class MovieCommentForm(BaseCommentFrom):
     def __init__(self, *args, **kwargs):
         self.movie = kwargs.pop('movie', None)
         super().__init__(*args, **kwargs)
+
+
+# class GanerFilterForm(forms.Form):
+#     imdb_point_types = (
+#         ("3", "بیشتر از 3"),
+#         ("4", "بیشتر از 4"),
+#         ("5", "بیشتر از 5"),
+#         ("6", "بیشتر از 6"),
+#         ("7", "بیشتر از 7"),
+#         ("8", "بیشتر از 8"),
+#         ("9", "بیشتر از 9"),
+#         ("all", "همه"),
+#     )
+#     order_types = (
+#         ("newest", "جدیدترین"),
+#         ("most_recent", "بروزترین"),
+#         ("popular", "محبوب ترین"),
+#         ("imdb_point", "امتیاز IMDB"),
+#         ("release_year", "سال انتشار"),
+#     )
+#     ganer = forms.ModelChoiceField(queryset=Ganers.objects.all(), required=False)
+#     imdb_point = forms.ChoiceField(widget=forms.Select(choices=imdb_point_types), required=False)
+#     ordering = forms.ChoiceField(widget=forms.Select(choices=order_types), required=False)

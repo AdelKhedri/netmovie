@@ -1,0 +1,27 @@
+{% load static %}
+<div class="transition duration-300 hover:scale-110 cursor-pointer group" onclick="window.location.href='{% if media_type == "serial" %}{% url "serial-details" media.slug %}{% elif media_type == "movie" %}{% url "movie-details" media.slug %}{% endif %}'">
+    <div class="relative w-max">
+        <img src="{{ media.baner.url }}" alt="" class="rounded-2xl transition duration-[400ms] group-hover:brightness-50 w-48 h-72 border-black border group-hover:border-amber-500">
+        <div class="absolute flex top-1 right-1">
+            {% if media.is_sound_translate %}
+            <img src="{% static 'images/microphone.png' %}" alt="" class="bg-black/50 rounded-full p-1 h-7">
+            {% endif %}
+            {% if media.is_subtitle %}
+            <img src="{% static 'images/subtitle.png' %}" alt="" class="bg-black/50 rounded-full p-1 h-7 mr-1">
+            {% endif %}
+        </div>
+        {% if media.online_play != '' %}
+        <img src="{% static 'images/play.png' %}" alt="" class="absolute top-1 left-1 bg-black/50 rounded-full p-1 h-7">
+        {% endif %}
+    </div>
+
+    <div class="absolute bottom-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-[400ms] group-hover:opacity-100">
+        <div class="flex">
+            {% for ganer in media.ganers.all %}
+            <a href="{% if media_type == "serial" %}{% url "serial-ganer" ganer.slug %}{% endif %}" class="bg-white/20 rounded-md p-1 mr-1">{{ ganer.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <h6 class="text-center">{{ media.name }}</h6>
+    <h6 class="text-center"><span class="text-amber-400">{{ media.point }}/10</span><span class="mx-2">|</span>{{ media.year_create }}</h6>
+</div>

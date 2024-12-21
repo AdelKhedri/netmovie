@@ -1,0 +1,96 @@
+{% extends 'movieserial/base_site.html' %}
+{% block content %}
+    
+    <div class="h-24"></div>
+    <div class="container mx-auto px-3">
+        <form action="" method="get" class="lg:flex justify-between">
+            
+            <p class="text-2xl my-4 text-center lg:m-0 font-bold">{% if page_name == 'movie-ganer' %} سینمایی: {% elif page_name == 'serial-ganer' %}سریال:‌ {% endif %}{{ ganer.name }}({{ ganer.serial_set.count }})</p>
+            {% if page_name in 'serial-ganer,movie-ganer' %}
+            <div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-y-7">
+                    <div class="relative outline outline-2 p-1 w-fit rounded-lg outline-gray-500 mx-0 lg:mr-5">
+                        <!-- <input type="text" name="" id="" class="px-2 py-2 bg-black rounded-lg"> -->
+                        <label class="absolute bg-black -top-4 right-3 px-2">مرتب سازی</label>
+                        <Select name="ordering" class="px-2 py-2 bg-black rounded-lg w-60">
+                            <option value="newest">جدیدترین</option>
+                            <option value="imdb_point">امتیاز IMDB</option>
+                            <option value="release_year">سال انتشار</option>
+                        </Select>
+                    </div>
+                    <div class="relative outline outline-2 p-1 w-fit rounded-lg outline-gray-500 mx-0 lg:mr-5">
+                        <label class="absolute bg-black -top-4 right-3 px-2">امتیاز IMDB</label>
+                        <!-- <input type="text" name="" id="" class="px-2 py-2 bg-black rounded-lg"> -->
+                        <Select name="point" class="px-2 py-2 bg-black rounded-lg w-60">
+                            <option value="all">همه</option>
+                            <option value="9">بالای 9</option>
+                            <option value="8">بالای 8</option>
+                            <option value="7">بالای 7</option>
+                            <option value="6">بالای 6</option>
+                            <option value="5">بالای 5</option>
+                            <option value="4">بالای 4</option>
+                            <option value="3">بالای 3</option>
+                        </Select>
+                    </div>
+                    {% if page_name not in 'serial-ganer,' %}
+                    <div class="relative outline outline-2 p-1 w-fit rounded-lg outline-gray-500 mx-0 lg:mr-5">
+                        <label class="absolute bg-black -top-4 right-3 px-2">ژانر</label>
+                        <!-- <input type="text" name="" id="" class="px-2 py-2 bg-black rounded-lg"> -->
+                        <Select name="ganer" id="ganer-list" class="px-2 py-2 bg-black rounded-lg w-60">
+                            <option value="all">همه</option>
+                        </Select>
+                    </div>
+                    {% endif %}
+                    <div class="outline outline-2 inline-block p-1 w-fit rounded-lg outline-gray-500 mx-0 lg:mr-5">
+                        <button class="px-2 py-2 inline-block w-fit bg-black rounded-lg">جست و حو</button>
+                    </div>
+                </div>
+                <script>
+                    
+                    {% if page_name not in 'serial-ganer,' %}
+                    const generList = [
+                        {% for ganer in ganers %}
+                        {name: '{{ ganer.name }}', slug: '{{ ganer.slug }}'},
+                        {% endfor %}
+                        {name: 'همه', slug: 'all'},
+                    ]
+
+                    const target = document.getElementById('ganer-list');
+                    for (let i = 0; i<generList.length; i++){
+                        target.innerHTML += '<option class="" value="SLUG">GENER</option>'.replace('SLUG', generList[i].slug).replace('GENER', generList[i].name)
+                    }
+                    {% endif %}
+                </script>
+            </div>
+            {% endif %}
+        </form>
+        <div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-5 mt-4">
+                {% if page_name == 'serial-ganer' %}
+                    {% for object in ganer_serials %}
+                        {% include 'components/media.html' with media=object media_type='serial' %}
+                    {% empty %}
+                        <p></p>
+                        <p></p>
+                        <p class="text-center p-3 rounded-lg ">هیچی پیدا نکردم</p>
+                    {% endfor %}
+                {% elif page_name == 'movie-ganer' %}
+                    {% include 'components/media.html' with media=object media_type='movie' %}
+                {% endif %}
+            </div>
+            
+            <div id="pagination" class="flex mt-4 justify-center">
+                <a href="#" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">first</a>
+                <a href="#" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500"><</a>
+                <a href="#" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">3</a>
+                <a href="#" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">4</a>
+                <a href="#" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">5</a>
+                <a href="#" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">></a>
+                <a href="#" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">last</a>
+            </div>
+        </div>
+        <div class="h-32"></div>
+        
+    </div>
+{% endblock %}
