@@ -76,7 +76,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-10 gap-y-3 mt-2 pb-3">
             {% for serialad in serials %}
-            <a href="#">
+            <a href="{% url 'serial-details' serialad.slug %}">
                 <div class="relative h-64 w-96">
                     <img class="rounded-2xl transition duration-[400ms] hover:brightness-50" src="{% if serialad.background_baner %} {{serialad.background_baner.url}} {% else %} '' {% endif %}" alt="">
                     <div class="absolute flex top-1 right-1">
@@ -125,7 +125,7 @@
         
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 gap-x-20 gap-y-20 mt-2 pb-3">
             {% for movie in movies %}
-            <div class="transition duration-300 hover:scale-110 cursor-pointer group" onclick="window.location.href='../pages/detail.html'">
+            <div class="transition duration-300 hover:scale-110 cursor-pointer group" onclick="window.location.href='{% url 'movie-details' movie.slug %}'">
                 <div class="relative w-max">
                     <img src="{{ movie.baner.url }}" alt="" class="rounded-2xl transition duration-[400ms] group-hover:brightness-50 w-48 h-72 border-black border group-hover:border-amber-500">
                     <div class="absolute flex top-1 right-1">
