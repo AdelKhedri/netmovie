@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.shortcuts import get_list_or_404, render
-from .models import Ganers, Movie, MovieComment, Quality, Section, Serial, SerialComment
+from .models import Actor, Ganers, Movie, MovieComment, Quality, Section, Serial, SerialComment
 from django.views.generic import View
 from user.utils import get_left_special_time
 from django.db.models import Count, Sum, Prefetch
@@ -8,10 +8,11 @@ from .forms import SerialCommentForm, MovieCommentForm
 from django.core.paginator import Paginator
 
 
-def get_page(queryset, page, item_per_page):
+def get_page(queryset, requested_page, item_per_page):
     paginator = Paginator(queryset, item_per_page)
-    page = page if str(page).isnumeric() else 1
-    return paginator.page(page)
+    if not str(requested_page).isnumeric() or int(requested_page) > paginator.num_pages:
+        requested_page = 1
+    return paginator.page(requested_page)
 
 
 class HomeView(View):
@@ -141,7 +142,7 @@ class SerialGanerView(View):
         self.serials = Serial.objects.filter(ganers=ganer)
         self.context.update({
             'ganer': ganer,
-            'media_ganer': self.serials,
+            'objects': self.serials,
             'title_page': f'ژانر { ganer.name } | نت موی',
             })
         super().setup(request, slug, *args, **kwargs)
@@ -160,7 +161,7 @@ class SerialGanerView(View):
                 self.serials = self.serials.order_by('-point')
             elif ordering == 'release_year':
                 self.serials = self.serials.order_by('year_create')
-        self.context['media_ganer'] = get_page(self.serials, page, 21)
+        self.context['objects'] = get_page(self.serials, page, 21)
 
         return render(request, self.template_name, self.context)
 
@@ -174,6 +175,8 @@ class MovieGanerView(View):
             'ganers': Ganers.objects.all(),
             'serial_ganers': Ganers.objects.prefetch_related('serial_set').annotate(count = Count('serial')),
             'movie_ganers': Ganers.objects.prefetch_related('movie_set').annotate(count = Count('movie')),
+            'serial_counts': Serial.objects.count(),
+            'movie_counts': Movie.objects.count(),
         }
 
         try:
@@ -184,6 +187,7 @@ class MovieGanerView(View):
         self.ganer_movies = Movie.objects.filter(ganers = ganer)
         self.context.update({
             'ganer': ganer,
+            'title_page': f'سینمایی: ژانر {ganer.name}| نت موی',
             'ganer_movies': self.ganer_movies
         })
         super().setup(request, slug, *args, **kwargs)
@@ -203,5 +207,22 @@ class MovieGanerView(View):
         if imdb_point and imdb_point.isnumeric():
                 self.ganer_movies = self.ganer_movies.filter(point__gte = imdb_point)
 
-        self.context['media_ganer'] = get_page(self.ganer_movies, page, 21)
+        self.context['objects'] = get_page(self.ganer_movies, page, 21)
         return render(request, self.template_name, self.context)
+
+
+class ActorsView(View):
+    template_name = 'movieserial/filter.html'
+
+    def get(self, request, *args, **kwargs):
+        page = request.GET.get('page', 1)
+        context = {
+            'page_name': 'actors',
+            'title_page': 'هنرمندان | نت موی',
+            'objects': get_page(Actor.objects.all(), page, 21),
+            'movie_ganers': Ganers.objects.prefetch_related('movie_set').annotate(count = Count('movie')),
+            'serial_ganers': Ganers.objects.prefetch_related('serial_set').annotate(count = Count('serial')),
+            'serial_counts': Serial.objects.count(),
+            'movie_counts': Movie.objects.count() 
+        }
+        return render(request, self.template_name, context)

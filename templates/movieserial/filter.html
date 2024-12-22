@@ -6,9 +6,9 @@
         <form action="" method="get" class="lg:flex justify-between">
             
             <p class="text-2xl my-4 text-center lg:m-0 font-bold">
-                {% if page_name == 'movie-ganer' %} سینمایی: {% elif page_name == 'serial-ganer' %}سریال:‌ {% endif %}
+                {% if page_name == 'movie-ganer' %} سینمایی: {% elif page_name == 'serial-ganer' %}سریال:‌ {% elif page_name == 'acotrs' %}بازیگران: {% endif %}
                 {{ ganer.name }}
-                ({% if page_name == 'serial-ganer' %}{{ ganer.serial_set.count }}{% elif page_name == 'movie-ganer' %}{{ ganer.movie_set.count }}{% endif %})</p>
+                {% if page_name == 'serial-ganer' %}({{ ganer.serial_set.count }}){% elif page_name == 'movie-ganer' %}({{ ganer.movie_set.count }}){% endif %}</p>
             {% if page_name in 'serial-ganer,movie-ganer' %}
             <div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-y-7">
@@ -71,7 +71,7 @@
             
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-5 mt-4">
                 {% if page_name == 'serial-ganer' %}
-                    {% for object in media_ganer %}
+                    {% for object in objects %}
                         {% include 'components/media.html' with media=object media_type='serial' %}
                     {% empty %}
                         <p></p>
@@ -79,19 +79,23 @@
                         <p class="text-center p-3 rounded-lg ">هیچی پیدا نکردم</p>
                     {% endfor %}
                 {% elif page_name == 'movie-ganer' %}
-                    {% for object in media_ganer %}
+                    {% for object in objects %}
                         {% include 'components/media.html' with media=object media_type='movie' %}
+                    {% endfor %}
+                {% elif page_name == 'actors' %}
+                    {% for actor in objects %}
+                        {% include 'components/actor.html' with actor=actor %}
                     {% endfor %}
                 {% endif %}
             </div>
             
             <div id="pagination" class="flex mt-4 justify-center">
                 <a id="first_page" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">first</a>
-                {% if media_ganer.has_previous %}
+                {% if objects.has_previous %}
                 <a id="previous_page" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">&lt;</a>
                 {% endif %}
-                <a id="current_page" class="transition duration-300 px-3.5 py-2 rounded-lg bg-amber-500 mx-1 hover:bg-amber-500">{{ media_ganer.number }}</a>
-                {% if media_ganer.has_next %}
+                <a id="current_page" class="transition duration-300 px-3.5 py-2 rounded-lg bg-amber-500 mx-1 hover:bg-amber-500">{{ objects.number }}</a>
+                {% if objects.has_next %}
                 <a id="next_page" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">&gt;</a>
                 {% endif %}
                 <a id="last_page" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">last</a>
@@ -107,10 +111,10 @@
                 const currentUrl = window.location.href;
 
                 const firstPageNumber = 1;
-                const nextPageNumber = {% if media_ganer.has_next %}{{ media_ganer.next_page_number }}{% else %}null{% endif %};
+                const nextPageNumber = {% if objects.has_next %}{{ objects.next_page_number }}{% else %}null{% endif %};
                 
-                const previousPageNumber = {% if media_ganer.has_previous %}{{ media_ganer.previous_page_number }}{% else %}null{% endif %};
-                const lastPageNumber = {{ media_ganer.paginator.num_pages }};
+                const previousPageNumber = {% if objects.has_previous %}{{ objects.previous_page_number }}{% else %}null{% endif %};
+                const lastPageNumber = {{ objects.paginator.num_pages }};
 
                 document.getElementById('first_page').href = updatePageUrl(currentUrl, firstPageNumber);
                 if (nextPageNumber) {
