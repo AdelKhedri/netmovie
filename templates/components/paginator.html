@@ -1,0 +1,37 @@
+<div id="pagination" class="flex mt-4 justify-center">
+    <a id="first_page{{ perfix|default:'1' }}" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">first</a>
+    {% if objects.has_previous %}
+    <a id="previous_page{{ perfix|default:'1' }}" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">&lt;</a>
+    {% endif %}
+    <a id="current_page" class="transition duration-300 px-3.5 py-2 rounded-lg bg-amber-500 mx-1 hover:bg-amber-500">{{ objects.number }}</a>
+    {% if objects.has_next %}
+    <a id="next_page{{ perfix|default:'1' }}" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">&gt;</a>
+    {% endif %}
+    <a id="last_page{{ perfix|default:'1' }}" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">last</a>
+</div>
+
+<script>
+    function updatePageUrl(baseUrl, pageNumber) {
+        const url = new URL(baseUrl);
+        url.searchParams.set('page', pageNumber);
+        return url.href;
+    }
+
+    const currentUrl{{ perfix|default:'1' }} = window.location.href;
+
+    const firstPageNumber{{ perfix|default:'1' }} = 1;
+    const nextPageNumber{{ perfix|default:'1' }} = {% if objects.has_next %}{{ objects.next_page_number }}{% else %}null{% endif %};
+    
+    const previousPageNumber{{ perfix|default:'1' }} = {% if objects.has_previous %}{{ objects.previous_page_number }}{% else %}null{% endif %};
+    const lastPageNumber{{ perfix|default:'1' }} = {{ objects.paginator.num_pages }};
+
+    document.getElementById('first_page{{ perfix|default:'1' }}').href = updatePageUrl(currentUrl{{ perfix|default:'1' }}, firstPageNumber{{ perfix|default:'1' }});
+    if (nextPageNumber{{ perfix|default:'1' }}) {
+        document.getElementById('next_page{{ perfix|default:'1' }}').href = nextPageNumber{{ perfix|default:'1' }} ? updatePageUrl(currentUrl{{ perfix|default:'1' }}, nextPageNumber{{ perfix|default:'1' }}) : '';
+    }
+    if (previousPageNumber{{ perfix|default:'1' }}) {
+        document.getElementById('previous_page{{ perfix|default:'1' }}').href = previousPageNumber{{ perfix|default:'1' }} ? updatePageUrl(currentUrl{{ perfix|default:'1' }}, previousPageNumber{{ perfix|default:'1' }}) : '';
+    }
+    document.getElementById('last_page{{ perfix|default:'1' }}').href = updatePageUrl(currentUrl{{ perfix|default:'1' }}, lastPageNumber{{ perfix|default:'1' }});
+
+</script>

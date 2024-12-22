@@ -89,42 +89,8 @@
                 {% endif %}
             </div>
             
-            <div id="pagination" class="flex mt-4 justify-center">
-                <a id="first_page" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">first</a>
-                {% if objects.has_previous %}
-                <a id="previous_page" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">&lt;</a>
-                {% endif %}
-                <a id="current_page" class="transition duration-300 px-3.5 py-2 rounded-lg bg-amber-500 mx-1 hover:bg-amber-500">{{ objects.number }}</a>
-                {% if objects.has_next %}
-                <a id="next_page" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">&gt;</a>
-                {% endif %}
-                <a id="last_page" href="" class="transition duration-300 px-3.5 py-2 rounded-lg bg-white/20 mx-1 hover:bg-amber-500">last</a>
-            </div>
             
-            <script>
-                function updatePageUrl(baseUrl, pageNumber) {
-                    const url = new URL(baseUrl);
-                    url.searchParams.set('page', pageNumber);
-                    return url.href;
-                }
-
-                const currentUrl = window.location.href;
-
-                const firstPageNumber = 1;
-                const nextPageNumber = {% if objects.has_next %}{{ objects.next_page_number }}{% else %}null{% endif %};
-                
-                const previousPageNumber = {% if objects.has_previous %}{{ objects.previous_page_number }}{% else %}null{% endif %};
-                const lastPageNumber = {{ objects.paginator.num_pages }};
-
-                document.getElementById('first_page').href = updatePageUrl(currentUrl, firstPageNumber);
-                if (nextPageNumber) {
-                    document.getElementById('next_page').href = nextPageNumber ? updatePageUrl(currentUrl, nextPageNumber) : '';
-                }
-                if (previousPageNumber) {
-                    document.getElementById('previous_page').href = previousPageNumber ? updatePageUrl(currentUrl, previousPageNumber) : '';
-                }
-                document.getElementById('last_page').href = updatePageUrl(currentUrl, lastPageNumber);
-            </script>
+            {% include 'components/paginator.html' with objects=objects %}
             
         </div>
         <div class="h-32"></div>

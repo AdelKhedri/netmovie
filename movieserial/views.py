@@ -1,5 +1,5 @@
 from django.http import Http404
-from django.shortcuts import get_list_or_404, render
+from django.shortcuts import get_object_or_404, render
 from .models import Actor, Ganers, Movie, MovieComment, Quality, Section, Serial, SerialComment
 from django.views.generic import View
 from user.utils import get_left_special_time
@@ -226,3 +226,28 @@ class ActorsView(View):
             'movie_counts': Movie.objects.count() 
         }
         return render(request, self.template_name, context)
+
+
+class ActorDetailsView(View):
+    tempalte_name = 'movieserial/actor-details.html'
+
+    def get(self, request, id, *args, **kwargs):
+        actor = get_object_or_404(Actor, id=id)
+        movies = Movie.objects.filter(stars=actor)
+        serials = Serial.objects.filter(stars=actor)
+        page = request.GET.get('page', 1)
+
+        context = {
+            'page_name': 'actor-details',
+            'title_name': f'{actor.name}|نت موی',
+            'actor': actor,
+            'movies': get_page(movies, page, 15),
+            'actor_movies_count': movies.count(),
+            'actor_serials_count': serials.count(),
+            'serials': get_page(serials, page, 1),
+            'serial_ganers': Ganers.objects.prefetch_related('serial_set').annotate(count = Count('serial')),
+            'movie_ganers': Ganers.objects.prefetch_related('movie_set').annotate(count = Count('movie')),
+            'serial_counts': Serial.objects.count(),
+            'movie_counts': Movie.objects.count(),
+        }
+        return render(request, self.tempalte_name, context)
