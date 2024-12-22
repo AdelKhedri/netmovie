@@ -144,7 +144,7 @@
                 <div class="absolute bottom-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-[400ms] group-hover:opacity-100">
                     <div class="flex">
                         {% for ganer in movie.ganers.all %}
-                        <a href="#" class="bg-white/20 rounded-md p-1 mr-1">{{ ganer }}</a>
+                        <a href="{% url 'movie-ganer' ganer.slug %}" class="bg-white/20 rounded-md p-1 mr-1">{{ ganer }}</a>
                         {% endfor %}
                     </div>
                 </div>

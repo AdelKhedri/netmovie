@@ -18,7 +18,7 @@
     <div class="absolute bottom-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-[400ms] group-hover:opacity-100">
         <div class="flex">
             {% for ganer in media.ganers.all %}
-            <a href="{% if media_type == "serial" %}{% url "serial-ganer" ganer.slug %}{% endif %}" class="bg-white/20 rounded-md p-1 mr-1">{{ ganer.name }}</a>
+            <a href="{% if media_type == "serial" %}{% url "serial-ganer" ganer.slug %}{% elif media_type == 'movie' %}{% url 'movie-ganer' ganer.slug %}{% endif %}" class="bg-white/20 rounded-md p-1 mr-1">{{ ganer.name }}</a>
             {% endfor %}
         </div>
     </div>
