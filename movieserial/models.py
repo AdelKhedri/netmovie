@@ -191,3 +191,19 @@ class SerialComment(BaseComment):
 
     def __str__(self):
         return f'{self.user.__str__()}: {self.id}'
+
+
+class ContactUs(models.Model):
+    name = models.CharField(max_length=200, verbose_name='نام')
+    phone = models.IntegerField(verbose_name='شماره')
+    email = models.EmailField(blank=True, verbose_name='ایمیل')
+    subject = models.CharField(max_length=200, verbose_name='موضوع')
+    message = models.TextField(verbose_name='متن پیام')
+
+
+    class Meta:
+        verbose_name = 'تماس با ما'
+        verbose_name_plural = 'تماس با ما'
+
+    def __str__(self):
+        return self.name

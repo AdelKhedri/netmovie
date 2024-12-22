@@ -30,9 +30,9 @@
                 </div>
                 <ul class="flex">
                     <li class="hover:text-amber-500 mx-0.5 p-1"><a href="/">صفحه اصلی</a></li>
-                    <li class="hover:text-amber-500 mx-0.5 p-1"><a href="">خرید اشتراک</a></li>
+                    <li class="hover:text-amber-500 mx-0.5 p-1"><a href="{% url 'dashboard:buy-subscription' %}">خرید اشتراک</a></li>
                     <li class="hover:text-amber-500 mx-0.5 p-1"><a class="{% if page_name == 'profile' %}text-amber-600{% endif %}" href="{% url 'dashboard:profile' %}">پروفایل</a></li>
-                    <li class="hover:text-amber-500 mx-0.5 p-1"><a href="">پشتیبانی</a></li>
+                    <li class="hover:text-amber-500 mx-0.5 p-1"><a href="{% url 'dashboard:ticket' %}">پشتیبانی</a></li>
                 </ul>
             </div>
             
@@ -46,7 +46,7 @@
             <div class="flex lg:hidden items-center mr-5 group">
                             
                 <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="flex items-center" type="button">
-                    Adel kh
+                    {{ request.user }}
                     <svg class="w-2.5 h-2.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                     </svg>
