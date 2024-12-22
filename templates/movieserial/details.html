@@ -21,9 +21,8 @@
                             <div class="flex mt-2 items-center">
                                 <img class="h-7 me-2" src="{% static 'images/star.png' %}" alt="">
                                 ستارگان: 
-                                <!-- TODO: Add actor details link -->
                                 {% for star in object.stars.all %}
-                                <a class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]" href="#">{{ star.name }}</a>
+                                <a href="{% url 'actor-details' star.id %}" class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]">{{ star.name }}</a>
                                 {% endfor %}
                             </div>
                         </div>
@@ -100,7 +99,7 @@
         ستارگان: 
         <!-- TODO: Add actor details link -->
         {% for star in object.stars.all %}
-        <a href="#" class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]">{{ star.name }}</a>
+        <a href="{% url 'actor-details' star.id %}" class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]">{{ star.name }}</a>
         {% endfor %}
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">

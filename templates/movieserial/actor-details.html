@@ -1,0 +1,88 @@
+{% extends 'movieserial/base_site.html' %}
+{% block content %}
+
+    <div class="h-24"></div>
+    <div class="container mx-auto px-3 mt-5">
+        <div class="grid grid-cols-12 gap-y-7">
+            <div class="col-span-12 mx-auto md:col-span-4 xl:col-span-3">
+                <div class="relative bg-slate-900 text-center w-fit p-6 rounded-3xl">
+                    <img src="{% if actor.photo %}{{ actor.photo.url }}{% endif %}" class="rounded-3xl" alt="">
+                    <p class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-full border-[5px] px-2 py-1 bg-slate-900 border-black">{{ actor_movies_count|add:actor_serials_count }} فیلم</p>
+                    <p class="mt-5 text-xl font-bold mb-4">{{ actor.name }}</p>
+                    <a href="{{ actor.imdb_link }}" class="bg-amber-500 p-3 rounded-lg">مشاهده در IMDB</a>
+                </div>
+            </div>
+            <div class="col-span-9 md:col-span-8 xl:col-span-9 mr-3">
+                <div class="flex justify-between items-start">
+                    <div class="flex">
+                        <button id="tab-btn1" class="border-b-2 border-b-amber-500" onclick="change_tab('tab-btn1', 'movie-section')">سینمایی ها</button>
+                        <button id="tab-btn2" class="border-b-2 border-b-amber-500 btn-amber mr-3" onclick="change_tab('tab-btn2', 'serial-section')">سریال ها</button>
+                    </div>
+                    <form action="" method="post" class="flex">
+                        <div class="relative outline outline-2 p-1 rounded-lg outline-gray-500 mr-5">
+                            <!-- <input type="text" name="" id="" class="px-2 py-2 bg-black rounded-lg"> -->
+                            <label class="absolute bg-black -top-4 right-3 px-2">مرتب سازی</label>
+                            <Select class="px-2 py-2 bg-black rounded-lg w-60">
+                                <option class="" value="1">جدیدترین</option>
+                                <option class="" value="2">بروزترین</option>
+                                <option class="" value="2">محبوب ترین</option>
+                                <option class="" value="2">امتیاز IMDB</option>
+                                <option class="" value="2">سال انتشار</option>
+                            </Select>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="movie-section" class="hidden">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 mt-5">
+                        {% for movie in movies %}
+                        {% include 'components/media.html' with media=movie media_type='movie' %}
+                        {% endfor %}
+                    </div>
+                    {% include 'components/paginator.html' with objects=movies %}
+                </div>
+
+                <div id="serial-section">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 mt-5">
+                        {% for serial in serials %}
+                        {% include 'components/media.html' with media=serial media_type='serial' %}
+                        {% endfor %}
+                    </div>
+                    {% include 'components/paginator.html' with objects=serials perfix=2 %}
+                </div>
+                <script>
+                    let movie = document.getElementById('movie-section');
+                    let serial = document.getElementById('serial-section');
+                    let tabs = [movie, serial];
+                    let tab_btns = [document.getElementById('tab-btn1'), document.getElementById('tab-btn2')]
+                    if (localStorage.getItem('current_btn')) {
+                        change_tab(localStorage.getItem('current_btn'), localStorage.getItem('current_tab'))
+                    } else {
+                        change_tab('tab-btn1', 'movie-section')
+                    }
+
+
+                    function change_tab(current_btn_id, target_tab_id) {
+                        localStorage.setItem('current_tab', target_tab_id);
+                        localStorage.setItem('current_btn', current_btn_id);
+
+                        for(var i = 0; i < tab_btns.length; i++){
+                            tab_btns[i].classList.add(['border-b-amber-500', 'border-b-2']);
+                            tab_btns[i].classList.remove('btn-amber')
+                        }
+                        for (var i = 0; i < tabs.length; i++) {
+                            tabs[i].classList.add('hidden')
+                        }
+
+                        document.getElementById(target_tab_id).classList.remove('hidden')
+                        document.getElementById(current_btn_id).classList.remove(['border-b-amber-500', 'border-b-2',]);
+                        document.getElementById(current_btn_id).classList.add('btn-amber');
+                    }
+                </script>
+            </div>
+        </div>
+        
+        <div class="h-10"></div>
+        
+    </div>
+{% endblock %}

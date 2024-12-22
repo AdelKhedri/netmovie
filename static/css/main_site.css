@@ -863,6 +863,10 @@ video {
   right: 0.75rem;
 }
 
+.top-0 {
+  top: 0px;
+}
+
 .top-1 {
   top: 0.25rem;
 }
@@ -891,12 +895,20 @@ video {
   grid-column: span 1 / span 1;
 }
 
+.col-span-12 {
+  grid-column: span 12 / span 12;
+}
+
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
 
 .col-span-6 {
   grid-column: span 6 / span 6;
+}
+
+.col-span-9 {
+  grid-column: span 9 / span 9;
 }
 
 .m-1 {
@@ -1358,6 +1370,10 @@ video {
   grid-template-columns: repeat(10, minmax(0, 1fr));
 }
 
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -1380,6 +1396,10 @@ video {
 
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.items-start {
+  align-items: flex-start;
 }
 
 .items-end {
@@ -1514,6 +1534,10 @@ video {
   border-width: 2px;
 }
 
+.border-\[5px\] {
+  border-width: 5px;
+}
+
 .border-b-2 {
   border-bottom-width: 2px;
 }
@@ -1615,6 +1639,11 @@ video {
 .border-zinc-800 {
   --tw-border-opacity: 1;
   border-color: rgb(39 39 42 / var(--tw-border-opacity));
+}
+
+.border-b-amber-500 {
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(245 158 11 / var(--tw-border-opacity));
 }
 
 .bg-\[\#000c1e\] {
@@ -2395,6 +2424,14 @@ video {
     grid-column: span 1 / span 1;
   }
 
+  .md\:col-span-4 {
+    grid-column: span 4 / span 4;
+  }
+
+  .md\:col-span-8 {
+    grid-column: span 8 / span 8;
+  }
+
   .md\:ml-2 {
     margin-left: 0.5rem;
   }
@@ -2478,6 +2515,10 @@ video {
     width: 75%;
   }
 
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .lg\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -2497,6 +2538,14 @@ video {
 }
 
 @media (min-width: 1280px) {
+  .xl\:col-span-3 {
+    grid-column: span 3 / span 3;
+  }
+
+  .xl\:col-span-9 {
+    grid-column: span 9 / span 9;
+  }
+
   .xl\:size-52 {
     width: 13rem;
     height: 13rem;
@@ -2538,6 +2587,10 @@ video {
 @media (min-width: 1536px) {
   .\32xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .\32xl\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .\32xl\:grid-cols-7 {
