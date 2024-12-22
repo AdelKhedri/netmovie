@@ -55,20 +55,20 @@
                                     </div>
                                     <div class="grid grid-cols-5 hidden" id="movie-gener-section">
                                         {% for ganer in movie_ganers %}
-                                        <a class="px-2" href="#"><p class="p-1 border-r-4 border-amber-500 hover:text-amber-500">{{ ganer.name }} ({{ ganer.count }})</p></a>
+                                        <a class="px-2" href="{% url 'movie-ganer' ganer.slug %}"><p class="p-1 border-r-4 border-amber-500 hover:text-amber-500">{{ ganer.name }} ({{ ganer.count }})</p></a>
                                         {% endfor %}
                                     </div>
                                     <div class="grid grid-cols-5 hidden" id="serial-gener-section">
                                         {% for ganer in serial_ganers %}
-                                        <a class="p-5" href="#"><p class="p-1 border-r-4 border-amber-500 hover:text-amber-500">{{ ganer.name }} ({{ ganer.count }})</p></a>
+                                        <a class="p-5" href="{% url 'serial-ganer' ganer.slug %}"><p class="p-1 border-r-4 border-amber-500 hover:text-amber-500">{{ ganer.name }} ({{ ganer.count }})</p></a>
                                         {% endfor %}
                                     </div>
                                 </div>
                             </li>
-                            <li class="active: mx-2">هنرمندان</li>
+                            <li class="active: mx-2"><a href="{% url 'actors' %}">هنرمندان</a></li>
                             <li class="mx-2">پخش آنلاین</li>
-                            <li class="mx-2">خرید اشتراک</li>
-                            <li class="mx-2">اپلیکیشن</li>
+                            <li class="mx-2"><a href="{% url 'dashboard:buy-subscription' %}">خرید اشتراک</a></li>
+                            <li class="mx-2"><a href="#">اپلیکیشن</a></li>
                         </ul>
                     </div>
         
