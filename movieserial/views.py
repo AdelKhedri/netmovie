@@ -4,7 +4,7 @@ from .models import Actor, Ganers, Movie, MovieComment, Quality, Section, Serial
 from django.views.generic import View
 from user.utils import get_left_special_time
 from django.db.models import Count, Sum, Prefetch
-from .forms import SerialCommentForm, MovieCommentForm
+from .forms import SerialCommentForm, MovieCommentForm, ContactUsForm
 from django.core.paginator import Paginator
 
 
@@ -251,3 +251,25 @@ class ActorDetailsView(View):
             'movie_counts': Movie.objects.count(),
         }
         return render(request, self.tempalte_name, context)
+
+
+class ContactUsView(View):
+    template_name = 'movieserial/contact-us.html'
+
+    def setup(self, request, *args, **kwargs):
+        self.context = {
+            'page_name': 'contact-us',
+            'title_page': '',
+            'form': ContactUsForm()
+        }
+        super().setup(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.context)
+
+    def post(self, request, *args, **kwargs):
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            self.context['msg'] = 'success'
+        return render(request, self.template_name, self.context)

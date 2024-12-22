@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from django.contrib.contenttypes.models import ContentType
 from .models import (
     Actor, Ganers, DownloadLink, Quality, Section, Serial, Movie, MovieComment,
-    SerialComment)
+    SerialComment, ContactUs)
 
 
 # Inlines
@@ -72,3 +72,4 @@ admin.site.register(Quality)
 admin.site.register(Section)
 admin.site.register(MovieComment)
 admin.site.register(SerialComment)
+admin.site.register(ContactUs)

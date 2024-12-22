@@ -1,8 +1,9 @@
 from django import forms
-from .models import MovieComment, SerialComment, Ganers
+from .models import MovieComment, SerialComment, ContactUs
 from user.forms import input_full_dark_attrs, checkbox_attrs
 
 
+input_full_zinc = {'class': 'input-full-dark simple-input bg-zinc-900'}
 class BaseCommentFrom(forms.ModelForm):
     class Meta:
         fields = ['text', 'parent_comment', 'is_spoil']
@@ -69,24 +70,15 @@ class MovieCommentForm(BaseCommentFrom):
         super().__init__(*args, **kwargs)
 
 
-# class GanerFilterForm(forms.Form):
-#     imdb_point_types = (
-#         ("3", "بیشتر از 3"),
-#         ("4", "بیشتر از 4"),
-#         ("5", "بیشتر از 5"),
-#         ("6", "بیشتر از 6"),
-#         ("7", "بیشتر از 7"),
-#         ("8", "بیشتر از 8"),
-#         ("9", "بیشتر از 9"),
-#         ("all", "همه"),
-#     )
-#     order_types = (
-#         ("newest", "جدیدترین"),
-#         ("most_recent", "بروزترین"),
-#         ("popular", "محبوب ترین"),
-#         ("imdb_point", "امتیاز IMDB"),
-#         ("release_year", "سال انتشار"),
-#     )
-#     ganer = forms.ModelChoiceField(queryset=Ganers.objects.all(), required=False)
-#     imdb_point = forms.ChoiceField(widget=forms.Select(choices=imdb_point_types), required=False)
-#     ordering = forms.ChoiceField(widget=forms.Select(choices=order_types), required=False)
+class ContactUsForm(forms.ModelForm):
+    class Meta:
+        model = ContactUs
+        fields = "__all__"
+    
+        widgets = {
+            'name' : forms.TextInput(attrs=input_full_zinc),
+            'phone': forms.NumberInput(attrs=input_full_zinc),
+            'email': forms.EmailInput(attrs=input_full_zinc),
+            'subject': forms.TextInput(attrs=input_full_zinc),
+            'message': forms.Textarea(attrs=input_full_zinc)
+        }
