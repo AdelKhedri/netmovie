@@ -13,9 +13,8 @@
                             <h6 class="text-4xl">دانلود {% if page_name == 'serial-details' %}سریال{% endif %} {{ object.name }}</h6>
                             <h6 class="mt-2 mb-3">{{ object.persian_name }}</h6>
                             <h6>ژانرها: &nbsp;&nbsp;
-                                <!-- TODO: Add ganer link -->
                                 {% for ganer in object.ganers.all %}
-                                <a href="#" class="px-2 py-1 mx-1 bg-black hover:border-amber-500 hover:text-amber-400 transition duration-[400ms] rounded-lg border border-gray-200/50">{{ ganer }}</a>
+                                <a href="{% if page_name == 'serial-details' %}{% url 'serial-ganer' ganer.slug %}{% elif page_name == 'movie-details' %}{% url 'movie-ganer' ganer.slug %}{% endif %}" class="px-2 py-1 mx-1 bg-black hover:border-amber-500 hover:text-amber-400 transition duration-[400ms] rounded-lg border border-gray-200/50">{{ ganer }}</a>
                                 {% endfor %}
                             </h6>
                             <p class="font-lateef mt-4">{{ object.description }}</p>
@@ -91,9 +90,8 @@
         </div>
     </div>
     <h6>ژانرها: &nbsp;&nbsp;
-        <!-- TODO: Add ganer link -->
         {% for ganer in object.ganers.all %}
-        <a href="#" class="px-2 py-1 mx-1 bg-black hover:border-amber-500 hover:text-amber-400 transition duration-[400ms] rounded-lg border border-gray-200/50">{{ ganer.name }}</a>
+        <a href="{% if page_name == 'serial_details' %}{% url 'serial-ganer' ganer.slug %}{% elif page_name == 'movie-details' %}{% url 'movie-ganer' ganer.slug %}{% endif %}" class="px-2 py-1 mx-1 bg-black hover:border-amber-500 hover:text-amber-400 transition duration-[400ms] rounded-lg border border-gray-200/50">{{ ganer.name }}</a>
         {% endfor %}
     </h6>
     <p>{{ object.description }}</p>
@@ -102,7 +100,7 @@
         ستارگان: 
         <!-- TODO: Add actor details link -->
         {% for star in object.stars.all %}
-        <a class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]" href="#">{{ star.name }}</a>
+        <a href="#" class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]">{{ star.name }}</a>
         {% endfor %}
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
@@ -158,7 +156,7 @@
                             <span class="ml-2">{{ quality.name }}</span>
                             <span class="bg-amber-600 rounded-full p-2 pt-0">زیرنویس</span>
                             <span class="mx-4 border-gray-100/25 border"></span>
-                            <img class="h-6" src="../images/folder.png" alt="">
+                            <img class="h-6" src="{% static 'images/folder.png' %}" alt="">
                             <span class="mr-2">تعداد قسمت: {{ quality.episodes.all.count }}</span>
                             <span class="mx-4 border-gray-100/25 border"></span>
                             <div class="flex">

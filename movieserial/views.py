@@ -5,7 +5,13 @@ from django.views.generic import View
 from user.utils import get_left_special_time
 from django.db.models import Count, Sum, Prefetch
 from .forms import SerialCommentForm, MovieCommentForm
+from django.core.paginator import Paginator
 
+
+def get_page(queryset, page, item_per_page):
+    paginator = Paginator(queryset, item_per_page)
+    page = page if str(page).isnumeric() else 1
+    return paginator.page(page)
 
 
 class HomeView(View):
@@ -123,42 +129,79 @@ class SerialGanerView(View):
             'ganers': Ganers.objects.all(),
             'serial_ganers': Ganers.objects.prefetch_related('serial_set').annotate(count = Count('serial')),
             'movie_ganers': Ganers.objects.prefetch_related('movie_set').annotate(count = Count('movie')),
+            'serial_counts': Serial.objects.count(),
+            'movie_counts': Movie.objects.count(),
         }
+
         try:
             ganer = Ganers.objects.get(slug = slug)
-            self.serials = Serial.objects.filter(ganers=ganer)
-            self.context.update({
-                'ganer': ganer,
-                'ganer_serials': self.serials,
-                'title_page': f'ژانر { ganer.name } | نت موی',
-                })
         except:
             raise Http404()
+
+        self.serials = Serial.objects.filter(ganers=ganer)
+        self.context.update({
+            'ganer': ganer,
+            'media_ganer': self.serials,
+            'title_page': f'ژانر { ganer.name } | نت موی',
+            })
         super().setup(request, slug, *args, **kwargs)
 
     def get(self, request, slug, *args, **kwargs):
         imdb_point = request.GET.get('point', None)
         ordering = request.GET.get('ordering', None)
+        page = request.GET.get('page', 1)
         order_list = ['newset', 'imdb_point', 'release_year']
 
-        if imdb_point:
-            if imdb_point != 'all' and ordering.isnumeric():
-                self.context['ganer_serials'] = self.serials.filter(point__gte = imdb_point)
-            elif imdb_point == 'all':
-                self.context['ganer_serials'] = self.serials.all()
+        if imdb_point and imdb_point.isnumeric():
+            self.serials = self.serials.filter(point__gte = imdb_point)
 
         if ordering and ordering in order_list:
-            if ordering == 'newset':
-                s = self.serials
-            elif ordering == 'imdb_point':
-                s = self.serials.order_by('-point')
+            if ordering == 'imdb_point':
+                self.serials = self.serials.order_by('-point')
             elif ordering == 'release_year':
-                s = self.serials.order_by('year_create')
-            else:
-                pass
-            self.context['ganer_serials'] = s
+                self.serials = self.serials.order_by('year_create')
+        self.context['media_ganer'] = get_page(self.serials, page, 21)
 
         return render(request, self.template_name, self.context)
 
-    def post(self, request, slug, *args, **kwargs):
+
+class MovieGanerView(View):
+    template_name = 'movieserial/filter.html'
+
+    def setup(self, request, slug, *args, **kwargs):
+        self.context = {
+            'page_name': 'movie-ganer',
+            'ganers': Ganers.objects.all(),
+            'serial_ganers': Ganers.objects.prefetch_related('serial_set').annotate(count = Count('serial')),
+            'movie_ganers': Ganers.objects.prefetch_related('movie_set').annotate(count = Count('movie')),
+        }
+
+        try:
+            ganer = Ganers.objects.get(slug = slug)
+        except:
+            raise Http404()
+
+        self.ganer_movies = Movie.objects.filter(ganers = ganer)
+        self.context.update({
+            'ganer': ganer,
+            'ganer_movies': self.ganer_movies
+        })
+        super().setup(request, slug, *args, **kwargs)
+
+    def get(self, request, slug, *args, **kwargs):
+        imdb_point = request.GET.get('point', None)
+        ordering = request.GET.get('ordering', None)
+        page = request.GET.get('page', 1)
+        ordering_list = ['newset', 'imdb_point', 'release_year']
+
+        if ordering and ordering in ordering_list:
+            if ordering == 'imdb_point':
+                self.ganer_movies = self.ganer_movies.order_by('-point')
+            elif ordering == 'release_year':
+                self.ganer_movies = self.ganer_movies.order_by('-year_create')
+
+        if imdb_point and imdb_point.isnumeric():
+                self.ganer_movies = self.ganer_movies.filter(point__gte = imdb_point)
+
+        self.context['media_ganer'] = get_page(self.ganer_movies, page, 21)
         return render(request, self.template_name, self.context)

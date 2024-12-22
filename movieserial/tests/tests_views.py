@@ -32,11 +32,11 @@ class TestHomeView(TestCase):
             'is_sound_translate': False,
             'point': 7.3,
         }
-        with open(BASE_DIR / 'movieserial/tests/img/test_baner_movie.png', 'rb') as f:
-            file = SimpleUploadedFile('baner.jpg', f.read(), content_type='image/png')
-        media_data['baner'] = file
 
         for i in range(16):
+            with open(BASE_DIR / 'movieserial/tests/img/test_baner_movie.png', 'rb') as f:
+                file = SimpleUploadedFile(f'baner{i}.jpg', f.read(), content_type='image/png')
+            media_data['baner'] = file
             media_data.update({'slug': f'{media_data["slug"]}{i}'})
             movie = Movie.objects.create(**media_data)
             movie.ganers.set(ganers)
@@ -73,3 +73,10 @@ class TestHomeView(TestCase):
         response = self.client.get(reverse('home'))
         self.assertEqual(response.context['serial_ganers'][0].count, 16)
 
+    def tearDown(self):
+        import os
+        baners = [f'baner{i}.jpg' for i in range(16)]
+        for i in baners:
+            os.remove(BASE_DIR / f'media/images/movies/baner/{i}')
+            os.remove(BASE_DIR / f'media/images/serials/baner/{i}')
+        return super().tearDown()
