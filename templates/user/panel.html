@@ -237,7 +237,7 @@
             </duv>
             <script>
                 let special_time = parseInt({{ left_special_time }});
-
+                console.log(special_time)
                 let target_sconds = document.getElementById('target_seconds');
                 let target_minuets = document.getElementById('target_minutes');
                 let target_hours = document.getElementById('target_hours');
@@ -245,11 +245,15 @@
                 let target_months = document.getElementById('target_months');
                 let end = false
                 function special_timer() {
-                    const seconds = Math.floor(special_time % 60 );
-                    const minutes = Math.floor((special_time % (60 * 60)) / 60);
-                    const hours = Math.floor((special_time % (60 * 60 * 24)) / (60 * 60) );
-                    const days = Math.floor((special_time % (60 * 60 * 24 * 30)) / (60 * 60 * 24) );
-                    const months = Math.floor(special_time / (60 * 60 * 24 * 30 ));
+                    let seconds = Math.floor(special_time % 60 );
+                    let minutes = Math.floor((special_time % (60 * 60)) / 60);
+                    let hours = Math.floor((special_time % (60 * 60 * 24)) / (60 * 60) );
+                    let days = Math.floor((special_time % (60 * 60 * 24 * 30)) / (60 * 60 * 24) );
+                    let months = Math.floor(special_time / (60 * 60 * 24 * 30 ));
+                    if (special_time < 0){
+                            seconds = minutes = hours = days = months = 0;
+                        console.log(seconds)
+                    }
                     target_sconds.innerHTML = seconds;
                     target_minuets.innerHTML = minutes;
                     target_hours.innerHTML = hours;

@@ -68,6 +68,11 @@
                             <li class="active: mx-2"><a href="{% url 'actors' %}">هنرمندان</a></li>
                             <li class="mx-2">پخش آنلاین</li>
                             <li class="mx-2"><a href="{% url 'dashboard:buy-subscription' %}">خرید اشتراک</a></li>
+                            {% if request.user.is_authenticated %}
+                            <li class="mx-2"><a href="{% url 'logout' %}">خروج</a></li>
+                            {% else %}
+                            <li class="mx-2"><a href="{% url 'login' %}">ورود</a></li>
+                            {% endif %}
                             <li class="mx-2"><a href="{% url 'contact-us' %}">تماس با ما</a></li>
                         </ul>
                     </div>
@@ -91,7 +96,7 @@
                                 <li>
                                     <div class="flex">
                                         <img class="mr-1" src="{% static 'images/сrown.png' %}" alt="" srcset="">
-                                        <p>اشتراک باقی مانده: <div class="flex px-0.5 mr-1 rounded-lg bg-stone-400/25"><span class="bg-green-400 text-green-700 rounded-lg ml-0.5">{{ special_time }} روز</span><a href="#" class="hover:text-amber-500">تمدید</a></div></p>
+                                        <p>اشتراک باقی مانده: <div class="flex px-0.5 mr-1 rounded-lg bg-stone-400/25">{% if special_time <= 0 %}<span class="bg-red-500/30 rounded-lg ml-0.5">غیرفعال</span>{% else %}<span class="bg-green-400 text-green-700 rounded-lg ml-0.5">{{ special_time }} روز</span><a href="#" class="hover:text-amber-500">تمدید</a> {% endif %}</div></p>
                                     </div>
                                 </li>
                                 <hr class="mt-3">
