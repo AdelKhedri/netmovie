@@ -2,7 +2,7 @@ from django.utils import timezone
 
 
 def get_left_special_time(user):
-    if user.special_time:
+    if user.special_time and user.special_time > timezone.now():
         current_time = (user.special_time - timezone.now())
         return current_time.days
     else:

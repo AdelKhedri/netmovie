@@ -160,7 +160,7 @@ class BuySubscriptionView(LoginRequiredMixin, View):
             Subscription.objects.create(user = request.user, pakage = pakage, price = pakage.get_price(), days = pakage.dates)
             time = datetime.timedelta(days=pakage.dates)
             user = User.objects.get(id=request.user.id)
-            if user.special_time:
+            if user.special_time and user.special_time > timezone.now():
                 user.special_time = F('special_time') + time
             else:
                 user.special_time = datetime.datetime.now(tz=pytz.timezone('Asia/Tehran')) + time
