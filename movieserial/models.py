@@ -83,11 +83,11 @@ class BaseMedia(models.Model):
 class DownloadLink(models.Model):
     name = models.CharField(max_length=150, verbose_name='نام')
     link = models.URLField(verbose_name='لینک دانلود مستقیم')
-    size = models.IntegerField(verbose_name='اندازه')
+    size = models.BigIntegerField(verbose_name='اندازه')
     is_subtitle = models.BooleanField(default=True, verbose_name='زیرنویس')
     subtitle_types = (('nosub', 'بدون زیرنویس'), ('subsoft', 'subsoft'),)
     subtitle_type = models.CharField(max_length=150, choices=subtitle_types, verbose_name='نوع زیرنویس')
-    is_persian_sound = models.BooleanField(verbose_name='ضدای فارسی')
+    is_persian_sound = models.BooleanField(verbose_name='صدای فارسی')
 
     class Meta:
         verbose_name = 'لینک دانلود'
@@ -195,7 +195,7 @@ class SerialComment(BaseComment):
 
 class ContactUs(models.Model):
     name = models.CharField(max_length=200, verbose_name='نام')
-    phone = models.IntegerField(verbose_name='شماره')
+    phone = models.BigIntegerField(verbose_name='شماره')
     email = models.EmailField(blank=True, verbose_name='ایمیل')
     subject = models.CharField(max_length=200, verbose_name='موضوع')
     message = models.TextField(verbose_name='متن پیام')

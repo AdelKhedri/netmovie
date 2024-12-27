@@ -25,8 +25,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'default')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', True)
-
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOST', [])
+# ALLOWED_HOSTS = ['app','127.0.0.1','localhost']
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', []).split(',')
 
 
 # Application definition
@@ -123,12 +123,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = 'static'
+STATIC_ROOT = 'static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
-STATICFILES_DIRS = [
-    'static'
-]
+# STATICFILES_DIRS = [
+#     'static'
+# ]
 LOGIN_URL = '/login/'
 
 # Default primary key field type

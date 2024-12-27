@@ -6,6 +6,17 @@ Current fixture have 972 records.
 ```bash
 python manage.py loaddata initial_fixture.json
 ```
+# Run with Docker
+### required images:
+- python:alpine, postgres:alpine, nginx:alpine
+```bash
+docker-compose up --build
+```
+- stop
+```bash
+docker-compose down
+```
+on address: `http://0.0.0.0/`
 # Run with manage.py:
 1. **settings.py:** comment **STATIC_ROOT**
 2. **settings.py:** uncomment **STATICFILES_DIRS**
