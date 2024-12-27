@@ -1,4 +1,5 @@
 {% extends 'movieserial/base_site.html' %}
+{% load static %}
 {% block content %}
 
     <div class="h-24"></div>
@@ -6,7 +7,7 @@
         <div class="grid grid-cols-12 gap-y-7">
             <div class="col-span-12 mx-auto md:col-span-4 xl:col-span-3">
                 <div class="relative bg-slate-900 text-center w-fit p-6 rounded-3xl">
-                    <img src="{% if actor.photo %}{{ actor.photo.url }}{% endif %}" class="rounded-3xl" alt="">
+                    <img style="max-width: 200px;" src="{% if actor.photo %}{{ actor.photo.url }}{% else %}{% static 'images/default-user.png' %}{% endif %}" class="rounded-3xl" alt="">
                     <p class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-full border-[5px] px-2 py-1 bg-slate-900 border-black">{{ actor_movies_count|add:actor_serials_count }} فیلم</p>
                     <p class="mt-5 text-xl font-bold mb-4">{{ actor.name }}</p>
                     <a href="{{ actor.imdb_link }}" class="bg-amber-500 p-3 rounded-lg">مشاهده در IMDB</a>

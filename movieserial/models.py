@@ -92,7 +92,7 @@ class DownloadLink(models.Model):
     class Meta:
         verbose_name = 'لینک دانلود'
         verbose_name_plural = 'لینک های دانلود'
-        ordering = ['name']
+        ordering = ['id']
 
 
     def __str__(self):
