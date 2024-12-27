@@ -70,7 +70,7 @@
         <div>
             
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-5 mt-4">
-                {% if page_name == 'serial-ganer' %}
+                {% if page_name in 'serial-ganer,serials' %}
                     {% for object in objects %}
                         {% include 'components/media.html' with media=object media_type='serial' %}
                     {% empty %}
@@ -78,7 +78,7 @@
                         <p></p>
                         <p class="text-center p-3 rounded-lg ">هیچی پیدا نکردم</p>
                     {% endfor %}
-                {% elif page_name == 'movie-ganer' %}
+                {% elif page_name in 'movie-ganer,movies' %}
                     {% for object in objects %}
                         {% include 'components/media.html' with media=object media_type='movie' %}
                     {% endfor %}

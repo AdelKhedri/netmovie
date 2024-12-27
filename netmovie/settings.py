@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-33nyz6wxp37ex#6i6abaj#hcq-fl!%v57(0$ncn)mal04d+54@'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'default')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = os.environ.get('DEBUG', True)
+# ALLOWED_HOSTS = ['app','127.0.0.1','localhost']
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', []).split(',')
 
 
 # Application definition
@@ -78,12 +78,12 @@ WSGI_APPLICATION = 'netmovie.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'netmovie',
-        'USER': 'USER',
-        'PASSWORD': 'PASSWORD',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.' + os.environ.get('DJANGO_ENGINE', 'sqlite3'),
+        'NAME': os.environ.get('POSTGRES_DB', BASE_DIR / 'db.sqlite3'),
+        'USER': os.environ.get('POSTGRES_USER', None),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', None),
+        'HOST': os.environ.get('DJANGO_DB_HOST', None),
+        'PORT': os.environ.get('DJANGO_DB_PORT', None),
     }
 }
 
@@ -123,12 +123,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = 'static'
+STATIC_ROOT = 'static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
-STATICFILES_DIRS = [
-    'static'
-]
+# STATICFILES_DIRS = [
+#     'static'
+# ]
 LOGIN_URL = '/login/'
 
 # Default primary key field type

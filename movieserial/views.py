@@ -1,5 +1,6 @@
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
 from .models import Actor, Ganers, Movie, MovieComment, Quality, Section, Serial, SerialComment
 from django.views.generic import View
 from user.utils import get_left_special_time
@@ -19,7 +20,6 @@ class HomeView(View):
     template_name = 'movieserial/home.html'
 
     def get(self, request, *args, **kwargs):
-        # FIXME: problem on buy subscription after some days ago of buy subscription
         context = {
             'movies': Movie.objects.prefetch_related('ganers').all()[:14],
             'serials': Serial.objects.all()[:8],
@@ -76,12 +76,14 @@ class SerialDetailsView(View):
         return render(request, self.template_name, self.context)
 
     def post(self, request, slug, *args, **kwargs):
-        form = SerialCommentForm(request.POST, user = request.user, serial = self.serial)
-        if form.is_valid():
-            form.save()
-        else:
-            self.context['comment_form'] = form
-        return render(request, self.template_name, self.context)
+        if request.user.is_authenticated:
+            form = SerialCommentForm(request.POST, user = request.user, serial = self.serial)
+            if form.is_valid():
+                form.save()
+            else:
+                self.context['comment_form'] = form
+            return render(request, self.template_name, self.context)
+        return redirect(reverse('login'))
 
 
 class MovieDetailsView(View):
@@ -110,12 +112,14 @@ class MovieDetailsView(View):
         super().setup(request, slug, *args, **kwargs)
 
     def post(self, request, slug, *args, **kwargs):
-        form = MovieCommentForm(request.POST, user = request.user, movie = self.movie)
-        if form.is_valid():
-            form.save()
-        else:
-            self.context['comment_form'] = form
-        return render(request, self.template_name, self.context)
+        if request.user.is_authenticated:
+            form = MovieCommentForm(request.POST, user = request.user, movie = self.movie)
+            if form.is_valid():
+                form.save()
+            else:
+                self.context['comment_form'] = form
+            return render(request, self.template_name, self.context)
+        return redirect(reverse('login'))
 
     def get(self, request, slug, *args, **kwargs):
         return render(request, self.template_name, self.context)
@@ -244,7 +248,7 @@ class ActorDetailsView(View):
             'movies': get_page(movies, page, 15),
             'actor_movies_count': movies.count(),
             'actor_serials_count': serials.count(),
-            'serials': get_page(serials, page, 1),
+            'serials': get_page(serials, page, 15),
             'serial_ganers': Ganers.objects.prefetch_related('serial_set').annotate(count = Count('serial')),
             'movie_ganers': Ganers.objects.prefetch_related('movie_set').annotate(count = Count('movie')),
             'serial_counts': Serial.objects.count(),
@@ -273,3 +277,41 @@ class ContactUsView(View):
             form.save()
             self.context['msg'] = 'success'
         return render(request, self.template_name, self.context)
+
+
+class AllMoviesView(View):
+    template_name = 'movieserial/filter.html'
+
+    def get(self, request, *args, **kwargs):
+        page = request.GET.get('page', 1)
+        movies = Movie.objects.all()
+
+        context = {
+            'page_name': 'movies',
+            'title_name': 'همه فیلم ها|نت موی',
+            'objects': get_page(movies, page, 21),
+            'serial_ganers': Ganers.objects.prefetch_related('serial_set').annotate(count = Count('serial')),
+            'movie_ganers': Ganers.objects.prefetch_related('movie_set').annotate(count = Count('movie')),
+            'serial_counts': Serial.objects.count(),
+            'movie_counts': Movie.objects.count(),
+        }
+        return render(request, self.template_name, context)
+
+
+class AllSerialsView(View):
+    template_name = 'movieserial/filter.html'
+
+    def get(self, request, *args, **kwargs):
+        page = request.GET.get('page', 1)
+        serials = Serial.objects.all()
+
+        context = {
+            'page_name': 'serials',
+            'title_name': 'همه فیلم ها|نت موی',
+            'objects': get_page(serials, page, 21),
+            'serial_ganers': Ganers.objects.prefetch_related('serial_set').annotate(count = Count('serial')),
+            'movie_ganers': Ganers.objects.prefetch_related('movie_set').annotate(count = Count('movie')),
+            'serial_counts': Serial.objects.count(),
+            'movie_counts': Movie.objects.count(),
+        }
+        return render(request, self.template_name, context)
