@@ -6,6 +6,8 @@ Current fixture have 972 records.
 ```bash
 python manage.py loaddata initial_fixture.json
 ```
+### Dont forget to create **dbdata** folder in Docker folder:
+Docker/dbdata
 # Run with Docker
 ### required images:
 - python:alpine, postgres:alpine, nginx:alpine
