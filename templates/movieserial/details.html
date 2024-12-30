@@ -310,7 +310,7 @@
             </div>
             <div class="flex">
                 {% for star in object.stars.all %}
-                <a class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]" href="#">{{ star.name }}</a>
+                <a href="{% url 'media:actor-details' star.id %}" class="mx-1 px-2 my-1 border border-gray-200/50 rounded-lg bg-black hover:bg-amber-500 transition duration-[400ms]">{{ star.name }}</a>
                 {% endfor %}
             </div>
         </div>
